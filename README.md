@@ -12,3 +12,6 @@ tura.io demo &amp; test data generation project
 
 ## For local server (w/o Docker):
   change app.run() in demo.py (check comments)
+
+#### Local Use:
+  Browser might require hard-refresh(ctrl-F5) to see changes

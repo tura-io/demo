@@ -8,5 +8,6 @@ class Rider extends Person {
 
   classMethodTest() {
     console.log("works");
+    console.log(this.Role);
   }
 }
