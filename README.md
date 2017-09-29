@@ -11,3 +11,4 @@ tura.io demo &amp; test data generation project
   sudo docker run -d -p 80:80 "demo"
 
 ## For local server (w/o Docker):
+  change app.run() in demo.py (check comments)
