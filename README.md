@@ -9,3 +9,5 @@ tura.io demo &amp; test data generation project
 
 ## Run (in detached mode):
   sudo docker run -d -p 80:80 "demo"
+
+## For local server (w/o Docker):
