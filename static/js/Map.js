@@ -6,14 +6,14 @@ class Map {
   }
 
   createRider() {
-    console.log("works")
+    console.log("works");
   }
 
   createDriver() {
-    console.log("works")
+    console.log("works");
   }
 
   createTrip() {
-    console.log("works")
+    console.log("works");
   }
 }
