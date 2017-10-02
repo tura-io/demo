@@ -1,13 +1,14 @@
-import * as MapBox from '../Map.js';
+let newMap = new MapBox(1, 1);
+let Origin = new Point([0.0, 0.0]);
+let Dest = new Point([1.1, 1.1]);
+let newRoute = new Route(Origin, Dest);
+let newPerson = new Person(1, 'DRIVER', 'AJ', Origin);
+let newDriver = new Driver(newPerson, true);
+let newRider = new Rider(true, newDriver);
+let newTrip = new Trip(newRider, newDriver, newRoute, 'DROPOFF');
 
-// let newRoute = new Route([0.0, 0.0], [1.1, 1.1]);
-// let newPoint = new Point([0.0, 0.0]);
-// let newPerson = new Person(0, "DRIVER", "TuraBot", newPoint);
-// let newDriver = new Driver(newPerson, true);
-// let newRider = new Rider(true, newDriver);
-// let newMap = new MapBox(newDriver, newRider);
-// let newTrip = new Trip(newRider, newDriver, newRoute, "PAID");
-let testMapInst = new MapBox(0, 0);
+console.log(newDriver.ID); //person class inheritance props
+console.log(newDriver.Role);
+console.log(newDriver.isOccupied); //driver class props
 
-console.log(testMapInst.allDrivers);
-console.log("new");
+console.log(newRider.myDriver); //driver object returned

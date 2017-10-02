@@ -5,6 +5,6 @@ class Point {
   }
 
   classMethodTest() {
-    console.log("works");
+    console.log("point works");
   }
 }

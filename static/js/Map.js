@@ -1,4 +1,4 @@
-export class MapBox {
+class MapBox {
 
   constructor(allDrivers, allRiders) {
     this.allRiders = allRiders;

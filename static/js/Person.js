@@ -8,6 +8,6 @@ class Person {
   }
 
   checkLocation() {
-    console.log("works")
+    console.log("person works")
   }
 }

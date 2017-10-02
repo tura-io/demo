@@ -6,6 +6,6 @@ class Route {
   }
 
   classMethodTest() {
-    console.log("works");
+    console.log("route works");
   }
 }
