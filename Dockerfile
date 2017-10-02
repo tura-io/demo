@@ -1,6 +1,7 @@
 FROM ubuntu:16.04
 
 MAINTAINER Adrian Agnic "adrian@tura.io"
+MAINTAINER Charles Emrich "charles@tura.io"
 
 RUN apt-get update -y && \
     apt-get install -y python3-pip python-dev && apt-get clean autoclean && \
