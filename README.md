@@ -15,3 +15,7 @@ tura.io demo &amp; test data generation project
 
 #### Local Use:
   Browser might require hard-refresh(ctrl-F5) to see changes
+#### Temporary Database links for testing:
+  /db/create
+  /db/write
+  /db/read
