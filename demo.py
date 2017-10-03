@@ -12,14 +12,9 @@ def db_create():
     db_mngr.create()
     return render_template('index.html')
 
-@app.route('/drop')
+@app.route('/db/drop')
 def db_drop():
     db_mngr.drop()
-    return render_template('index.html')
-
-@app.route('/db/write')
-def db_write():
-    db_mngr.write()
     return render_template('index.html')
 
 @app.route('/db/read')

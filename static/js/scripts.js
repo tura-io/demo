@@ -7,8 +7,8 @@ let newDriver = new Driver(newPerson, true);
 let newRider = new Rider(true, newDriver);
 let newTrip = new Trip(newRider, newDriver, newRoute, 'DROPOFF');
 
-console.log(newDriver.ID); //person class inheritance props
-console.log(newDriver.Role);
-console.log(newDriver.isOccupied); //driver class props
-
-console.log(newRider.myDriver); //driver object returned
+// console.log(newDriver.ID); //person class inheritance props
+// console.log(newDriver.Role);
+// console.log(newDriver.isOccupied); //driver class props
+//
+// console.log(newRider.myDriver); //driver object returned
