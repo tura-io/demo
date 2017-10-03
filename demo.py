@@ -17,12 +17,12 @@ def db_read():
 @app.route('/db/create')
 def db_create():
     db_mngr.create_w_data()
-    return render_template('index.html')
+    return render_template('db.html')
 
 @app.route('/db/drop')
 def db_drop():
     db_mngr.drop()
-    return render_template('index.html')
+    return render_template('db.html')
 ##############################################
 
 if __name__ == '__main__':
