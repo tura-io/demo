@@ -1,7 +1,9 @@
 class Point {
 
-  constructor(location) {
-    this.Location = location;
+  constructor(name, xGeo, yGeo) {
+    this.name = name;
+    this.x = xGeo;
+    this.y = yGeo;
   }
 
   classMethodTest() {

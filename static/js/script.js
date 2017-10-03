@@ -8,4 +8,4 @@ interactive: false,
 zoom: 15
 });
 
-console.log(map);
+//console.log(map);
