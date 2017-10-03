@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template
+import json
 import db_mngr
 
 app = Flask(__name__)
@@ -7,25 +8,22 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-@app.route('/db/create')
-def db_create():
-    db_mngr.create()
-    return render_template('index.html')
-
-@app.route('/drop')
-def db_drop():
-    db_mngr.drop()
-    return render_template('index.html')
-
-@app.route('/db/write')
-def db_write():
-    db_mngr.write()
-    return render_template('index.html')
-
 @app.route('/db/read')
 def db_read():
     result = db_mngr.read()
-    return render_template('db.html', result = result)
+    return json.dumps(result)
+
+############################################TESTING
+@app.route('/db/create')
+def db_create():
+    db_mngr.create_w_data()
+    return render_template('index.html')
+
+@app.route('/db/drop')
+def db_drop():
+    db_mngr.drop()
+    return render_template('index.html')
+##############################################
 
 if __name__ == '__main__':
     app.run(debug=True)
