@@ -7,13 +7,8 @@
   <body>
     <ul>
       {% for item in result %}
-        <li>{{ item }}</li>
+        <li>{{ result }}</li>
       {% endfor %}
     </ul>
-    <script type="text/javascript">
-      {% for item in result %}
-        console.log({{ item }});
-      {% endfor %}
-    </script>
   </body>
 </html>

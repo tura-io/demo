@@ -1,7 +1,7 @@
 import sqlite3 as db
 
 ################################USED FOR TESTING -TEMPORARY
-def create():
+def create_w_data():
     conn = db.connect('demo.db')
     dbi = conn.cursor()
     dbi.execute('''CREATE TABLE locations (id int, x real, y real)''') #sql-like commands, data types are limited so far
