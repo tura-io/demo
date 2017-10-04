@@ -44,6 +44,14 @@ test_locations = [
                    ['Aladdin Theatre', -122.660157, 45.517383],
                    ['Mills End Park', -122.673265, 45.517383],
                    ['Salmon Street Springs', -122.673406, 45.515359],
+                   ['OMSI', -122.6659597, 45.5083436],
+                   ['Lloyd Center', -122.6525, 45.531902],
+                   ['White Owl', -122.65773 , 45.51357],
+                   ['Guardian Games', -122.6623 , 45.5151],
+                   ['Revolution Hall', -122.651024, 45.51933],
+                   ['Portland Tennis Center', -122.65358 , 45.52525],
+                   ['Coava Coffee Roasters', -122.66076, 45.513603],
+                   ['Architectural Heritage Center', -122.66075, 45.51789],
                    #['', -, ],
                    ['Mother Foucault\'s Bookshop', -122.660157, 45.517383]
                  ]
