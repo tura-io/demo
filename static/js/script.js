@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 $(function() {
   let map;
@@ -27,6 +28,7 @@ $(function() {
   })
   .then(function() {
     map.on('load', function() {
+      getRoute();
       map.addLayer({
         "id": "points",
         "type": "symbol",
@@ -94,3 +96,31 @@ $(function() {
     // }, 3000);
   });
 });
+
+function getRoute() {
+  var start = [-122.67546, 45.502647];
+  var end = [-122.67027, 45.523056];
+  var directionsRequest = 'https://api.mapbox.com/directions/v5/mapbox/cycling/' + start[0] + ',' + start[1] + ';' + end[0] + ',' + end[1] + '?geometries=geojson&access_token=' + mapboxgl.accessToken;
+  $.ajax({
+    method: 'GET',
+    url: directionsRequest,
+  }).done(function(data) {
+    var route = data.routes[0].geometry;
+    map.addLayer({
+      id: 'route',
+      type: 'line',
+      source: {
+        type: 'geojson',
+        data: {
+          type: 'Feature',
+          geometry: route
+        }
+      },
+      paint: {
+        'line-width': 2
+      }
+    });
+    // this is where the code from the next step will go
+  });
+}
+>>>>>>> ddf6a8ac485e84f398f0d7007d4eb5eea4a056fc
