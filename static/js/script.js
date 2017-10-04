@@ -47,7 +47,7 @@ $(function() {
       });
 
       //Animation Test Sandbox
-      var radius = 0.005
+      var radius = 0.001
 
       function pointOnCircle(angle) {
           return {

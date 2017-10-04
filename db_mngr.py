@@ -1,6 +1,8 @@
 import sqlite3 as db
 
-test_locations = [ ['Tura.io', -122.67546, 45.502647],
+test_locations = [
+                   #West Side
+                   ['Tura.io', -122.67546, 45.502647],
                    ['PSU', -122.65772, 45.52863],
                    ['Salt N Straw', -122.698555, 45.528652],
                    ['Powells City of Books', -122.681175, 45.52298],
@@ -24,7 +26,25 @@ test_locations = [ ['Tura.io', -122.67546, 45.502647],
                    ['Arlene Schnitzer Concert Hall', -122.681903, 45.517031],
                    ['Roseland Theatre', -122.676196, 45.523215],
                    ['The Armory', -122.681614, 45.524144],
-                   ['Portland Saturday Market', -122.67027, 45.523056] ]
+                   ['Portland Saturday Market', -122.67027, 45.523056],
+                   #East Side
+                   ['Olympia Provisions', -122.664101, 45.518830],
+                   ['Le Bistro Montage', -122.662561, 45.517363],
+                   ['The Lovecraft Bar', -122.660964, 45.517363],
+                   ['Jupiter Hotel', -122.657064, 45.522520],
+                   ['Clarklewis', -122.666200, 45.515221],
+                   ['Potato Champion', -122.653490, 45.512405],
+                   ['AFURI', -122.658957, 45.515964],
+                   ['Helium Comedy Club', -122.656530, 45.512048],
+                   ['Holocene', -122.655443, 45.517378],
+                   ['Oregon Convention Center', -122.662914, 45.528119],
+                   ['DoubleTree Hotel', -122.655560, 45.530576],
+                   ['Inn at the Convention Center', -122.660955, 45.529761],
+                   ['Original Hotcake House', -122.655599, 45.501215],
+                   ['Aladdin Theatre', -122.660157, 45.517383],
+                   ['Mills End Park', -122.673265, 45.516208],
+                   ['Mother Foucault\'s Bookshop', -122.660157, 45.517383]
+                 ]
 
 ################################USED FOR TESTING -TEMPORARY
 def create_w_data():
