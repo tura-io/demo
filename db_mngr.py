@@ -42,7 +42,9 @@ test_locations = [
                    ['Inn at the Convention Center', -122.660955, 45.529761],
                    ['Original Hotcake House', -122.655599, 45.501215],
                    ['Aladdin Theatre', -122.660157, 45.517383],
-                   ['Mills End Park', -122.673265, 45.516208],
+                   ['Mills End Park', -122.673265, 45.517383],
+                   ['Salmon Street Springs', -122.673406, 45.515359],
+                   #['', -, ],
                    ['Mother Foucault\'s Bookshop', -122.660157, 45.517383]
                  ]
 
