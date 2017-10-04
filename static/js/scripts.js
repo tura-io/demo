@@ -1,14 +1,18 @@
 $(function() {
   $.ajax({
-    url: '/db/read',
+    url: "https://api.mapbox.com/directions/v5/mapbox/driving/-122.67546,45.502647;-122.681175,45.52298?steps=true&access_token=pk.eyJ1IjoiY2hhcmxlc2VtcmljaCIsImEiOiJjajg2N3J6NnowczB4MndwbHQ5b3UwMnBrIn0.PWVhuPintFtBY8i9TqTW8w",
     dataType: 'json'
   }).done(function(result) {
-    let locList = [];
 
-    for (i = 0; i < result.length; i++) {
-      let newLoc = new Point(result[i][0], result[i][1], result[i][2]);
-      locList.push(newLoc);
+    let allRoutes = [];
+
+    for (i=0;i<result.routes.length;i++) {
+      for (j=0;j<result.routes[i].legs[0].steps.length;j++) {
+        allRoutes.push(result.routes[i].legs[0].steps[j].maneuver.location);
+      };
     };
-    console.log(locList);
+
+    console.log(allRoutes);
+    return allRoutes;
   });
 });
