@@ -47,6 +47,9 @@ $(function() {
       });
     });
 
-    map.removeLayer("points");
+    setTimeout(function() {
+      console.log('Ping');
+      map.removeLayer("points");
+    }, 3000);
   });
 });
