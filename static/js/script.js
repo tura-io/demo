@@ -46,5 +46,7 @@ $(function() {
         }
       });
     });
+
+    map.removeLayer("points");
   });
 });
