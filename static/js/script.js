@@ -45,11 +45,52 @@ $(function() {
           "text-anchor": "top"
         }
       });
+
+      //Animation Test Sandbox
+      var radius = 0.005
+
+      function pointOnCircle(angle) {
+          return {
+              "type": "Point",
+              "coordinates": [
+                  Math.cos(angle) * radius + -122.673081,
+                  Math.sin(angle) * radius + 45.522668
+              ]
+          };
+      }
+
+      // Add a source and layer displaying a point which will be animated in a circle.
+      map.addSource('point', {
+          "type": "geojson",
+          "data": pointOnCircle(0)
+      });
+
+      map.addLayer({
+          "id": "point",
+          "source": "point",
+          "type": "circle",
+          "paint": {
+              "circle-radius": 10,
+              "circle-color": "#007cbf"
+          }
+      });
+
+      function animateMarker(timestamp) {
+          // Update the data to a new position based on the animation timestamp. The
+          // divisor in the expression `timestamp / 1000` controls the animation speed.
+          map.getSource('point').setData(pointOnCircle(timestamp / 1000));
+
+          // Request the next frame of the animation.
+          requestAnimationFrame(animateMarker);
+      }
+
+      // Start the animation.
+      animateMarker(0);
     });
 
-    setTimeout(function() {
-      console.log('Ping');
-      map.removeLayer("points");
-    }, 3000);
+    // setTimeout(function() {
+    //   console.log('Ping');
+    //   map.removeLayer("points");
+    // }, 3000);
   });
 });
