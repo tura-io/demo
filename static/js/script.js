@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-
 $(function() {
   let map;
   $.ajax({
@@ -123,4 +121,3 @@ function getRoute() {
     // this is where the code from the next step will go
   });
 }
->>>>>>> ddf6a8ac485e84f398f0d7007d4eb5eea4a056fc
