@@ -1,6 +1,10 @@
 # demo
 tura.io demo &amp; test data generation project
 
+## Create Mapbox Access Token
+  * create new file named 'mapbox_token.js' in /static/js/
+  * file should contain: 'let accessToken = 'YOUR ACCESS-TOKEN HERE';'
+
 ## Build Image:
   (in /demo): sudo docker build -t "demo" .
 
