@@ -101,7 +101,7 @@ $(function () { //on docu load
             type: 'geojson',
             data: {
               type: 'Feature',
-              geometry: route
+              geometry: route //gained from ajax call at top
             }
           },
           paint: {
