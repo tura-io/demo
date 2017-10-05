@@ -1,7 +1,7 @@
 $(function () { //on docu load
 
   // TODO: store accessToken in hidden file
-  mapboxgl.accessToken = 'pk.eyJ1IjoiY2hhcmxlc2VtcmljaCIsImEiOiJjajg2N3J6NnowczB4MndwbHQ5b3UwMnBrIn0.PWVhuPintFtBY8i9TqTW8w';
+  mapboxgl.accessToken = accessToken;
   let map;  //init map var
 
   //=================================================DRAWING ROUTES
@@ -36,7 +36,7 @@ $(function () { //on docu load
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v9',
       center: [-122.6774833, 45.5206428],
-      interactive: false,
+      //interactive: false,
       zoom: 15
     });
     map.locations = locList;  //load map with locations
