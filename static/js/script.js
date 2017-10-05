@@ -1,6 +1,5 @@
 $(function () { //on docu load
 
-  // TODO: store accessToken in hidden file
   mapboxgl.accessToken = accessToken;
   let map;  //init map var
 
