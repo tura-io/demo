@@ -14,6 +14,7 @@ $(function () { //on docu load
     method: 'GET'
   }).done(function(data) {
       route = data.routes[0].geometry;
+      console.log(route);
   });
 //=========================================================
 
