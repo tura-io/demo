@@ -3,7 +3,7 @@ import location_list
 
 test_locations = location_list.test_locations
 
-################################USED FOR TESTING -TEMPORARY
+################################USED FOR TESTING -TEMP
 def create_w_data():
     conn = db.connect('demo.db')
     dbi = conn.cursor()

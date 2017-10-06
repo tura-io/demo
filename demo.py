@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 import json
-import db_mngr
+import db_mngr, route_caller
 
 app = Flask(__name__)
 
@@ -13,7 +13,7 @@ def db_read():
     result = db_mngr.read()
     return json.dumps(result)
 
-############################################TESTING
+############################################TESTING TEMP
 @app.route('/db/create')
 def db_create():
     db_mngr.create_w_data()
@@ -23,6 +23,11 @@ def db_create():
 def db_drop():
     db_mngr.drop()
     return render_template('db.html')
+
+@app.route('/api/routecall')
+def route_call():
+    response = route_caller.call()
+    return json.dumps(response)
 ##############################################
 
 if __name__ == '__main__':
