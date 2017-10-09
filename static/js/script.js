@@ -12,6 +12,7 @@ $(function () { //on docu load
   }).done(function(response) {
       route = response.features[0].geometry;
       console.log(response);
+      console.log(route)
   });
 //=========================================================
 

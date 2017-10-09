@@ -32,7 +32,7 @@ def drop():
 def read():
     conn = db.connect('demo.db')
     dbi = conn.cursor()
-    dbi.execute('''SELECT * FROM locations''')#TEMP set to routes for testing
+    dbi.execute('''SELECT * FROM routes''')#TEMP set to routes for testing
     result = dbi.fetchall()
     conn.close()
     return result
