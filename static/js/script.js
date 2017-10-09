@@ -7,10 +7,10 @@ $(function () { //on docu load
   let route;
 
   $.ajax({
-    url: 'api/routecall',
+    url: 'db/routes',
     dataType: 'json'
   }).done(function(response) {
-      route = response.features[1].geometry;
+      route = response
       console.log(response);
   });
 //=========================================================
@@ -90,18 +90,20 @@ $(function () { //on docu load
         }
         animateMarker(0);
 //============================================================================
-
         map.addLayer({
-          id: 'route',
-          type: 'line',
-          source: {
-            type: 'geojson',
-            data: {
-              type: 'Feature',
-              geometry: route //gained from ajax call at top
+          'id': 'route',
+          'type': 'line',
+          'source': {
+            'type': 'geojson',
+            'data': {
+              'type': 'Feature',
+              'geometry': {
+                'type': 'LineString',
+                'coordinates': route
+              }
             }
           },
-          paint: {
+          'paint': {
             'line-width': 2
           }
         });
