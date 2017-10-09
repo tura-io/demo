@@ -10,7 +10,7 @@ $(function () { //on docu load
     url: 'api/routecall',
     dataType: 'json'
   }).done(function(response) {
-      route = response.features[1].geometry;
+      route = response.features[0].geometry;
       console.log(response);
   });
 //=========================================================
