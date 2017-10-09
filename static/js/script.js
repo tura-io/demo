@@ -17,9 +17,9 @@ $(function() {
     map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/light-v9',
-      center: [-122.6774833, 45.5206428],
-      interactive: false,
-      zoom: 15
+      center: [-122.674793, 45.518233],
+      // interactive: false,
+      zoom: 13.5
     });
     map.locations = locList;
     console.log(map.locations);
