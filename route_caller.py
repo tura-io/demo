@@ -1,7 +1,5 @@
-# COLLECT LOCATION LIST
-# SEND API/SDK CALL FOR ROUTES B/W EVERY LOCATION
-# STORE CALL RESULTS IN NEW TABLE
 from mapbox import Directions
+import sqlite3 as db
 import mapbox_token
 
 service = Directions(access_token = mapbox_token.MAPBOX_ACCESS_TOKEN)
@@ -28,4 +26,15 @@ destination = {
 
 def call():
     response = service.directions([origin, destination], 'mapbox.driving')
-    return response.geojson()
+    result = response.geojson()
+    coords = result['features'][0]['geometry']['coordinates']
+    str_coords = str(coords)
+    ########################################    DB
+    conn = db.connect('demo.db')
+    dbi = conn.cursor()
+    dbi.execute('''INSERT INTO routes (origin, dest, route) VALUES (?, ?, ?)''', ('Tura', 'Market', str_coords))# for example, variables need change
+    conn.commit()
+    conn.close()
+    #####################################
+    #db.save(x, x, result['lat']['lat2'])
+    return result

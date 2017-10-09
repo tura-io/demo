@@ -13,6 +13,11 @@ def db_read():
     result = db_mngr.read()
     return json.dumps(result)
 
+@app.route('/db/routes')
+def db_read_routes():
+    all_routes = db_mngr.read_routes()
+    return json.dumps(all_routes[0][0])
+
 ############################################TESTING TEMP
 @app.route('/db/create')
 def db_create():
