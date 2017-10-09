@@ -20,38 +20,26 @@ for locOne in result:
 
 print(len(pairs)) #Should be 2450 for a list of 50 locations.
 
-def call():
+def call(origin, destination):
     response = service.directions([origin, destination], 'mapbox.driving')
-    return response.geojson()
+    result = response.geojson()
+    coords = result['features'][0]['geometry']['coordinates']
+    str_coords = str(coords)
+    ########################################    DB
+    conn = db.connect('demo.db')
+    dbi = conn.cursor()
+    dbi.execute('''INSERT INTO routes (origin, dest, route) VALUES (?, ?, ?)''', ('Tura', 'Market', str_coords))# for example, variables need change
+    conn.commit()
+    conn.close()
+    #####################################
+    #db.save(x, x, result['lat']['lat2'])
+    return result
 
-###############################INPUT TO SDK (TEMP LOCATION FEATURES)
-origin = {
-    'type': 'Feature',
-    'properties': {'name': 'Portland, OR'},
-    'geometry': {
-        'type': 'Point',
-        'coordinates': [-122.67546, 45.502647]# Tura
-    }
-}
-
-destination = {
-    'type': 'Feature',
-    'properties': {'name': 'Portland, OR'},
-    'geometry': {
-        'type': 'Point',
-        'coordinates': [-122.67027, 45.523056]# Sat. Market
-    }
-}
-#######################################################
 idx = 0
 while True:
     idx += 1
-    print(idx)
-    time.sleep(1)
+    print(f"Generating route #{idx}")
+    call()
+    time.sleep(.25)
     if idx == 10:
         break
-
-f = open("routes.txt","w+")
-# for i in result:
-#      f.write(json.dumps(i) + "\r\n")
-f.close()
