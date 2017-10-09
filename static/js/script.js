@@ -10,7 +10,7 @@ $(function () { //on docu load
     url: 'db/routes',
     dataType: 'json'
   }).done(function(response) {
-      route = response[0][0]
+      route = response
       console.log(response);
   });
 //=========================================================
@@ -90,7 +90,6 @@ $(function () { //on docu load
         }
         animateMarker(0);
 //============================================================================
-
         map.addLayer({
           'id': 'route',
           'type': 'line',
