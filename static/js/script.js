@@ -7,12 +7,11 @@ $(function () { //on docu load
   let route;
 
   $.ajax({
-    url: 'api/routecall',
+    url: 'db/routes',
     dataType: 'json'
   }).done(function(response) {
-      route = response.features[0].geometry;
+      route = response[0][0]
       console.log(response);
-      console.log(route)
   });
 //=========================================================
 
@@ -93,16 +92,19 @@ $(function () { //on docu load
 //============================================================================
 
         map.addLayer({
-          id: 'route',
-          type: 'line',
-          source: {
-            type: 'geojson',
-            data: {
-              type: 'Feature',
-              geometry: route //gained from ajax call at top
+          'id': 'route',
+          'type': 'line',
+          'source': {
+            'type': 'geojson',
+            'data': {
+              'type': 'Feature',
+              'geometry': {
+                'type': 'LineString',
+                'coordinates': route
+              }
             }
           },
-          paint: {
+          'paint': {
             'line-width': 2
           }
         });

@@ -27,12 +27,12 @@ destination = {
 def call():
     response = service.directions([origin, destination], 'mapbox.driving')
     result = response.geojson()
-    coords = result['features'][0]['geometry']
+    coords = result['features'][0]['geometry']['coordinates']
     str_coords = str(coords)
     ########################################    DB
     conn = db.connect('demo.db')
     dbi = conn.cursor()
-    dbi.execute('''INSERT INTO routes (origin, dest, route) VALUES (?, ?, ?)''', ('Tura', 'Market', str_coords))
+    dbi.execute('''INSERT INTO routes (origin, dest, route) VALUES (?, ?, ?)''', ('Tura', 'Market', str_coords))# for example, variables need change
     conn.commit()
     conn.close()
     #####################################
