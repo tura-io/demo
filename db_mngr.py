@@ -11,6 +11,10 @@ def create_w_data():
     name text,
     x real,
     y real)''') #sql-like commands, data types are limited so far
+    dbi.execute('''CREATE TABLE routes (
+    origin text,
+    dest text,
+    route text)''')
     for loc in test_locations:
         dbi.execute('''INSERT INTO locations (name, x, y) VALUES (?, ?, ?)''', (loc[0], loc[1], loc[2]))
         conn.commit()
@@ -27,7 +31,7 @@ def drop():
 def read():
     conn = db.connect('demo.db')
     dbi = conn.cursor()
-    dbi.execute('''SELECT * FROM locations''')
+    dbi.execute('''SELECT * FROM routes''')
     result = dbi.fetchall()
     conn.close()
     return result
