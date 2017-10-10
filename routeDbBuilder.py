@@ -57,14 +57,18 @@ def call(origin, destination):
     return result
 
 idx = 0
+routefile = open("routes.txt","w+")
 while True:
-    call(pairs[idx][0], pairs[idx][1])
-
+    current_route = call(pairs[idx][0], pairs[idx][1])
+    routefile.write(json.dumps(current_route) + "\r\n")
     #Reporting for the console.
     idx += 1
     print(f"Generating route #{idx}")
-    time.sleep(.25)
+    time.sleep(1.001)
 
     #Stop when idx hits a number of our choosing.
-    if idx == 3:
+    if idx == (len(pairs)):
+        print("Done.")
         break
+
+routefile.close()
