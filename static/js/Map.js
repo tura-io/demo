@@ -1,19 +1,25 @@
-class MapBox {
+class MapBox extends mapboxgl.Map {
 
-  constructor(allDrivers, allRiders) {
-    this.allRiders = allRiders;
-    this.allDrivers = allDrivers;
+  constructor(container, style, center, zoom) {
+    super(container, style, center, zoom);
+    this.locations = [];
   }
 
-  createRider() {
-    console.log("works");
+  addRoute() {
+
   }
 
-  createDriver() {
-    console.log("works");
-  }
-
-  createTrip() {
-    console.log("works");
+  setLocations() {  //REVISE
+    let loc = [];
+    $.ajax({
+      url: 'db/read',
+      dataType: 'json'
+    }).then(function(locs) {
+        for (let i = 0; i < locs.length; i++) {
+          let location = new Point(locs[i][0], locs[i][1], locs[i][2]);
+          loc.push(location);
+        };
+    });
+    this.locations = loc;
   }
 }
