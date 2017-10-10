@@ -3,20 +3,14 @@ $(function () {
 
   let map = new MapBox({container: 'map', style: 'mapbox://styles/mapbox/light-v9', center: [-122.674793, 45.518233], zoom: 13.5});
 
-  $.ajax({
-    url: 'db/routes',
-    dataType: 'json'
-  }).then(function(response) {
-      response.forEach(function(e) {
-        map.routes.push([e[0], e[1], JSON.parse(e[2])]);
-      });
-      console.log("Routes:");
-      console.log(map.routes);
-  });
-
+  //TEMP: The next six lines seem like they should generate async errors, but currently usually don't.
   map.setLocations();
   console.log("Locations:");
   console.log(map.locations);
+
+  map.setRoutes();
+  console.log("Routes:");
+  console.log(map.routes);
 
   map.on('load', function() {
     map.addLayer({
@@ -37,6 +31,8 @@ $(function () {
         "text-anchor": "top"
       }
     });
+
+    map.addRoute();
   });
 // //================================================================ANIMATION
 //     var radius = 0.001

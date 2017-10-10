@@ -7,44 +7,28 @@ class MapBox extends mapboxgl.Map {
   }
 
   addRoute() {
-      this.addLayer({
-        'id': 'route',
-        'type': 'line',
-        'source': {
-          'type': 'geojson',
-          'data': {
-            'type': 'Feature',
-            'geometry': {
-              'type': 'LineString',
-              'coordinates': route
-            }
+  //Designates a random route. TODO: remove this and add params to power this choice.
+    route = this.routes[Math.random() * this.routes.length][2]
+    console.log(route);
+  //Actually display a route.
+    this.addLayer({
+      'id': 'route',
+      'type': 'line',
+      'source': {
+        'type': 'geojson',
+        'data': {
+          'type': 'Feature',
+          'geometry': {
+            'type': 'LineString',
+            'coordinates': route
           }
-        },
-        'paint': {
-          'line-width': 2
         }
-      });
+      },
+      'paint': {
+        'line-width': 2
+      }
     });
   }
-
-  //     map.addLayer({
-  //       'id': 'route',
-  //       'type': 'line',
-  //       'source': {
-  //         'type': 'geojson',
-  //         'data': {
-  //           'type': 'Feature',
-  //           'geometry': {
-  //             'type': 'LineString',
-  //             'coordinates': route
-  //           }
-  //         }
-  //       },
-  //       'paint': {
-  //         'line-width': 2
-  //       }
-  //     });
-    // });
 
   setLocations() {  //REVISE
     let loc = [];
@@ -58,5 +42,20 @@ class MapBox extends mapboxgl.Map {
         };
     });
     this.locations = loc;
+  }
+
+  setRoutes() {
+    let routes = [];
+    $.ajax({
+      url: 'db/routes',
+      dataType: 'json'
+    }).then(function(response) {
+      console.log(response);
+        response.forEach(function(e) {
+          //TODO: Make these into Route-class objects as above.
+          routes.push([e[0], e[1], JSON.parse(e[2])]);
+        });
+    });
+    this.routes = routes;
   }
 }
