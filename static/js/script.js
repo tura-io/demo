@@ -1,7 +1,8 @@
 $(function () {
   mapboxgl.accessToken = accessToken;
 
-  let map;
+  let map = new MapBox({container: 'map', style: 'mapbox://styles/mapbox/light-v9', center: [-122.674793, 45.518233], zoom: 13.5});
+
   let route;
 
   $.ajax({
@@ -10,32 +11,31 @@ $(function () {
   }).then(function(response) {
       route = JSON.parse(response);
       console.log(route);
-  }).then(function() {
-      map = new MapBox({container: 'map', style: 'mapbox://styles/mapbox/light-v9', center: [-122.674793, 45.518233], zoom: 13.5});
-      map.setLocations();
-      console.log(map.locations);
   });
 
+  map.setLocations();
+  console.log(map.locations);
 
-//   map.on('load', function() {
-//     map.addLayer({
-//       "id": "points",
-//       "type": "symbol",
-//       "source": {
-//         "type": "geojson",
-//         "data": {
-//           "type": "FeatureCollection",
-//           "features": map.locations
-//         }
-//       },
-//       "layout": {
-//         "icon-image": "{icon}-15",
-//         "text-field": "{title}",
-//         "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-//         "text-offset": [0, 0.6],
-//         "text-anchor": "top"
-//       }
-//     });
+  map.on('load', function() {
+    map.addLayer({
+      "id": "points",
+      "type": "symbol",
+      "source": {
+        "type": "geojson",
+        "data": {
+          "type": "FeatureCollection",
+          "features": map.locations
+        }
+      },
+      "layout": {
+        "icon-image": "{icon}-15",
+        "text-field": "{title}",
+        "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+        "text-offset": [0, 0.6],
+        "text-anchor": "top"
+      }
+    });
+  });
 // //================================================================ANIMATION
 //     var radius = 0.001
 //
