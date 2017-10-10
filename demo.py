@@ -16,7 +16,7 @@ def db_read():
 @app.route('/db/routes')
 def db_read_routes():
     all_routes = db_mngr.read_routes()
-    return json.dumps(all_routes[0][0])
+    return json.dumps(all_routes)
 
 ############################################TESTING TEMP
 @app.route('/db/create')
