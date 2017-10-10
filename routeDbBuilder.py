@@ -67,7 +67,7 @@ while True:
     time.sleep(1.001)
 
     #Stop when idx hits a number of our choosing.
-    if idx == (len(pairs) - 1):
+    if idx == (len(pairs)):
         break
 
 routefile.close()
