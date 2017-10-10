@@ -10,8 +10,8 @@ $(function () { //on docu load
     url: 'db/routes',
     dataType: 'json'
   }).done(function(response) {
-      route = response
-      console.log(response);
+      route = JSON.parse(response);
+      console.log(route);
   });
 //=========================================================
   $.ajax({
