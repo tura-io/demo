@@ -3,17 +3,19 @@ $(function () {
 
   let map = new MapBox({container: 'map', style: 'mapbox://styles/mapbox/light-v9', center: [-122.674793, 45.518233], zoom: 13.5});
 
-  let route;
-
   $.ajax({
     url: 'db/routes',
     dataType: 'json'
   }).then(function(response) {
-      route = JSON.parse(response);
-      console.log(route);
+      response.forEach(function(e) {
+        map.routes.push([e[0], e[1], JSON.parse(e[2])]);
+      });
+      console.log("Routes:");
+      console.log(map.routes);
   });
 
   map.setLocations();
+  console.log("Locations:");
   console.log(map.locations);
 
   map.on('load', function() {

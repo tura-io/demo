@@ -49,7 +49,7 @@ def call(origin, destination):
     ########################################    DB
     conn = db.connect('demo.db')
     dbi = conn.cursor()
-    dbi.execute('''INSERT INTO routes (origin, dest, route) VALUES (?, ?, ?)''', ('Tura', 'Market', str_coords))# for example, variables need change
+    dbi.execute('''INSERT INTO routes (origin, dest, route) VALUES (?, ?, ?)''', (origin['properties']['name'], destination['properties']['name'], str_coords))# for example, variables need change
     conn.commit()
     conn.close()
     #####################################
