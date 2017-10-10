@@ -13,8 +13,8 @@ $(function () {
       console.log(route);
   });
 
+  //==================================================================POINTS
   map.setLocations();
-  console.log(map.locations);
 
   map.on('load', function() {
     map.addLayer({
@@ -35,57 +35,55 @@ $(function () {
         "text-anchor": "top"
       }
     });
+    map.addLayer({
+      'id': 'route',
+      'type': 'line',
+      'source': {
+        'type': 'geojson',
+        'data': {
+          'type': 'Feature',
+          'geometry': {
+            'type': 'LineString',
+            'coordinates': route
+          }
+        }
+      },
+      'paint': {
+        'line-width': 2
+      }
+    });
+    var radius = 0.001
+
+    function pointOnCircle(angle) {
+        return {
+            "type": "Point",
+            "coordinates": [
+                Math.cos(angle) * radius + -122.673081,
+                Math.sin(angle) * radius + 45.522668
+            ]
+        };
+    };
+
+    map.addSource('point', {
+        "type": "geojson",
+        "data": pointOnCircle(0)
+    });
+    map.addLayer({
+        "id": "point",
+        "source": "point",
+        "type": "circle",
+        "paint": {
+            "circle-radius": 10,
+            "circle-color": "#007cbf"
+        }
+    });
+
+    function animateMarker(timestamp) {
+        map.getSource('point').setData(pointOnCircle(timestamp / 1000));
+        requestAnimationFrame(animateMarker);
+    }
+
+    animateMarker(0);
+
   });
-// //================================================================ANIMATION
-//     var radius = 0.001
-//
-//     function pointOnCircle(angle) {
-//         return {
-//             "type": "Point",
-//             "coordinates": [
-//                 Math.cos(angle) * radius + -122.673081,
-//                 Math.sin(angle) * radius + 45.522668
-//             ]
-//         };
-//     };
-//
-//     map.addSource('point', {
-//         "type": "geojson",
-//         "data": pointOnCircle(0)
-//     });
-//     map.addLayer({
-//         "id": "point",
-//         "source": "point",
-//         "type": "circle",
-//         "paint": {
-//             "circle-radius": 10,
-//             "circle-color": "#007cbf"
-//         }
-//     });
-//
-//     function animateMarker(timestamp) {
-//         map.getSource('point').setData(pointOnCircle(timestamp / 1000));
-//         requestAnimationFrame(animateMarker);
-//     }
-//
-//     animateMarker(0);
-// //============================================================================
-//     map.addLayer({
-//       'id': 'route',
-//       'type': 'line',
-//       'source': {
-//         'type': 'geojson',
-//         'data': {
-//           'type': 'Feature',
-//           'geometry': {
-//             'type': 'LineString',
-//             'coordinates': route
-//           }
-//         }
-//       },
-//       'paint': {
-//         'line-width': 2
-//       }
-//     });
-  // });
 });
