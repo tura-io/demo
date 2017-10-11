@@ -18,7 +18,7 @@ class MapBox extends mapboxgl.Map {
     this.destination = route[route.length - 1];
   //Actually display a route.
     this.addLayer({
-      'id': 'route',
+      'id': 'tripRoute',
       'type': 'line',
       'source': {
         'type': 'geojson',
@@ -48,7 +48,6 @@ class MapBox extends mapboxgl.Map {
         };
     });
     this.locations = loc;
-    console.log(this.locations[0]);
   }
 
   setRoutes() {
