@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 import json
-import db_mngr, route_caller
+import db_mngr
 
 app = Flask(__name__)
 

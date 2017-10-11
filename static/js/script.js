@@ -5,6 +5,7 @@ $(function () {
 
   map.setLocations();
 
+  console.log(map.locations[1]);
   map.on('load', function() {
 
   });
