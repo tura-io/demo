@@ -8,8 +8,10 @@ class MapBox extends mapboxgl.Map {
 
   addRoute() {
   //Designates a random route. TODO: remove this and add params to power this choice.
-    route = this.routes[Math.random() * this.routes.length][2]
-    console.log(route);
+  var rand = Math.floor(Math.random() * (this.routes.length + 1));
+  console.log(rand);
+    var route = this.routes[rand][2];
+    console.log(this.routes[1][2]);
   //Actually display a route.
     this.addLayer({
       'id': 'route',
@@ -50,7 +52,6 @@ class MapBox extends mapboxgl.Map {
       url: 'db/routes',
       dataType: 'json'
     }).then(function(response) {
-      console.log(response);
         response.forEach(function(e) {
           //TODO: Make these into Route-class objects as above.
           routes.push([e[0], e[1], JSON.parse(e[2])]);
