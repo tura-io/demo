@@ -23,7 +23,6 @@ for loc_one in result:
                     'coordinates': [loc_one[1], loc_one[2]]
                 }
             }
-
             point_two = {
                 'type': 'Feature',
                 'properties': {'name': loc_two[0]},
@@ -32,6 +31,7 @@ for loc_one in result:
                     'coordinates': [loc_two[1], loc_two[2]]
                 }
             }
+
             #Build list of possible origin/destination pairs.
             if ([point_one, point_two] not in pairs):
                 pairs.append([point_one, point_two])
@@ -49,7 +49,7 @@ def call(origin, destination):
     ########################################    DB
     conn = db.connect('demo.db')
     dbi = conn.cursor()
-    dbi.execute('''INSERT INTO routes (origin, dest, route) VALUES (?, ?, ?)''', ('Tura', 'Market', str_coords))# for example, variables need change
+    dbi.execute('''INSERT INTO routes (origin, dest, route) VALUES (?, ?, ?)''', (origin['properties']['name'], destination['properties']['name'], str_coords))
     conn.commit()
     conn.close()
     #####################################
@@ -57,14 +57,17 @@ def call(origin, destination):
     return result
 
 idx = 0
+routefile = open("routes.txt","w+")
 while True:
-    call(pairs[idx][0], pairs[idx][1])
-
+    current_route = call(pairs[idx][0], pairs[idx][1])
+    routefile.write(json.dumps(current_route) + "\r\n")
     #Reporting for the console.
     idx += 1
     print(f"Generating route #{idx}")
-    time.sleep(.25)
+    time.sleep(1.001)
 
     #Stop when idx hits a number of our choosing.
-    if idx == 3:
+    if idx == (len(pairs)):
         break
+
+routefile.close()

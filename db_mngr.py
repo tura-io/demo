@@ -40,7 +40,7 @@ def read():
 def read_routes():
     conn = db.connect('demo.db')
     dbi = conn.cursor()
-    dbi.execute('''SELECT route FROM routes''')
+    dbi.execute('''SELECT * FROM routes''')
     route_result = dbi.fetchall()
     conn.close()
     return route_result
