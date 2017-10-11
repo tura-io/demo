@@ -33,57 +33,35 @@ $(function () {
     });
 
     map.addRoute();
-  });
-// //================================================================ANIMATION
-//     var radius = 0.001
-//
-//     function pointOnCircle(angle) {
-//         return {
-//             "type": "Point",
-//             "coordinates": [
-//                 Math.cos(angle) * radius + -122.673081,
-//                 Math.sin(angle) * radius + 45.522668
-//             ]
-//         };
-//     };
-//
-//     map.addSource('point', {
-//         "type": "geojson",
-//         "data": pointOnCircle(0)
-//     });
-//     map.addLayer({
-//         "id": "point",
-//         "source": "point",
-//         "type": "circle",
-//         "paint": {
-//             "circle-radius": 10,
-//             "circle-color": "#007cbf"
-//         }
-//     });
-//
-//     function animateMarker(timestamp) {
-//         map.getSource('point').setData(pointOnCircle(timestamp / 1000));
-//         requestAnimationFrame(animateMarker);
-//     }
-//
-//     animateMarker(0);
-// //============================================================================
-//     map.addLayer({
-//       'id': 'route',
-//       'type': 'line',
-//       'source': {
-//         'type': 'geojson',
-//         'data': {
-//           'type': 'Feature',
-//           'geometry': {
-//             'type': 'LineString',
-//             'coordinates': route
-//           }
-//         }
-//       },
-//       'paint': {
-//         'line-width': 2
-//       }
-//     });
-  // });
+
+    // A simple line from origin to destination.
+    var route = {
+        "type": "FeatureCollection",
+        "features": [{
+            "type": "Feature",
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    map.origin,
+                    map.destination
+                ]
+            }
+        }]
+    };
+    console.log(route);
+    // A single point that animates along the route.
+    // Coordinates are initially set to origin.
+    var point = {
+        "type": "FeatureCollection",
+        "features": [{
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": map.origin
+            }
+          }]
+        };
+      });
+
+
 });

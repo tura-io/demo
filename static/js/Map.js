@@ -4,14 +4,18 @@ class MapBox extends mapboxgl.Map {
     super(container, style, center, zoom);
     this.locations = [];
     this.routes = [];
+    //TEMP: I don't think these should be here long term?
+    this.origin = [];
+    this.destination = [];
+    this.currentRoute = [];
   }
 
   addRoute() {
   //Designates a random route. TODO: remove this and add params to power this choice.
-  var rand = Math.floor(Math.random() * (this.routes.length + 1));
-  console.log(rand);
+    var rand = Math.floor(Math.random() * (this.routes.length));
     var route = this.routes[rand][2];
-    console.log(this.routes[1][2]);
+    this.origin = route[0];
+    this.destination = route[route.length - 1];
   //Actually display a route.
     this.addLayer({
       'id': 'route',
@@ -44,6 +48,7 @@ class MapBox extends mapboxgl.Map {
         };
     });
     this.locations = loc;
+    console.log(this.locations[0]);
   }
 
   setRoutes() {
