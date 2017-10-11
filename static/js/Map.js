@@ -5,10 +5,6 @@ class MapBox extends mapboxgl.Map {
     this.locations = [];
   }
 
-  addRoute() {
-
-  }
-
   setLocations() {  //REVISE
     let loc = [];
     $.ajax({
@@ -21,5 +17,45 @@ class MapBox extends mapboxgl.Map {
         };
     });
     this.locations = loc;
+    console.log(this.locations);
   }
+
+  randomLocation() {
+    let loc = this.locations[Math.floor(Math.random() * this.locations.length)];
+    return loc;
+  }
+//========================================================ANIMATION
+  // animateTest() {
+  //   function pointOnCircle(angle) {
+  //     var radius = 0.001
+  //     return {
+  //         "type": "Point",
+  //         "coordinates": [
+  //             Math.cos(angle) * radius + -122.673081,
+  //             Math.sin(angle) * radius + 45.522668
+  //         ]
+  //     };
+  //   }
+  //   this.addSource('point', {
+  //       "type": "geojson",
+  //       "data": pointOnCircle(0)
+  //   });
+  //   this.addLayer({
+  //       "id": "point",
+  //       "source": "point",
+  //       "type": "circle",
+  //       "paint": {
+  //           "circle-radius": 10,
+  //           "circle-color": "#007cbf"
+  //       }
+  //   });
+  //   function animateMarker(timestamp) {
+  //     mapboxgl.Map.getSource('point').setData(pointOnCircle(timestamp / 1000));
+  //     requestAnimationFrame(animateMarker);
+  //   }
+  //   animateMarker(0);
+  // }
+//==============================================================
+
+
 }
