@@ -44,16 +44,19 @@ print(len(pairs)) #Should be 2450 for a list of 50 locations.
 def call(origin, destination):
     response = service.directions([origin, destination], 'mapbox.driving')
     result = response.geojson()
+    originCoord = str(origin['geometry']['coordinates'])
+    destCoord = str(destination['geometry']['coordinates'])
+    routeTime = result['features'][0]['properties']['duration']
+    routeDist = result['features'][0]['properties']['distance']
     coords = result['features'][0]['geometry']['coordinates']
     str_coords = str(coords)
     ########################################    DB
     conn = db.connect('demo.db')
     dbi = conn.cursor()
-    dbi.execute('''INSERT INTO routes (origin, dest, route) VALUES (?, ?, ?)''', (origin['properties']['name'], destination['properties']['name'], str_coords))# for example, variables need change
+    dbi.execute('''INSERT INTO routes (origin, dest, originCoords, destCoords, routeTime, routeDist, route) VALUES (?, ?, ?, ?, ?, ?, ?)''', (origin['properties']['name'], destination['properties']['name'], originCoord, destCoord, routeTime, routeDist, str_coords))
     conn.commit()
     conn.close()
     #####################################
-    #db.save(x, x, result['lat']['lat2'])
     return result
 
 idx = 0
