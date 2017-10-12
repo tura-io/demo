@@ -4,36 +4,16 @@ class MapBox extends mapboxgl.Map {
     super(container, style, center, zoom);
     this.locations = [];
     this.routes = [];
-    //TEMP: I don't think these should be here long term?
-    this.origin = [];
-    this.destination = [];
-    this.currentRoute = [];
+    this.trips = [];
   }
 
-  addRoute() {
-  //Designates a random route. TODO: remove this and add params to power this choice.
-    var rand = Math.floor(Math.random() * (this.routes.length));
-    var route = this.routes[rand][2];
-    this.origin = route[0];
-    this.destination = route[route.length - 1];
-  //Actually display a route.
-    this.addLayer({
-      'id': 'tripRoute',
-      'type': 'line',
-      'source': {
-        'type': 'geojson',
-        'data': {
-          'type': 'Feature',
-          'geometry': {
-            'type': 'LineString',
-            'coordinates': route
-          }
-        }
-      },
-      'paint': {
-        'line-width': 2
-      }
-    });
+  addTrip() {
+    let newTrip = new Trip('rider_placeholder','driver_placeholder','type_placeholder');
+    newTrip.Map = this;
+    newTrip.addRoute();
+    this.trips.push(newTrip);
+    // TEMP: Probably make this next call from elsewhere?
+    newTrip.animateRoute();
   }
 
   async setLocations() {  //TODO: still has asnyc issues, revise
