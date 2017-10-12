@@ -12,25 +12,8 @@ class Trip {
   addRoute() {
   //Designates a random route. TODO: remove this and add params to power this choice.
     var rand = Math.floor(Math.random() * (this.Map.routes.length));
-    var route = this.Map.routes[rand][2];
-  //Actually display a route.
-    this.Map.addLayer({
-      'id': 'tripRoute', //NOTE: This should eventually hold a reference to some unique identifier for the trip. Probably include an ID in the class?
-      'type': 'line',
-      'source': {
-        'type': 'geojson',
-        'data': {
-          'type': 'Feature',
-          'geometry': {
-            'type': 'LineString',
-            'coordinates': route
-          }
-        }
-      },
-      'paint': {
-        'line-width': 2
-      }
-    });
+    this.Route = this.Map.routes[rand];
+    console.log(this.Route);
   }
 
   animateRoute() {

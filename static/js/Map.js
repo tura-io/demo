@@ -9,10 +9,26 @@ class MapBox extends mapboxgl.Map {
 
   addTrip() {
     let newTrip = new Trip('rider_placeholder','driver_placeholder','type_placeholder');
-    //NOTE:
-    newTrip.addRoute();
     newTrip.Map = this;
+    newTrip.addRoute();
     this.trips.push(newTrip);
+    this.addLayer({
+      'id': 'tripRoute', //NOTE: This should eventually hold a reference to some unique identifier for the trip. Probably include an ID in the class?
+      'type': 'line',
+      'source': {
+        'type': 'geojson',
+        'data': {
+          'type': 'Feature',
+          'geometry': {
+            'type': 'LineString',
+            'coordinates': newTrip.Route.coords
+          }
+        }
+      },
+      'paint': {
+        'line-width': 2
+      }
+    });
   }
 
   async setLocations() {  //TODO: still has asnyc issues, revise
