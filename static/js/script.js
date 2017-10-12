@@ -40,7 +40,6 @@ $(function () {
 
   // Calculate the distance in kilometers between route start/end point.
   var lineDistance = turf.lineDistance(route.features[0], 'kilometers');
-  console.log(lineDistance);
   var tweens = [];
 
   // Draw an arc between the `origin` & `destination` of the two points
@@ -104,8 +103,11 @@ $(function () {
         "source": "point",
         "type": "symbol",
         "layout": {
-            "icon-image": "airport-15",
-            "icon-rotate": 90
+            "icon-image": "marker-15"
+        },
+        "paint": {
+          //NOTE: This should control the color of the icon, but currently doesn't. It requires an "sdf icon" to work, which I thought we were using. But maybe I'm wrong.
+            "icon-color": "#FFFFFF",
         }
     });
 
@@ -119,7 +121,6 @@ $(function () {
 
         // Request the next frame of animation so long as destination has not
         // been reached.
-        console.log(point.features[0].geometry.coordinates);
         if (point.features[0].geometry.coordinates[0] !== [-122.698555, 45.528652][0]) {
             requestAnimationFrame(animate);
         }
