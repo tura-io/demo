@@ -77,7 +77,7 @@ $(function () {
       }
     });
 
-    map.addRoute();
+    // map.addRoute();
 
     //NOTE: Anim stuff below:
     // Add a source and layer displaying a point which will be animated in a circle.
