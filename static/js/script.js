@@ -51,9 +51,6 @@ $(function () {
   // Update the route with calculated arc coordinates
   route.features[0].geometry.coordinates = tweens;
 
-  // Used to increment the value of the point measurement against the route.
-  var counter = 0;
-
   map.on('load', function() {
     map.addLayer({
       "id": "location-list",
@@ -112,10 +109,14 @@ $(function () {
     });
 
     function animate() {
+        //Shorten route geometry
+        route.features[0].geometry.coordinates.splice(0, 1);
         // Update point geometry to a new position based on counter denoting
         // the index to access the arc.
-        point.features[0].geometry.coordinates = route.features[0].geometry.coordinates[counter];
+        point.features[0].geometry.coordinates = route.features[0].geometry.coordinates[0];
 
+        // Update the route source with the new data.
+        map.getSource('route').setData(route);
         // Update the source with this new data.
         map.getSource('point').setData(point);
 
@@ -124,12 +125,10 @@ $(function () {
         if (point.features[0].geometry.coordinates[0] !== [-122.698555, 45.528652][0]) {
             requestAnimationFrame(animate);
         }
-
-        counter = counter + 1;
     }
 
     // Start the animation.
-    animate(counter);
+    animate();
   });
 
 
