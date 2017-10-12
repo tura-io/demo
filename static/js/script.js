@@ -5,13 +5,13 @@ $(function () {
 
   //TEMP: The next six lines seem like they should generate async errors, but currently usually don't.
   map.setLocations();
-  console.log("Locations:");
-  console.log(map.locations);
-
+  // console.log("Locations:");
+  // console.log(map.locations);
+  //
   map.setRoutes();
-  console.log("Routes:");
-  console.log(map.routes);
-
+  // console.log("Routes:");
+  // console.log(map.routes);
+  //
   // A simple line from origin to destination.
   var route = {
       "type": "FeatureCollection",
@@ -52,6 +52,7 @@ $(function () {
   route.features[0].geometry.coordinates = tweens;
 
   map.on('load', function() {
+    // console.log(map.routes);
     map.addLayer({
       "id": "location-list",
       "type": "symbol",

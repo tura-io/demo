@@ -1,8 +1,13 @@
 class Route {
 
-  constructor(origin, destination) {
-    this.Origin = origin;
-    this.Destination = destination;
+  constructor(origin, dest, oCoords, dCoords, duration, distance, routeCoords) {
+    this.origin = origin;
+    this.destination = dest;
+    this.originCoords = oCoords;
+    this.destCoords = dCoords;
+    this.duration = duration;
+    this.distance = distance;
+    this.coords = routeCoords;
   }
 
   classMethodTest() {

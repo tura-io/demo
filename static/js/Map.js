@@ -4,63 +4,37 @@ class MapBox extends mapboxgl.Map {
     super(container, style, center, zoom);
     this.locations = [];
     this.routes = [];
-    //TEMP: I don't think these should be here long term?
-    this.origin = [];
-    this.destination = [];
-    this.currentRoute = [];
+    this.trips = [];
   }
 
-  addRoute() {
-  //Designates a random route. TODO: remove this and add params to power this choice.
-    var rand = Math.floor(Math.random() * (this.routes.length));
-    var route = this.routes[rand][2];
-    this.origin = route[0];
-    this.destination = route[route.length - 1];
-  //Actually display a route.
-    this.addLayer({
-      'id': 'tripRoute',
-      'type': 'line',
-      'source': {
-        'type': 'geojson',
-        'data': {
-          'type': 'Feature',
-          'geometry': {
-            'type': 'LineString',
-            'coordinates': route
-          }
-        }
-      },
-      'paint': {
-        'line-width': 2
-      }
-    });
+  addTrip() {
+    let newTrip = new Trip('rider_placeholder','driver_placeholder','type_placeholder');
+    //NOTE:
+    newTrip.addRoute();
+    newTrip.Map = this;
+    this.trips.push(newTrip);
   }
 
-  setLocations() {  //REVISE
-    let loc = [];
-    $.ajax({
+  async setLocations() {  //TODO: still has asnyc issues, revise
+    let result = await $.ajax({
       url: 'db/read',
       dataType: 'json'
-    }).then(function(locs) {
-        for (let i = 0; i < locs.length; i++) {
-          let location = new Point(locs[i][0], locs[i][1], locs[i][2]);
-          loc.push(location);
-        };
     });
-    this.locations = loc;
+    for (let i = 0; i < result.length; i++) {
+      let location = new Point(result[i][0], result[i][1], result[i][2]);
+      this.locations.push(location);
+    };
   }
 
-  setRoutes() {
-    let routes = [];
-    $.ajax({
+  async setRoutes() {
+    let response = await $.ajax({
       url: 'db/routes',
       dataType: 'json'
-    }).then(function(response) {
-        response.forEach(function(e) {
-          //TODO: Make these into Route-class objects as above.
-          routes.push([e[0], e[1], JSON.parse(e[2])]);
-        });
     });
-    this.routes = routes;
+    for (let i = 0; i < response.length; i++) {
+      let newRoute = new Route(response[i][0], response[i][1], JSON.parse(response[i][2]), JSON.parse(response[i][3]), response[i][4], response[i][5], JSON.parse(response[i][6]));
+      this.routes.push(newRoute);
+    };
   }
+
 }
