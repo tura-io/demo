@@ -36,18 +36,20 @@ class MapBox extends mapboxgl.Map {
     });
   }
 
-  setLocations() {  //REVISE
-    let loc = [];
-    $.ajax({
+  async setLocations() {  //TODO: still has asnyc issues, revise
+    let result = await $.ajax({
       url: 'db/read',
       dataType: 'json'
-    }).then(function(locs) {
-        for (let i = 0; i < locs.length; i++) {
-          let location = new Point(locs[i][0], locs[i][1], locs[i][2]);
-          loc.push(location);
-        };
     });
-    this.locations = loc;
+    for (let i = 0; i < result.length; i++) {
+      let location = new Point(result[i][0], result[i][1], result[i][2]);
+      this.locations.push(location);
+    };
+  }
+
+  randomLocation() {
+    let loc = this.locations[Math.floor(Math.random() * this.locations.length)];
+    return loc;
   }
 
   setRoutes() {
