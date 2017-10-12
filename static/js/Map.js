@@ -47,7 +47,7 @@ class MapBox extends mapboxgl.Map {
     };
   }
 
-  async setRoutes() {
+  async setRoutes() { //TODO: async issue, revise
     let response = await $.ajax({
       url: 'db/routes',
       dataType: 'json'

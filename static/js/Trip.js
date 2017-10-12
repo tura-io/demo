@@ -7,6 +7,8 @@ class Trip {
     this.tripType = tripType;
   }
 
+  
+
   animateRoute() {
     console.log("works");
   }
