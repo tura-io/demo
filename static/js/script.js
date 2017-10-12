@@ -40,18 +40,18 @@ $(function () {
   };
 
   // Calculate the distance in kilometers between route start/end point.
-  // var lineDistance = turf.lineDistance(route.features[0], 'kilometers');
-  //
-  // var arc = [];
-  //
-  // // Draw an arc between the `origin` & `destination` of the two points
-  // for (var i = 0; i < lineDistance; i++) {
-  //     var segment = turf.along(route.features[0], i / 1000 * lineDistance, 'kilometers');
-  //     arc.push(segment.geometry.coordinates);
-  // }
-  //
-  // // Update the route with calculated arc coordinates
-  // route.features[0].geometry.coordinates = arc;
+  var lineDistance = turf.lineDistance(route.features[0], 'kilometers');
+  console.log(lineDistance);
+  var tweens = [];
+
+  // Draw an arc between the `origin` & `destination` of the two points
+  for (var i = 0; i < lineDistance * 1000; i++) {
+      var segment = turf.along(route.features[0], i / 1000 * lineDistance, 'kilometers');
+      tweens.push(segment.geometry.coordinates);
+  }
+
+  // Update the route with calculated arc coordinates
+  route.features[0].geometry.coordinates = tweens;
 
   // Used to increment the value of the point measurement against the route.
   var counter = 0;
@@ -120,6 +120,7 @@ $(function () {
 
         // Request the next frame of animation so long as destination has not
         // been reached.
+        console.log(point.features[0].geometry.coordinates);
         if (point.features[0].geometry.coordinates[0] !== [-122.698555, 45.528652][0]) {
             requestAnimationFrame(animate);
         }
