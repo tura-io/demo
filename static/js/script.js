@@ -13,7 +13,8 @@ $(function () {
   // console.log(map.routes);
 
   map.on('load', function() {
-    // console.log(map.routes);
+    console.log(map.locations);
+    console.log(map.routes);
     map.addLayer({
       "id": "location-list",
       "type": "symbol",

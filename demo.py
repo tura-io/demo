@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 import json
-import db_mngr
+import db_mngr, a_ok
 
 app = Flask(__name__)
 
@@ -35,6 +35,7 @@ def db_drop():
 
 
 if __name__ == '__main__':
+    a_ok.test()
     app.run(debug=True)
     #app.run()
     #app.run(host='0.0.0.0', port=80) #DOCKER

@@ -28,7 +28,7 @@ test_locations = [
                    #East Side
                    ['Olympia Provisions', -122.664101, 45.518830],
                    ['Le Bistro Montage', -122.662561, 45.517363],
-                   ['The Lovecraft Bar', -122.660964, 45.517363],
+                   ['The Lovecraft Bar', -122.6609478, 45.5199611],
                    ['Jupiter Hotel', -122.657064, 45.522520],
                    ['Clarklewis', -122.666200, 45.515221],
                    ['Potato Champion', -122.653490, 45.512405],
@@ -39,7 +39,7 @@ test_locations = [
                    ['DoubleTree Hotel', -122.655560, 45.530576],
                    ['Inn at the Convention Center', -122.660955, 45.529761],
                    ['Original Hotcake House', -122.655599, 45.501215],
-                   ['Aladdin Theatre', -122.660157, 45.517383],
+                   ['Aladdin Theatre', -122.65422,  45.501022],
                    ['Mills End Park', -122.673265, 45.517383],
                    ['Salmon Street Springs', -122.673406, 45.515359],
                    ['OMSI', -122.6659597, 45.5083436],
@@ -49,7 +49,6 @@ test_locations = [
                    ['Revolution Hall', -122.651024, 45.51933],
                    ['Portland Tennis Center', -122.65358 , 45.52525],
                    ['Coava Coffee Roasters', -122.66076, 45.513603],
-                   ['Architectural Heritage Center', -122.66075, 45.51789],
-                   #['', -, ],
+                   ['Architectural Heritage Center', -122.6610456, 45.5177985],
                    ['Mother Foucault\'s Bookshop', -122.660157, 45.517383]
                  ]
