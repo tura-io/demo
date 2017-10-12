@@ -77,7 +77,8 @@ class Trip {
         'source': 'point',
         'type': 'symbol',
         'layout': {
-            'icon-image': 'marker-15'
+            'icon-image': 'marker-15',
+            'icon-offset': [0, -6]
         },
         'paint': {
           //NOTE: This should control the color of the icon, but currently doesn't. It requires an 'sdf icon' to work, which I thought we were using. But maybe I'm wrong.
@@ -100,7 +101,7 @@ class Trip {
 
         // Request the next frame of animation so long as destination has not
         // been reached.
-        if (point.features[0].geometry.coordinates[0] !== [-122.698555, 45.528652][0]) {
+        if (point.features[0].geometry.coordinates[0] !== myThis.Route.destCoords[0]) {
             requestAnimationFrame(animate);
         }
     }
