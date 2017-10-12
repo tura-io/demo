@@ -47,22 +47,15 @@ class MapBox extends mapboxgl.Map {
     };
   }
 
-  randomLocation() {
-    let loc = this.locations[Math.floor(Math.random() * this.locations.length)];
-    return loc;
-  }
-
-  setRoutes() {
-    let routes = [];
-    $.ajax({
+  async setRoutes() { //TODO: async issue, revise
+    let response = await $.ajax({
       url: 'db/routes',
       dataType: 'json'
-    }).then(function(response) {
-        response.forEach(function(e) {
-          //TODO: Make these into Route-class objects as above.
-          routes.push([e[0], e[1], JSON.parse(e[2])]);
-        });
     });
-    this.routes = routes;
+    for (let i = 0; i < response.length; i++) {
+      let newRoute = new Route(response[i][0], response[i][1], JSON.parse(response[i][2]), JSON.parse(response[i][3]), response[i][4], response[i][5], JSON.parse(response[i][6]));
+      this.routes.push(newRoute);
+    };
   }
+
 }

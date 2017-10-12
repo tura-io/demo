@@ -5,13 +5,13 @@ $(function () {
 
   //TEMP: The next six lines seem like they should generate async errors, but currently usually don't.
   map.setLocations();
-  console.log("Locations:");
-  console.log(map.locations);
-
+  // console.log("Locations:");
+  // console.log(map.locations);
+  //
   map.setRoutes();
-  console.log("Routes:");
-  console.log(map.routes);
-
+  // console.log("Routes:");
+  // console.log(map.routes);
+  //
   // A simple line from origin to destination.
   var route = {
       "type": "FeatureCollection",
@@ -41,7 +41,7 @@ $(function () {
 
   // Calculate the distance in kilometers between route start/end point.
   var lineDistance = turf.lineDistance(route.features[0], 'kilometers');
-  console.log(lineDistance);
+  // console.log(lineDistance);
   var tweens = [];
 
   // Draw an arc between the `origin` & `destination` of the two points
@@ -57,6 +57,8 @@ $(function () {
   var counter = 0;
 
   map.on('load', function() {
+    console.log(map.locations);
+    console.log(map.routes);
     map.addLayer({
       "id": "location-list",
       "type": "symbol",
@@ -76,7 +78,7 @@ $(function () {
       }
     });
 
-    map.addRoute();
+    // map.addRoute();
 
     //NOTE: Anim stuff below:
     // Add a source and layer displaying a point which will be animated in a circle.
@@ -120,7 +122,7 @@ $(function () {
 
         // Request the next frame of animation so long as destination has not
         // been reached.
-        console.log(point.features[0].geometry.coordinates);
+        // console.log(point.features[0].geometry.coordinates);
         if (point.features[0].geometry.coordinates[0] !== [-122.698555, 45.528652][0]) {
             requestAnimationFrame(animate);
         }
