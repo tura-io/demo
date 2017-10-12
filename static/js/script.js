@@ -7,8 +7,7 @@ $(function () {
 
   map.on('load', function() {
 
-    map.animateTest()
-
+    console.log(map.locations);
 
   });
 });
