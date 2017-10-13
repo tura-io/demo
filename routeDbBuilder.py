@@ -59,19 +59,49 @@ def call(origin, destination):
     #####################################
     return result
 
-idx = 0
-routefile = open("routes.txt","w+")
-while True:
-    current_route = call(pairs[idx][0], pairs[idx][1])
-    routefile.write(json.dumps(current_route) + "\r\n")
-    #Reporting for the console.
-    idx += 1
-    print(f"Generating route #{idx}")
-    time.sleep(1.001)
+def rebuild_from_api():
+    idx = 0
+    routefile = open("routes.txt","w+")
+    while True:
+        current_route = call(pairs[idx][0], pairs[idx][1])
+        routefile.write(json.dumps(current_route) + "\r\n")
+        #Reporting for the console.
+        idx += 1
+        print(f"Generating route #{idx}")
+        time.sleep(1.001)
 
-    #Stop when idx hits a number of our choosing.
-    if idx == (len(pairs)):
-        print("Done.")
-        break
+        #Stop when idx hits a number of our choosing.
+        if idx == (len(pairs)):
+            print("Done.")
+            break
+    routefile.close()
 
-routefile.close()
+def rebuild_from_file():
+    idx = 0
+    routefile = open("routes.txt", "r")
+    conn = db.connect('demo.db')
+    dbi = conn.cursor()
+    for line in routefile:
+        origin = pairs[idx][0]
+        destination = pairs[idx][1]
+        idx += 1
+        print(idx)
+        #Rebuild memory object from JSON
+        result = json.loads(line)
+        #Grab relevant keys
+        originCoord = str(origin['geometry']['coordinates'])
+        destCoord = str(destination['geometry']['coordinates'])
+        routeTime = result['features'][0]['properties']['duration']
+        routeDist = result['features'][0]['properties']['distance']
+        coords = result['features'][0]['geometry']['coordinates']
+        str_coords = str(coords)
+        #Then do Db things to that memory object
+        dbi.execute('''INSERT INTO routes (origin, dest, originCoords, destCoords, routeTime, routeDist, route) VALUES (?, ?, ?, ?, ?, ?, ?)''', (origin['properties']['name'], destination['properties']['name'], originCoord, destCoord, routeTime, routeDist, str_coords))
+    conn.commit()
+    conn.close()
+    routefile.close()
+
+#Uncomment this to rebuild Routes from routes.txt
+# rebuild_from_file()
+#Uncomment this to rebuild Routes from Mapbox API
+rebuild_from_api()
