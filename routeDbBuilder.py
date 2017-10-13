@@ -59,22 +59,22 @@ def call(origin, destination):
     #####################################
     return result
 
-def rebuild_from_api():
-    idx = 0
-    routefile = open("routes.txt","w+")
-    while True:
-        current_route = call(pairs[idx][0], pairs[idx][1])
-        routefile.write(json.dumps(current_route) + "\r\n")
-        #Reporting for the console.
-        idx += 1
-        print(f"Generating route #{idx}")
-        time.sleep(1.001)
-
-        #Stop when idx hits a number of our choosing.
-        if idx == (len(pairs)):
-            print("Done.")
-            break
-    routefile.close()
+# def rebuild_from_api():
+#     idx = 0
+#     routefile = open("routes.txt","w+")
+#     while True:
+#         current_route = call(pairs[idx][0], pairs[idx][1])
+#         routefile.write(json.dumps(current_route) + "\r\n")
+#         #Reporting for the console.
+#         idx += 1
+#         print(f"Generating route #{idx}")
+#         time.sleep(1.001)
+#
+#         #Stop when idx hits a number of our choosing.
+#         if idx == (len(pairs)):
+#             print("Done.")
+#             break
+#     routefile.close()
 
 def rebuild_from_file():
     idx = 0
