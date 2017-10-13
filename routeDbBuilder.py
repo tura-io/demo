@@ -74,9 +74,8 @@ def rebuild_from_api():
         if idx == (len(pairs)):
             print("Done.")
             break
-        routefile.close()
+    routefile.close()
 
-##############################################
 def rebuild_from_file():
     idx = 0
     routefile = open("routes.txt", "r")
