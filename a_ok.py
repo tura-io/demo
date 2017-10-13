@@ -41,12 +41,9 @@ def test():
                                 return True
                             else:
                                 print('ERROR: routes table in DB is empty')
+                                print('INSERTING NEW DATA...')
                                 print()
-                                answer = input('run routeDbBuilder.py? y/n')
-                                if answer == 'y':
-                                    import routeDbBuilder
-                                else:
-                                    return True
+                                return False
                     else:
                         print('ERROR: locations table in DB is empty')
                         print('INSERTING NEW DATA...')
