@@ -8,6 +8,7 @@ class Trip {
     this.tripType = tripType;
   }
 
+
   addRoute() {
   //Designates a random route. TODO: remove this and add params to power this choice.
     var rand = Math.floor(Math.random() * (this.Map.routes.length));
