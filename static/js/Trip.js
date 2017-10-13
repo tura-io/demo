@@ -6,6 +6,8 @@ class Trip {
     this.Driver = thisDriver;
     this.Route = {};
     this.tripType = tripType;
+    //This controls the rate at which the car moves by controlling animation refresh rate. 75ms default refresh speed moves the car in approximate realtime at 30mph.
+    this.Speed = 75;
   }
 
   addRoute() {
@@ -40,13 +42,18 @@ class Trip {
     };
     // Calculate the distance in kilometers between route start/end point.
     var lineDistance = turf.lineDistance(route.features[0], 'kilometers');
+    console.log(lineDistance);
     var tweens = [];
 
+    var numberOfFrames = 0;
+    console.log(this.Route.duration);
     // Draw an arc between the `origin` & `destination` of the two points
-    for (var i = 0; i < lineDistance * 1000; i++) {
-        var segment = turf.along(route.features[0], i / 1000 * lineDistance, 'kilometers');
+    for (var i = 0; i < 1000 * lineDistance; i++) {
+        var segment = turf.along(route.features[0], i / 1000* lineDistance, 'kilometers');
         tweens.push(segment.geometry.coordinates);
+        numberOfFrames ++;
     }
+    console.log(`Frames in route: ${numberOfFrames}`);
 
     // Update the route with calculated arc coordinates
     route.features[0].geometry.coordinates = tweens;
@@ -101,7 +108,9 @@ class Trip {
         // Request the next frame of animation so long as destination has not
         // been reached.
         if (point.features[0].geometry.coordinates[0] !== myThis.Route.destCoords[0]) {
+          setTimeout(function() {
             requestAnimationFrame(animate);
+          }, this.Speed);
         }
     }
 
