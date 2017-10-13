@@ -1,7 +1,11 @@
 import sqlite3 as db
-import location_list
-
-test_locations = location_list.test_locations
+try:
+    import location_list
+    test_locations = location_list.test_locations
+except:
+    print()
+else:
+    print()
 
 def create_w_data():
     conn = db.connect('demo.db')
@@ -10,6 +14,14 @@ def create_w_data():
     name text,
     x real,
     y real)''') #sql-like commands, data types are limited so far
+    for loc in test_locations:
+        dbi.execute('''INSERT INTO locations (name, x, y) VALUES (?, ?, ?)''', (loc[0], loc[1], loc[2]))
+        conn.commit()
+    conn.close()
+
+def create_route():
+    conn = db.connect('demo.db')
+    dbi = conn.cursor()
     dbi.execute('''CREATE TABLE routes (
     origin text,
     dest text,
@@ -18,15 +30,20 @@ def create_w_data():
     routeTime real,
     routeDist real,
     route text)''')
-    for loc in test_locations:
-        dbi.execute('''INSERT INTO locations (name, x, y) VALUES (?, ?, ?)''', (loc[0], loc[1], loc[2]))
-        conn.commit()
+    conn.commit()
     conn.close()
+
 
 def drop():
     conn = db.connect('demo.db')
     dbi = conn.cursor()
     dbi.execute('''DROP TABLE locations''')
+    conn.commit()
+    conn.close()
+
+def drop_routes():
+    conn = db.connect('demo.db')
+    dbi = conn.cursor()
     dbi.execute('''DROP TABLE routes''')
     conn.commit()
     conn.close()

@@ -31,11 +31,14 @@ def db_route_info():
 @app.route('/db/drop')
 def db_drop():
     db_mngr.drop()
+    db_mngr.drop_routes()
     return render_template('db.html')
 
 
 if __name__ == '__main__':
-    a_ok.test()
+    aok = False
+    while aok == False:
+        aok = a_ok.test()
     app.run(debug=True)
     #app.run()
     #app.run(host='0.0.0.0', port=80) #DOCKER
