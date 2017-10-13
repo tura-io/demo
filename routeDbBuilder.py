@@ -102,6 +102,6 @@ def rebuild_from_file():
     routefile.close()
 
 #Uncomment this to rebuild Routes from routes.txt
-# rebuild_from_file()
+rebuild_from_file()
 #Uncomment this to rebuild Routes from Mapbox API
-rebuild_from_api()
+# rebuild_from_api()

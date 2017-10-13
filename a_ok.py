@@ -43,7 +43,8 @@ def test():
                                 print('ERROR: routes table in DB is empty')
                                 print('INSERTING NEW DATA...')
                                 print()
-                                return False
+                                import routeDbBuilder
+                                return True
                     else:
                         print('ERROR: locations table in DB is empty')
                         print('INSERTING NEW DATA...')
