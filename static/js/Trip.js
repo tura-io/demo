@@ -42,14 +42,12 @@ class Trip {
     };
     // Calculate the distance in kilometers between route start/end point.
     var lineDistance = turf.lineDistance(route.features[0], 'kilometers');
-    console.log(lineDistance);
     var tweens = [];
 
     var numberOfFrames = 0;
-    console.log(this.Route.duration);
     // Draw an arc between the `origin` & `destination` of the two points
     for (var i = 0; i < 1000 * lineDistance; i++) {
-        var segment = turf.along(route.features[0], i / 1000* lineDistance, 'kilometers');
+        var segment = turf.along(route.features[0], i * .001, 'kilometers');
         tweens.push(segment.geometry.coordinates);
         numberOfFrames ++;
     }
@@ -110,7 +108,7 @@ class Trip {
         if (point.features[0].geometry.coordinates[0] !== myThis.Route.destCoords[0]) {
           setTimeout(function() {
             requestAnimationFrame(animate);
-          }, this.Speed);
+          }, myThis.Speed);
         }
     }
 
