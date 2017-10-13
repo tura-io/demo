@@ -12,6 +12,7 @@ class MapBox extends mapboxgl.Map {
     newTrip.Map = this;
     newTrip.addRoute();
     this.trips.push(newTrip);
+
     // TEMP: Probably make this next call from elsewhere?
     newTrip.animateRoute();
   }
@@ -32,6 +33,7 @@ class MapBox extends mapboxgl.Map {
       url: 'db/routes',
       dataType: 'json'
     });
+    console.log(response);
     for (let i = 0; i < response.length; i++) {
       let newRoute = new Route(response[i][0], response[i][1], JSON.parse(response[i][2]), JSON.parse(response[i][3]), response[i][4], response[i][5], JSON.parse(response[i][6]));
       this.routes.push(newRoute);
