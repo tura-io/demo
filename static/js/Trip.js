@@ -8,16 +8,12 @@ class Trip {
     this.tripType = tripType;
   }
 
-<<<<<<< HEAD
 
   addRoute() {
   //Designates a random route. TODO: remove this and add params to power this choice.
     var rand = Math.floor(Math.random() * (this.Map.routes.length));
     this.Route = this.Map.routes[rand];
   }
-=======
-  
->>>>>>> 1cf7e36ba789f59d21725756b120abcd4b8277d6
 
   animateRoute() {
     // A path line from origin to destination.
