@@ -5,32 +5,56 @@ def test():
     try:
         import location_list
     except:
-        print('ERROR: location_list.py')
-        return False
+        print('(!)ERROR: location_list.py might not exist')
+        print()
+        return True
     else:
-        locations = location_list.test_locations
-        if len(locations) > 0:
-            try:
-                locs = db_mngr.read()
-            except:
-                print('ERROR: locations table in DB might not exist')
-                return False
-            else:
-                if len(locs) > 0:
-                    try:
-                        routes = db_mngr.read_routes()
-                    except:
-                        print('ERROR: routes table in DB might not exist')
-                        return False
-                    else:
-                        if len(routes) > 0:
-                            return True
-                        else:
-                            print('ERROR: routes table in DB is empty')
-                            return False
-                else:
-                    print('ERROR: locations table in DB is empty')
-                    return False
+        try:
+            locations = location_list.test_locations
+        except:
+            print('(!)ERROR: location array might not exist')
+            print()
+            return True
         else:
-            print('ERROR: location_list is empty')
-            return False
+            if len(locations) > 0:
+                try:
+                    locs = db_mngr.read()
+                except:
+                    print('ERROR: locations table in DB might not exist')
+                    print('CREATING demo.db IF NULL...')
+                    print('CREATING NEW TABLE locations...')
+                    print()
+                    db_mngr.create_w_data()
+                    return False
+                else:
+                    if len(locs) > 0:
+                        try:
+                            routes = db_mngr.read_routes()
+                        except:
+                            print('ERROR: routes table in DB might not exist')
+                            print('CREATING NEW TABLE routes...')
+                            print()
+                            db_mngr.create_route()
+                            return False
+                        else:
+                            if len(routes) > 0:
+                                return True
+                            else:
+                                print('ERROR: routes table in DB is empty')
+                                print()
+                                answer = input('run routeDbBuilder.py? y/n')
+                                if answer == 'y':
+                                    import routeDbBuilder
+                                else:
+                                    return True
+                    else:
+                        print('ERROR: locations table in DB is empty')
+                        print('INSERTING NEW DATA...')
+                        print()
+                        db_mngr.drop()
+                        db_mngr.create_w_data()
+                        return False
+            else:
+                print('(!)ERROR: location_list is empty')
+                print()
+                return True
