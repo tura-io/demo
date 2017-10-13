@@ -1,26 +1,17 @@
+let id = 0
+
 class Trip {
 
   constructor(thisRider, thisDriver, tripType) {
-    (function() {
-        var id_counter = 1;
-        Object.defineProperty(Object.prototype, "__uniqueId", {
-            writable: true
-        });
-        Object.defineProperty(Object.prototype, "uniqueId", {
-            get: function() {
-                if (this.__uniqueId == undefined)
-                    this.__uniqueId = id_counter++;
-                return this.__uniqueId;
-            }
-        });
-    }());
+    this.Id = id;
+    id++;
     this.Map = {};
     this.Rider = thisRider;
     this.Driver = thisDriver;
     this.Route = {};
     this.tripType = tripType;
     //This controls the rate at which the car moves by controlling animation refresh rate. 75ms default refresh speed moves the car in approximate realtime at 30mph.
-    this.Speed = 75;
+    this.Speed = 0;
   }
 
   addRoute() {
@@ -69,19 +60,19 @@ class Trip {
     // Update the route with calculated arc coordinates
     route.features[0].geometry.coordinates = tweens;
 
-    this.Map.addSource('route', {
+    this.Map.addSource(`route-${this.Id}`, {
         'type': 'geojson',
         'data': route
     });
 
-    this.Map.addSource('point', {
+    this.Map.addSource(`point-${this.Id}`, {
         'type': 'geojson',
         'data': point
     });
 
     this.Map.addLayer({
-      'id': 'tripRoute', //NOTE: This should eventually hold a reference to some unique identifier for the trip. Probably include an ID in the class?
-      'source': 'route',
+      'id': `trip-route-${this.Id}`, //NOTE: This should eventually hold a reference to some  identifier for the trip. Probably include an ID in the class?
+      'source': `route-${this.Id}`,
       'type': 'line',
       'paint': {
         'line-width': 2,
@@ -90,8 +81,8 @@ class Trip {
     });
 
     this.Map.addLayer({
-        'id': 'point',
-        'source': 'point',
+        'id': `trip-point-${this.Id}`,
+        'source': `point-${this.Id}`,
         'type': 'symbol',
         'layout': {
             'icon-image': 'marker-15',
@@ -112,9 +103,9 @@ class Trip {
         point.features[0].geometry.coordinates = route.features[0].geometry.coordinates[0];
 
         // Update the route source with the new data.
-        myThis.Map.getSource('route').setData(route);
+        myThis.Map.getSource(`route-${myThis.Id}`).setData(route);
         // Update the source with this new data.
-        myThis.Map.getSource('point').setData(point);
+        myThis.Map.getSource(`point-${myThis.Id}`).setData(point);
 
         // Request the next frame of animation so long as destination has not
         // been reached.

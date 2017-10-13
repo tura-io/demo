@@ -35,7 +35,7 @@ $(function () {
     });
 
     map.addTrip();
-    // map.addTrip();
-    // map.addTrip();
+    map.addTrip();
+    map.addTrip();
   });
 });
