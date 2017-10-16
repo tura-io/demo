@@ -85,7 +85,7 @@ def rebuild_from_file():
         origin = pairs[idx][0]
         destination = pairs[idx][1]
         idx += 1
-        print(idx)
+        # print(idx)
         #Rebuild memory object from JSON
         result = json.loads(line)
         #Grab relevant keys
