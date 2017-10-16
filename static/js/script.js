@@ -34,8 +34,8 @@ $(function () {
       }
     });
 
-    map.addTrip();
-    map.addTrip();
-    map.addTrip();
+    for (var i = 0; i < 4; i++) {
+      map.addTrip();
+    }
   });
 });
