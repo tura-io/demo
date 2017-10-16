@@ -11,7 +11,7 @@ class MapBox extends mapboxgl.Map {
     let newTrip = new Trip('rider_placeholder','driver_placeholder','type_placeholder');
     newTrip.Map = this;
     newTrip.addRoute();
-    this.trips.push(newTrip);
+    this.trips.push(newTrip);http://desalasworks.com/article/javascript-performance-techniques/
 
     // TEMP: Probably make this next call from elsewhere?
     newTrip.animateRoute();
@@ -28,7 +28,7 @@ class MapBox extends mapboxgl.Map {
     };
   }
 
-  async setRoutes() { //TODO: async issue, revise
+  async setRoutes() { //TODO: async http://desalasworks.com/article/javascript-performance-techniques/issue, revise
     let response = await $.ajax({
       url: 'db/routes',
       dataType: 'json'

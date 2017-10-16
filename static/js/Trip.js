@@ -10,8 +10,16 @@ class Trip {
     this.Driver = thisDriver;
     this.Route = {};
     this.tripType = tripType;
-    //This controls the rate at which the car moves by controlling animation refresh rate. 75ms default refresh speed moves the car in approximate realtime at 30mph.
+    //This controls the rate at which the car moves by controlling animation refresh rate. 75ms default refresh speed moves the car in approximate realtime at 30mph. The current default, 0, allows the map to animate as quickly as it's able.
     this.Speed = 0;
+    this.Color = (function() {
+      let letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }());
   }
 
   addRoute() {
@@ -75,8 +83,8 @@ class Trip {
       'source': `route-${this.Id}`,
       'type': 'line',
       'paint': {
-        'line-width': 2,
-        'line-color': '#007cbf'
+        'line-width': 4,
+        'line-color': this.Color
       }
     });
 
@@ -90,7 +98,7 @@ class Trip {
         },
         'paint': {
           //NOTE: This should control the color of the icon, but currently doesn't. It requires an 'sdf icon' to work, which I thought we were using. But maybe I'm wrong.
-            'icon-color': '#FFFFFF',
+            'icon-color': this.Color,
         }
     });
 
