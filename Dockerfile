@@ -18,6 +18,8 @@ RUN pip3 install -r Requirements.txt
 
 COPY . /app
 
+EXPOSE 80
+
 ENTRYPOINT ["python3"]
 
 CMD ["demo.py"]
