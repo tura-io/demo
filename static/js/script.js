@@ -7,14 +7,11 @@ $(function () {
   map.setLocations();
   // console.log("Locations:");
   // console.log(map.locations);
-  //
   map.setRoutes();
   // console.log("Routes:");
   // console.log(map.routes);
 
   map.on('load', function() {
-    // console.log(map.locations[0]);
-    // console.log(map.routes[0]);
     map.addLayer({
       "id": "location-list",
       "type": "symbol",

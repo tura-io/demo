@@ -107,7 +107,7 @@ class Trip {
         tweens.push(segment.geometry.coordinates);
         numberOfFrames ++;
     }
-    console.log(`Frames in route: ${numberOfFrames}`);
+    // console.log(`Frames in route: ${numberOfFrames}`);
 
     // Update the route with calculated arc coordinates
     route.features[0].geometry.coordinates = tweens;
@@ -149,7 +149,9 @@ class Trip {
     let myThis = this;
     function animate() {
         //Shorten route geometry
-        route.features[0].geometry.coordinates.splice(0, 1);
+        if (route.features[0].geometry.coordinates.length > 1) {
+          route.features[0].geometry.coordinates.splice(0, 1);
+        }
         // Update point geometry to a new position based on counter denoting
         // the index to access the arc.
         point.features[0].geometry.coordinates = route.features[0].geometry.coordinates[0];
@@ -162,10 +164,18 @@ class Trip {
         myThis.emitNoisy(1, 5, 1);
         // Request the next frame of animation so long as destination has not
         // been reached.
-        if (point.features[0].geometry.coordinates[0] !== myThis.Route.destCoords[0]) {
+        if (route.features[0].geometry.coordinates.length < 5) {
+          // console.log(route.features[0].geometry.coordinates[route.features[0].geometry.coordinates.length - 1]);
+          console.log(`${point.features[0].geometry.coordinates[0]} & ${route.features[0].geometry.coordinates[route.features[0].geometry.coordinates.length - 1][0]}`);
+        }
+        if (point.features[0].geometry.coordinates[0]
+            !==
+            route.features[0].geometry.coordinates[route.features[0].geometry.coordinates.length - 1][0]) {
           setTimeout(function() {
             requestAnimationFrame(animate);
           }, myThis.Speed);
+        } else {
+          console.log('Sabrina Fair');
         }
     }
 

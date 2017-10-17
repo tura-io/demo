@@ -6,8 +6,8 @@ class MapBox extends mapboxgl.Map {
     this.routes = [];
     this.trips = [];
 
-    this.maxTrips = 4; //NOTE: Make sure this works with Driver->Rider Trips the way we want.
-    this.tripSpawnInterval = 2500; //ms
+    this.maxTrips = 1; //NOTE: Make sure this works with Driver->Rider Trips the way we want.
+    this.tripSpawnInterval = 250; //ms
     this.intervalId = 0;
   }
 
