@@ -2,14 +2,13 @@ let id = 0
 
 class Trip {
 
-  constructor(thisRider, thisDriver, tripType) {
+  constructor(thisRider, thisDriver) {
     this.Id = id;
     id++;
     this.Map = {};
     this.Rider = thisRider;
     this.Driver = thisDriver;
     this.Route = {};
-    this.tripType = tripType;
     //This controls the rate at which the car moves by controlling animation refresh rate. 75ms default refresh speed moves the car in approximate realtime at 30mph. The current default, 0, allows the map to animate as quickly as it's able.
     this.Speed = 0;
     this.Color = (function() {
@@ -52,6 +51,17 @@ class Trip {
             }
         }]
     };
+
+    let dest = {
+      'type': 'FeatureCollection',
+      'features': [{
+          'type': 'Feature',
+          'geometry': {
+              'type': 'Point',
+              'coordinates': this.Route.destCoords
+          }
+      }]
+    };
     // Calculate the distance in kilometers between route start/end point.
     var lineDistance = turf.lineDistance(route.features[0], 'kilometers');
     var tweens = [];
@@ -78,6 +88,11 @@ class Trip {
         'data': point
     });
 
+    this.Map.addSource(`dest-${this.Id}`, {
+        'type': 'geojson',
+        'data': dest
+    });
+
     this.Map.addLayer({
       'id': `trip-route-${this.Id}`, //NOTE: This should eventually hold a reference to some  identifier for the trip. Probably include an ID in the class?
       'source': `route-${this.Id}`,
@@ -93,13 +108,26 @@ class Trip {
         'source': `point-${this.Id}`,
         'type': 'symbol',
         'layout': {
-            'icon-image': 'marker-15',
+            'icon-image': 'marker-11',
             'icon-offset': [0, -6]
         },
         'paint': {
           //NOTE: This should control the color of the icon, but currently doesn't. It requires an 'sdf icon' to work, which I thought we were using. But maybe I'm wrong.
             'icon-color': this.Color,
         }
+    });
+
+    this.Map.addLayer({
+      'id': `trip-dest-${this.Id}`,
+      'source': `dest-${this.Id}`,
+      'type': 'symbol',
+      'layout': {
+          'icon-image': 'marker-15',
+          'icon-offset': [0, -6]
+      },
+      'paint': {
+          'icon-color': this.Color,
+      }
     });
 
     let myThis = this;
