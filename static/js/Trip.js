@@ -28,6 +28,39 @@ class Trip {
     this.Route = this.Map.routes[rand];
   }
 
+  emitNoisy(failPercent, minorAbbPercent, majorAbbPercent) {
+    let src = this.Map.getSource(`point-${this.Id}`);
+    let loc = src._options.data.features[0].geometry.coordinates;
+    //Add noise to location.
+    //NOTE: 1 block ~ .001 lat/lng. Also, lat/lng numbers have 14 decimal places.
+    if (Math.random() * 101 > minorAbbPercent) {
+      loc.map(e => {
+        let abb = (Math.random() * .001).toPrecision(11);
+        if (Math.floor(Math.random() * 2) == 0) {
+          // console.log(`abb + ${abb}`);
+          e += abb;
+        } else {
+          // console.log(`abb - ${abb}`);
+          e -= abb;
+        }
+      })
+    }
+
+    //Package up to object to be sent to aggregation systems.
+    let objectToEmit = {
+      'id': this.Id,
+      'dataType': 'array',
+      'timestamp': 'NOT IMPLEMENTED YET',
+      'location': loc
+    };
+    //Emit data if we didn't roll fail-to-emit
+    if (Math.random() * 101 > failPercent) {
+      console.log(objectToEmit);
+    } else {
+      console.log('Data failed to send.');
+    }
+  }
+
   animateRoute() {
     // A path line from origin to destination.
     var route = {
@@ -98,7 +131,7 @@ class Trip {
         },
         'paint': {
           //NOTE: This should control the color of the icon, but currently doesn't. It requires an 'sdf icon' to work, which I thought we were using. But maybe I'm wrong.
-            'icon-color': this.Color,
+            'icon-color': this.Color
         }
     });
 
@@ -114,7 +147,8 @@ class Trip {
         myThis.Map.getSource(`route-${myThis.Id}`).setData(route);
         // Update the source with this new data.
         myThis.Map.getSource(`point-${myThis.Id}`).setData(point);
-
+        //TEMP: In final code, this call this emit data to a Kafka
+        myThis.emitNoisy(1, 10, 1);
         // Request the next frame of animation so long as destination has not
         // been reached.
         if (point.features[0].geometry.coordinates[0] !== myThis.Route.destCoords[0]) {
