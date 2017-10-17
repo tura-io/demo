@@ -2,14 +2,13 @@ let id = 0
 
 class Trip {
 
-  constructor(thisRider, thisDriver, tripType) {
+  constructor(thisRider, thisDriver) {
     this.Id = id;
     id++;
     this.Map = {};
     this.Rider = thisRider;
     this.Driver = thisDriver;
     this.Route = {};
-    this.tripType = tripType;
     //This controls the rate at which the car moves by controlling animation refresh rate. 75ms default refresh speed moves the car in approximate realtime at 30mph. The current default, 0, allows the map to animate as quickly as it's able.
     this.Speed = 0;
     this.Color = (function() {
