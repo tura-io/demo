@@ -164,10 +164,6 @@ class Trip {
         myThis.emitNoisy(1, 5, 1);
         // Request the next frame of animation so long as destination has not
         // been reached.
-        if (route.features[0].geometry.coordinates.length < 5) {
-          // console.log(route.features[0].geometry.coordinates[route.features[0].geometry.coordinates.length - 1]);
-          console.log(`${point.features[0].geometry.coordinates[0]} & ${route.features[0].geometry.coordinates[route.features[0].geometry.coordinates.length - 1][0]}`);
-        }
         if (point.features[0].geometry.coordinates[0]
             !==
             route.features[0].geometry.coordinates[route.features[0].geometry.coordinates.length - 1][0]) {
@@ -175,7 +171,7 @@ class Trip {
             requestAnimationFrame(animate);
           }, myThis.Speed);
         } else {
-          console.log('Sabrina Fair');
+          myThis.complete();
         }
     }
 
@@ -183,7 +179,17 @@ class Trip {
     animate();
   }
 
-  isTripComplete() {
-    console.log('works');
+  complete() {
+    // remove trip from those listed on the map
+    this.Map.trips.splice(
+      this.Map.trips.indexOf(e => e.Id === this.Id), 1);
+    // remove point and route layers from the map
+    this.Map.removeLayer(`trip-route-${this.Id}`);
+    this.Map.removeLayer(`trip-point-${this.Id}`);
+    // remove sources from the map
+    this.Map.removeSource(`route-${this.Id}`);
+    this.Map.removeSource(`point-${this.Id}`);
+
+    this.Map.reinitialize();
   }
 }
