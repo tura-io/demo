@@ -1,6 +1,4 @@
 let id = 0
-let total = 0;
-let failCount = 0;
 
 class Trip {
 
@@ -35,9 +33,23 @@ class Trip {
     let loc = src._options.data.features[0].geometry.coordinates;
     //Add noise to location.
     //NOTE: 1 block ~ .001 lat/lng. Also, lat/lng numbers have 14 decimal places.
-    if (Math.random() * 101 > minorAbbPercent) {
+    if (Math.random() * 101 < minorAbbPercent) {
       loc = loc.map(e => {
         let abb = (Math.random() * .001).toPrecision(11);
+        if (Math.floor(Math.random() * 2) == 0) {
+          // console.log(`abb + ${abb}`);
+          e += abb;
+        } else {
+          // console.log(`${e} - ${abb}`);
+          e -= abb;
+        }
+      });
+    }
+
+    //Major abberations are the same as minor ones, but an order of magnitude larger.
+    if (Math.random() * 101 < majorAbbPercent) {
+      loc = loc.map(e => {
+        let abb = (Math.random() * .01).toPrecision(12);
         if (Math.floor(Math.random() * 2) == 0) {
           // console.log(`abb + ${abb}`);
           e += abb;
@@ -59,13 +71,9 @@ class Trip {
     if (Math.random() * 101 > failPercent) {
       // console.log(objectToEmit);
       console.log('Data sent.');
-      total++;
-      failCount++;
     } else {
       console.log('Data failed to send.');
-      total++;
     }
-    console.log(failCount / total);
   }
 
   animateRoute() {
@@ -155,7 +163,7 @@ class Trip {
         // Update the source with this new data.
         myThis.Map.getSource(`point-${myThis.Id}`).setData(point);
         //TEMP: In final code, this call this emit data to a Kafka
-        myThis.emitNoisy(25, 10, 1);
+        myThis.emitNoisy(1, 5, 1);
         // Request the next frame of animation so long as destination has not
         // been reached.
         if (point.features[0].geometry.coordinates[0] !== myThis.Route.destCoords[0]) {
