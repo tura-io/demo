@@ -101,9 +101,11 @@ class Trip {
     var tweens = [];
 
     var numberOfFrames = 0;
+    //NOTE: One possible optimization route is decreasing the resolution of the animations. I've made that easily controllable from within source by adding the variable below:
+    var resolution = 40;
     // Draw an arc between the `origin` & `destination` of the two points
-    for (var i = 0; i < 1000 * lineDistance; i++) {
-        var segment = turf.along(route.features[0], i * .001, 'kilometers');
+    for (var i = 0; i < resolution * lineDistance; i++) {
+        var segment = turf.along(route.features[0], i / resolution, 'kilometers');
         tweens.push(segment.geometry.coordinates);
         numberOfFrames ++;
     }
@@ -128,7 +130,8 @@ class Trip {
       'type': 'line',
       'paint': {
         'line-width': 4,
-        'line-color': this.Color
+        'line-color': this.Color,
+        'line-opacity': .4
       }
     });
 
