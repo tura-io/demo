@@ -5,16 +5,36 @@ class MapBox extends mapboxgl.Map {
     this.locations = [];
     this.routes = [];
     this.trips = [];
+
+    this.maxTrips = 4; //NOTE: Make sure this works with Driver->Rider Trips the way we want.
+    this.tripSpawnInterval = 2500; //ms
+    this.intervalId = 0;
+  }
+
+  initialize() {
+    let myThis = this;
+    //NOTE: This looks like an unnecessarily verbose way to set up the interval, but it solves a this-scoping issue which arises otherwise.
+    this.intervalId = setInterval(function() {
+      myThis.addTrip();
+    }, this.tripSpawnInterval);
+  }
+
+  reinitialize() {
+    console.log(`Stopping: ${this.intervalId}`);
+    clearInterval(this.intervalId);
   }
 
   addTrip() {
-    let newTrip = new Trip('rider_placeholder','driver_placeholder','type_placeholder');
-    newTrip.Map = this;
-    newTrip.addRoute();
-    this.trips.push(newTrip);http://desalasworks.com/article/javascript-performance-techniques/
+    if (this.trips.length < this.maxTrips) {
+      console.log(`Current trips: ${this.trips.length}. Adding one.`);
+      let newTrip = new Trip('rider_placeholder','driver_placeholder','type_placeholder');
+      newTrip.Map = this;
+      newTrip.addRoute();
+      this.trips.push(newTrip);http://desalasworks.com/article/javascript-performance-techniques/
 
-    // TEMP: Probably make this next call from elsewhere?
-    newTrip.animateRoute();
+      // TEMP: Probably make this next call from elsewhere?
+      newTrip.animateRoute();
+    }
   }
 
   async setLocations() {  //TODO: still has asnyc issues, revise

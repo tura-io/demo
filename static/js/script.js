@@ -13,8 +13,8 @@ $(function () {
   // console.log(map.routes);
 
   map.on('load', function() {
-    console.log(map.locations[0]);
-    console.log(map.routes[0]);
+    // console.log(map.locations[0]);
+    // console.log(map.routes[0]);
     map.addLayer({
       "id": "location-list",
       "type": "symbol",
@@ -34,8 +34,6 @@ $(function () {
       }
     });
 
-    for (var i = 0; i < 1; i++) {
-      map.addTrip();
-    }
+    map.initialize();
   });
 });

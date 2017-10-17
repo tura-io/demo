@@ -37,10 +37,8 @@ class Trip {
       loc = loc.map(e => {
         let abb = (Math.random() * .001).toPrecision(11);
         if (Math.floor(Math.random() * 2) == 0) {
-          // console.log(`abb + ${abb}`);
           e += abb;
         } else {
-          // console.log(`${e} - ${abb}`);
           e -= abb;
         }
       });
@@ -51,10 +49,8 @@ class Trip {
       loc = loc.map(e => {
         let abb = (Math.random() * .01).toPrecision(12);
         if (Math.floor(Math.random() * 2) == 0) {
-          // console.log(`abb + ${abb}`);
           e += abb;
         } else {
-          // console.log(`${e} - ${abb}`);
           e -= abb;
         }
       });
@@ -70,9 +66,9 @@ class Trip {
     //Emit data if we didn't roll fail-to-emit
     if (Math.random() * 101 > failPercent) {
       // console.log(objectToEmit);
-      console.log('Data sent.');
+      // console.log('Data sent.');
     } else {
-      console.log('Data failed to send.');
+      // console.log('Data failed to send.');
     }
   }
 
