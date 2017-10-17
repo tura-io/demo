@@ -189,7 +189,5 @@ class Trip {
     // remove sources from the map
     this.Map.removeSource(`route-${this.Id}`);
     this.Map.removeSource(`point-${this.Id}`);
-
-    this.Map.reinitialize();
   }
 }
