@@ -21,6 +21,6 @@ def db_read_routes():
     return json.dumps(all_routes)
 
 if __name__ == '__main__':
-    #app.run(debug=True)
+    app.run(debug=True)
     #app.run()
-    app.run(host='0.0.0.0', port=80) #DOCKER
+    #app.run(host='0.0.0.0', port=80) #DOCKER

@@ -170,7 +170,7 @@ class Trip {
       'type': 'symbol',
       'layout': {
           'icon-image': 'marker-15',
-          'icon-offset': [0, -6]
+          'icon-offset': [0, 0]
       },
       'paint': {
           'icon-color': this.Color,
@@ -217,8 +217,10 @@ class Trip {
     // remove point and route layers from the map
     this.Map.removeLayer(`trip-route-${this.Id}`);
     this.Map.removeLayer(`trip-point-${this.Id}`);
+    this.Map.removeLayer(`trip-dest-${this.Id}`);
     // remove sources from the map
     this.Map.removeSource(`route-${this.Id}`);
     this.Map.removeSource(`point-${this.Id}`);
+    this.Map.removeSource(`dest-${this.Id}`);
   }
 }
