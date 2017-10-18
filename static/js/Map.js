@@ -48,15 +48,23 @@ class MapBox extends mapboxgl.Map {
     };
   }
 
-  async setRoutes() { //TODO: http://desalasworks.com/article/javascript-performance-techniques/issue
-    let response = await $.ajax({
+  routeCall() {
+    return $.ajax({
       url: 'db/routes',
-      dataType: 'json'
+      dataType: 'json',
+      type: 'GET'
     });
-    for (let i = 0; i < response.length; i++) {
-      let newRoute = new Route(response[i][0], response[i][1], JSON.parse(response[i][2]), JSON.parse(response[i][3]), response[i][4], response[i][5], JSON.parse(response[i][6]));
-      this.routes.push(newRoute);
-    };
   }
-
+  setRoutes() {
+    let thus = this;
+    this.routeCall().then(function(response) {
+      for (let i = 0; i < response.length; i++) {
+        let newRoute = new Route(response[i][0], response[i][1], JSON.parse(response[i][2]), JSON.parse(response[i][3]), response[i][4], response[i][5], JSON.parse(response[i][6]));
+        thus.routes.push(newRoute);
+      };
+    });
+  }
+  async setRoutesHelper() {
+    await this.setRoutes();
+  }
 }
