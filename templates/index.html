@@ -11,6 +11,11 @@
     src="https://code.jquery.com/jquery-3.2.1.min.js"
     integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
     crossorigin="anonymous"></script>
+    <!-- Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Materialize JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     <!-- Our CSS and JS -->
     <link rel="stylesheet" href="/static/css/master.css">
     <script src="/static/js/mapbox_token.js" charset="utf-8"></script>
@@ -26,9 +31,44 @@
   </head>
   <body>
     <div id='map'></div>
-
+    <div class='container'>
+      <div id='driver-list' class=''>
+        <ul class="collection">
+          <li class="collection-item"><div>Alvin<a href="#!" class="secondary-content"><i class="material-icons">fiber_manual_record</i></a></div></li>
+        </ul>
+      </div>
+      <div id='controls' class=''>
+        <ul>
+          <li class="control-panel">
+            <div class="right-align">
+              <span>Driver Population:   </span>
+              <a class="btn-floating waves-effect waves-light"><i class="material-icons">add</i></a>
+              <div class='control-panel-number'>##</div>
+              <a class="btn-floating waves-effect waves-light"><i class="material-icons">remove</i></a>
+            </div>
+          </li>
+          <li class="control-panel">
+            <div class="right-align">
+              <span>Passenger Max:   </span>
+              <a class="btn-floating btn-sm waves-effect waves-light"><i class="material-icons">add</i></a>
+              <div class='control-panel-number'>##</div>
+              <a class="btn-floating btn-small waves-effect waves-light"><i class="material-icons">remove</i></a>
+            </div>
+          </li>
+          <li class="control-panel">
+            <div class="right-align">
+              <span>Passenger Spawn Rate:   </span>
+              <a class="btn-floating btn-sm waves-effect waves-light"><i class="material-icons">add</i></a>
+              <div class='control-panel-number'>##</div>
+              <a class="btn-floating btn-small waves-effect waves-light"><i class="material-icons">remove</i></a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
     <!-- JS Scripts -->
     <script src="/static/js/script.js" charset="utf-8"></script>
+    <script src="/static/js/interface.js" charset="utf-8"></script>
     <!-- <script src="/static/js/anim.js" charset="utf-8"></script> -->
   </body>
 </html>

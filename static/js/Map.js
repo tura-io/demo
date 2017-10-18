@@ -26,7 +26,7 @@ class MapBox extends mapboxgl.Map {
 
   addTrip() {
     if (this.trips.length < this.maxTrips) {
-      console.log(`Current trips: ${this.trips.length}. Adding one.`);
+      // console.log(`Current trips: ${this.trips.length}. Adding one.`);
       let newTrip = new Trip('rider_placeholder','driver_placeholder','type_placeholder');
       newTrip.Map = this;
       newTrip.addRoute();

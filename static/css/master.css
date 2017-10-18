@@ -1,6 +1,46 @@
 #map {
+  z-index: 0;
+
   position: absolute;
   top: 0;
   bottom: 0;
   width: 100%;
+}
+
+#driver-list {
+  z-index: 1;
+
+  /*height: 70%;*/
+  width: 20%;
+
+  position: absolute;
+  top: 5vh;
+  left: 5vh;
+}
+
+#controls {
+  z-index: 1;
+
+  /*height: 70%;*/
+  width: 20%;
+
+  position: absolute;
+  top: 5vh;
+  right: 5vh;
+
+}
+
+.control-panel {
+  margin-bottom: 15px;
+}
+
+.control-panel-number {
+  display: inline-block;
+  text-align: center;
+  width: 35px;
+}
+
+.collection-item {
+  color: red;
+  height: 35px;
 }
