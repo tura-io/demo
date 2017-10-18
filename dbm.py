@@ -11,10 +11,5 @@ class DBManager(object):
         result = self.dbi.fetchall()
         return result
 
-    def select_query(self, arg):
-        self.dbi.execute(arg)
-        result = self.dbi.fetchall()
-        return result
-
     def __del__(self):
         self.conn.close()
