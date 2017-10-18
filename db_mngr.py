@@ -63,11 +63,3 @@ def read_routes():
     route_result = dbi.fetchall()
     conn.close()
     return route_result
-
-def read_route_info():
-    conn = db.connect('demo.db')
-    dbi = conn.cursor()
-    dbi.execute('''SELECT origin, dest, originCoords, destCoords, routeTime, routeDist FROM routes''')
-    route_info = dbi.fetchall()
-    conn.close()
-    return route_info
