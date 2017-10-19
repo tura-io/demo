@@ -12,16 +12,15 @@ class MapBox extends mapboxgl.Map {
   }
 
   initialize() {
+    if (this.intervalId !== 0) {
+      console.log(`Stopping: ${this.intervalId}`);
+      clearInterval(this.intervalId);
+    }
     let myThis = this;
     //NOTE: This looks like an unnecessarily verbose way to set up the interval, but it solves a this-scoping issue which arises otherwise.
     this.intervalId = setInterval(function() {
       myThis.addTrip();
     }, this.tripSpawnInterval);
-  }
-
-  reinitialize() {
-    console.log(`Stopping: ${this.intervalId}`);
-    clearInterval(this.intervalId);
   }
 
   addTrip() {
