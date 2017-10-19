@@ -23,6 +23,18 @@ $(function () {
   });
 
   //Control Maximum Passengers
-
+  $('#passenger-max-plus').click(function() {
+    //NOTE: This sets a default maximum number of passengers at 10, which is much lower than we'd like, but will keep things from chugging. Hopefully this can be raised after optimization.
+    if (map.maxTrips < 10) {
+      map.maxTrips += 1;
+      $('#passenger-max').text(map.maxTrips);
+    }
+  });
+  $('#passenger-max-minus').click(function() {
+    if (map.maxTrips > 0) {
+      map.maxTrips -= 1;
+      $('#passenger-max').text(map.maxTrips);
+    }
+  });
   //Control Driver Population
 });
