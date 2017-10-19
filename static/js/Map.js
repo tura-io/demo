@@ -30,10 +30,12 @@ class MapBox extends mapboxgl.Map {
       let newTrip = new Trip('rider_placeholder','driver_placeholder','type_placeholder');
       newTrip.Map = this;
       newTrip.addRoute();
-      this.trips.push(newTrip);http://desalasworks.com/article/javascript-performance-techniques/
+      this.trips.push(newTrip);
 
       // TEMP: Probably make this next call from elsewhere?
       newTrip.animateRoute();
+      //TEMP: This should not be here, once we have actual drivers implemented.
+      $('#driver-pop').text(map.trips.length);
     }
   }
 

@@ -1,12 +1,13 @@
+let map;
+
 $(function () {
   mapboxgl.accessToken = accessToken;
 
-  let map = new MapBox({container: 'map',
+  map = new MapBox({container: 'map',
                         style: 'mapbox://styles/mapbox/light-v9',
                         center: [-122.674793, 45.516233],
                         interactive: false,
                         zoom: 13.5});
-
   //TEMP: The next six lines seem like they should generate async errors, but currently usually don't.
   map.setLocations();
   // console.log("Locations:");
