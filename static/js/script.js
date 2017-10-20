@@ -11,7 +11,6 @@ $(function () {
   // map.setLocations();
   map.setRoutesHelper();
   map.driverPool();
-  console.log(map.drivers);
 
   map.on('load', function() {
 

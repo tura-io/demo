@@ -6,6 +6,7 @@ class MapBox extends mapboxgl.Map {
     this.routes = [];
     this.trips = [];
     this.drivers = [];
+    this.c = 0;
 
     this.maxTrips = 10; //NOTE: Make sure this works with Driver->Rider Trips the way we want.
     this.tripSpawnInterval = 500; //ms
@@ -16,7 +17,6 @@ class MapBox extends mapboxgl.Map {
 //////////////////////////////////////////////////////////// TRIP INIT
   initialize() {
     let myThis = this;
-    //NOTE: This looks like an unnecessarily verbose way to set up the interval, but it solves a this-scoping issue which arises otherwise.
     this.intervalId = setInterval(function() {
       myThis.addTrip();
     }, this.tripSpawnInterval);
@@ -30,10 +30,15 @@ class MapBox extends mapboxgl.Map {
   addTrip() {
     if (this.trips.length < this.maxTrips) {
       // console.log(`Current trips: ${this.trips.length}. Adding one.`);
-      let newTrip = new Trip('rider_placeholder','driver_placeholder');
+      let newTrip = new Trip(this.drivers[this.c]);
+      if(this.c < (this.amountOfDrivers - 1)) {
+        this.c++;
+      }else {
+        this.c = 0;
+      };
       newTrip.Map = this;
       newTrip.addRoute();
-      this.trips.push(newTrip);//http://desalasworks.com/article/javascript-performance-techniques/
+      this.trips.push(newTrip);
 
       // TEMP: Probably make this next call from elsewhere?
       newTrip.animateRoute();
@@ -42,9 +47,9 @@ class MapBox extends mapboxgl.Map {
 
   driverPool() {
     let names = ['Parham', 'Justine', 'David', 'Molly', 'Cedar', 'Jack', 'Rachel', 'Bob', 'Cheryl', 'Ricky'];
-    for (let i = 0; i <= this.amountOfDrivers; i++) {
+    for (let i = 0; i < this.amountOfDrivers; i++) {
       let newDriver = new Driver();
-      if(names.length == this.amountOfDrivers) {
+      if(this.amountOfDrivers <= names.length) {
         newDriver.name = names[i];
       };
       this.drivers.push(newDriver);
