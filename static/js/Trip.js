@@ -97,8 +97,8 @@ class Trip {
         }]
     };
     for(let i = 0; i < this.Map.drivers.length; i++) {
-      if(this.drivers[i].location == undefined) {
-        this.drivers[i].location = this.Route.originCoords;
+      if(this.Map.drivers[i].location == undefined) {
+        this.Map.drivers[i].location = this.Route.originCoords;
       };
     };
 

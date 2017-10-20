@@ -11,7 +11,7 @@ $(function () {
   //TEMP: The next six lines seem like they should generate async errors, but currently usually don't.
   // map.setLocations();
   map.setRoutesHelper();
-  map.driverPool();
+  map.initDriverPool();
   console.log(map.drivers);
 
   map.on('load', function() {

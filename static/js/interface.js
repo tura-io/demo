@@ -1,8 +1,11 @@
 $(function () {
-  //TEMP: All of the values currently displaying should be reset to other keys later.
-  $('#driver-pop').text(map.trips.length);
+  //Initialize control value displays.
+  $('#driver-pop').text(map.drivers.length);
   $('#passenger-max').text(map.maxTrips);
   $('#passenger-spawn-rate').text(map.tripSpawnInterval);
+
+  //Initialize Driver list
+  updateDriverList();
 
   //Control Passenger Spawn Rate
   $('#passenger-spawn-plus').click(function() {
@@ -39,8 +42,19 @@ $(function () {
   //Control Driver Population
   $('#driver-pop-plus').click(function() {
     map.addDriver();
+    updateDriverList();
   });
   $('#driver-pop-minus').click(function() {
     map.removeDriver();
+    updateDriverList();
   });
 });
+
+function updateDriverList () {
+  $('#driver-list > .collection').empty();
+  for (var i = 0; i < map.drivers.length; i++) {
+    $('#driver-list > .collection').append(
+      `<li class="collection-item"><div>${map.drivers[i].name}<a href="#!" class="secondary-content"><i class="material-icons">fiber_manual_record</i></a></div></li>`
+    );
+  }
+}

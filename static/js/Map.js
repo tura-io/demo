@@ -10,6 +10,8 @@ class MapBox extends mapboxgl.Map {
     this.maxTrips = 10; //NOTE: Make sure this works with Driver->Rider Trips the way we want.
     this.tripSpawnInterval = 500; //ms
     this.intervalId = 0;
+    this.initialDrivers = 10;
+    this.driverNames = ['Parham', 'Justine', 'David', 'Molly', 'Cedar', 'Jack', 'Rachel', 'Bob', 'Cheryl', 'Ricky'];
   }
 
   initialize() {
@@ -24,6 +26,16 @@ class MapBox extends mapboxgl.Map {
     }, this.tripSpawnInterval);
   }
 
+  initDriverPool() {
+    for (let i = 0; i <= this.initialDrivers; i++) {
+      let newDriver = new Driver();
+      if(this.driverNames.length == this.initialDrivers) {
+        newDriver.name = this.driverNames[i];
+      };
+      this.drivers.push(newDriver);
+    };
+  }
+
   addDriver() {
     //NOTE: This is a dummy method designed to be called by the Driver Population controls
     console.log('plus one driver');
@@ -33,8 +45,8 @@ class MapBox extends mapboxgl.Map {
   }
 
   removeDriver() {
-    //NOTE: This is a dummy method designed to be called by the Driver Population controls
-    console.log('minus one driver');
+    this.drivers.splice(Math.floor(Math.random() * this.drivers.length), 1);
+    console.log(this.drivers);
   }
 
   addTrip() {
@@ -63,15 +75,34 @@ class MapBox extends mapboxgl.Map {
     };
   }
 
-  async setRoutes() { //TODO: async http://desalasworks.com/article/javascript-performance-techniques/issue, revise
-    let response = await $.ajax({
+  //////////////////////////////////////////////////////////// API / AJAX
+  routeCall() {
+    return $.ajax({
       url: 'db/routes',
+      dataType: 'json',
+      type: 'GET'
+    });
+  }
+  setRoutes() {
+    let thus = this;
+    this.routeCall().then(function(response) {
+      for (let i = 0; i < response.length; i++) {
+        let newRoute = new Route(response[i][0], response[i][1], JSON.parse(response[i][2]), JSON.parse(response[i][3]), response[i][4], response[i][5], JSON.parse(response[i][6]));
+        thus.routes.push(newRoute);
+      };
+    });
+  }
+  async setRoutesHelper() {
+    await this.setRoutes();
+  }
+  async setLocations() {
+    let result = await $.ajax({
+      url: 'db/read',
       dataType: 'json'
     });
-    for (let i = 0; i < response.length; i++) {
-      let newRoute = new Route(response[i][0], response[i][1], JSON.parse(response[i][2]), JSON.parse(response[i][3]), response[i][4], response[i][5], JSON.parse(response[i][6]));
-      this.routes.push(newRoute);
+    for (let i = 0; i < result.length; i++) {
+      let location = new Point(result[i][0], result[i][1], result[i][2]);
+      this.locations.push(location);
     };
   }
-
 }
