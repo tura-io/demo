@@ -7,8 +7,6 @@ $(function () {
                         // interactive: false,
                         zoom: 13.5});
 
-  //TEMP: The next six lines seem like they should generate async errors, but currently usually don't.
-  // map.setLocations();
   map.setRoutesHelper();
   map.driverPool();
 

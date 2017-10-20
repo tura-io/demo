@@ -31,6 +31,7 @@ class MapBox extends mapboxgl.Map {
     if (this.trips.length < this.maxTrips) {
       // console.log(`Current trips: ${this.trips.length}. Adding one.`);
       let newTrip = new Trip(this.drivers[this.c]);
+      this.drivers[this.c].isHired = true;
       if(this.c < (this.amountOfDrivers - 1)) {
         this.c++;
       }else {

@@ -217,6 +217,7 @@ class Trip {
     // remove trip from those listed on the map
     this.Map.trips.splice(
       this.Map.trips.indexOf(e => e.Id === this.Id), 1);
+      this.Driver.isHired = false;
     // remove point and route layers from the map
     this.Map.removeLayer(`trip-route-${this.Id}`);
     this.Map.removeLayer(`trip-point-${this.Id}`);
