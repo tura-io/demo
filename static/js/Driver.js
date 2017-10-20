@@ -1,12 +1,12 @@
 class Driver extends Person {
 
-  constructor(person, isOccupied) {
-    super(person.ID, person.Role, person.Name, person.CurrentLocation);
-    this.isOccupied = isOccupied;
+  constructor(location, isHired = false) { //unique name
+    super();
+    this.location = location;
+    this.isHired = isHired;
   }
 
   classMethodTest() {
     console.log("works");
-    console.log(this.Role);
   }
 }

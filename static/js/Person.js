@@ -1,10 +1,10 @@
+let Id = 1;
 class Person {
 
-  constructor(id, role, name, currentLocation) {
-    this.ID = id;
-    this.Role = role;
-    this.Name = name;
-    this.CurrentLocation = currentLocation;
+  constructor(name) {
+    this.ID = Id;
+    Id++;
+    this.name = name;
   }
 
   checkLocation() {

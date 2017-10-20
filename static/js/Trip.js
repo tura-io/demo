@@ -2,12 +2,11 @@ let id = 0
 
 class Trip {
 
-  constructor(thisRider, thisDriver) {
+  constructor() {
     this.Id = id;
     id++;
     this.Map = {};
-    this.Rider = thisRider;
-    this.Driver = thisDriver;
+    this.Driver = {};
     this.Route = {};
     //This controls the rate at which the car moves by controlling animation refresh rate. 75ms default refresh speed moves the car in approximate realtime at 30mph. The current default, 0, allows the map to animate as quickly as it's able.
     this.Speed = 0;
@@ -27,6 +26,7 @@ class Trip {
     this.Route = this.Map.routes[rand];
   }
 
+///////////////////////////////////////////////////////////////////////////// DATA EMISSION
   emitNoisy(failPercent, minorAbbPercent, majorAbbPercent) {
     let src = this.Map.getSource(`point-${this.Id}`);
     let loc = src._options.data.features[0].geometry.coordinates;
@@ -71,6 +71,7 @@ class Trip {
     }
   }
 
+/////////////////////////////////////////////////////////////// ANIMATION
   animateRoute() {
     // A path line from origin to destination.
     var route = {
@@ -94,6 +95,11 @@ class Trip {
                 'coordinates': this.Route.originCoords
             }
         }]
+    };
+    for(let i = 0; i < this.Map.drivers.length; i++) {
+      if(this.drivers[i].location == undefined) {
+        this.drivers[i].location = this.Route.originCoords;
+      };
     };
 
     let dest = {
@@ -186,6 +192,7 @@ class Trip {
         // Update point geometry to a new position based on counter denoting
         // the index to access the arc.
         point.features[0].geometry.coordinates = route.features[0].geometry.coordinates[0];
+
 
         // Update the route source with the new data.
         myThis.Map.getSource(`route-${myThis.Id}`).setData(route);
