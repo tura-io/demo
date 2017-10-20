@@ -37,4 +37,10 @@ $(function () {
     }
   });
   //Control Driver Population
+  $('#driver-pop-plus').click(function() {
+    map.addDriver();
+  });
+  $('#driver-pop-minus').click(function() {
+    map.removeDriver();
+  });
 });
