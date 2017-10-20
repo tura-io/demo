@@ -43,10 +43,12 @@ $(function () {
   $('#driver-pop-plus').click(function() {
     map.addDriver();
     updateDriverList();
+    $('#driver-pop').text(map.drivers.length);
   });
   $('#driver-pop-minus').click(function() {
     map.removeDriver();
     updateDriverList();
+    $('#driver-pop').text(map.drivers.length);
   });
 });
 
@@ -54,7 +56,16 @@ function updateDriverList () {
   $('#driver-list > .collection').empty();
   for (var i = 0; i < map.drivers.length; i++) {
     $('#driver-list > .collection').append(
-      `<li class="collection-item"><div>${map.drivers[i].name}<a href="#!" class="secondary-content"><i class="material-icons">fiber_manual_record</i></a></div></li>`
+      `<a class="collection-item"><div>${map.drivers[i].name}<i class="material-icons secondary-content">fiber_manual_record</i></div></a>`
     );
+    $('#driver-list > .collection a').last().click(driverListClick);
   }
+}
+
+function driverListClick (event) {
+  $('#driver-card').show();
+  setTimeout(function() {
+    $('#driver-card').fadeOut();
+  }, 5000);
+  console.log(event);
 }

@@ -44,3 +44,11 @@
   color: red;
   height: 35px;
 }
+
+#driver-card {
+  display: none;
+
+  position: absolute;
+  bottom: 5vh;
+  right: 5vh;
+}
