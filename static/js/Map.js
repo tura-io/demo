@@ -11,7 +11,8 @@ class MapBox extends mapboxgl.Map {
     this.tripSpawnInterval = 500; //ms
     this.intervalId = 0;
     this.initialDrivers = 10;
-    this.driverNames = ['Parham', 'Justine', 'David', 'Molly', 'Cedar', 'Jack', 'Rachel', 'Bob', 'Cheryl', 'Ricky'];
+    this.driverFirstNames = ['Parham', 'Justine', 'David', 'Molly', 'Cedar', 'Jack', 'Rachel', 'Bob', 'Cheryl', 'Ricky'];
+    this.driverLastNames = ['Parvizi', 'Wang', 'Nielsen', 'LeCompte', 'Mora', 'Emrich', 'Agnic', 'Luc', 'Wilson', 'Bobby']
   }
 
   initialize() {
@@ -27,11 +28,9 @@ class MapBox extends mapboxgl.Map {
   }
 
   initDriverPool() {
-    for (let i = 0; i <= this.initialDrivers; i++) {
+    for (let i = 0; i < this.initialDrivers; i++) {
       let newDriver = new Driver();
-      if(this.driverNames.length == this.initialDrivers) {
-        newDriver.name = this.driverNames[i];
-      };
+        newDriver.name = `${this.driverFirstNames[Math.floor(Math.random() * this.driverFirstNames.length)]} ${this.driverLastNames[Math.floor(Math.random() * this.driverLastNames.length)]}`;
       this.drivers.push(newDriver);
     };
   }
