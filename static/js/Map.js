@@ -27,6 +27,9 @@ class MapBox extends mapboxgl.Map {
   addDriver() {
     //NOTE: This is a dummy method designed to be called by the Driver Population controls
     console.log('plus one driver');
+    this.drivers.push(
+      new Driver()
+    );
   }
 
   removeDriver() {

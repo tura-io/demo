@@ -2,14 +2,12 @@ let id = 0
 
 class Trip {
 
-  constructor(thisRider, thisDriver, tripType) {
+  constructor() {
     this.Id = id;
     id++;
     this.Map = {};
-    this.Rider = thisRider;
-    this.Driver = thisDriver;
+    this.Driver = {};
     this.Route = {};
-    this.tripType = tripType;
     //This controls the rate at which the car moves by controlling animation refresh rate. 75ms default refresh speed moves the car in approximate realtime at 30mph. The current default, 0, allows the map to animate as quickly as it's able.
     this.Speed = 0;
     this.Color = (function() {
@@ -28,6 +26,7 @@ class Trip {
     this.Route = this.Map.routes[rand];
   }
 
+///////////////////////////////////////////////////////////////////////////// DATA EMISSION
   emitNoisy(failPercent, minorAbbPercent, majorAbbPercent) {
     let src = this.Map.getSource(`point-${this.Id}`);
     let loc = src._options.data.features[0].geometry.coordinates;
@@ -72,6 +71,7 @@ class Trip {
     }
   }
 
+/////////////////////////////////////////////////////////////// ANIMATION
   animateRoute() {
     // A path line from origin to destination.
     var route = {
@@ -95,6 +95,22 @@ class Trip {
                 'coordinates': this.Route.originCoords
             }
         }]
+    };
+    for(let i = 0; i < this.Map.drivers.length; i++) {
+      if(this.drivers[i].location == undefined) {
+        this.drivers[i].location = this.Route.originCoords;
+      };
+    };
+
+    let dest = {
+      'type': 'FeatureCollection',
+      'features': [{
+          'type': 'Feature',
+          'geometry': {
+              'type': 'Point',
+              'coordinates': this.Route.destCoords
+          }
+      }]
     };
     // Calculate the distance in kilometers between route start/end point.
     var lineDistance = turf.lineDistance(route.features[0], 'kilometers');
@@ -124,6 +140,11 @@ class Trip {
         'data': point
     });
 
+    this.Map.addSource(`dest-${this.Id}`, {
+        'type': 'geojson',
+        'data': dest
+    });
+
     this.Map.addLayer({
       'id': `trip-route-${this.Id}`, //NOTE: This should eventually hold a reference to some  identifier for the trip. Probably include an ID in the class?
       'source': `route-${this.Id}`,
@@ -140,13 +161,26 @@ class Trip {
         'source': `point-${this.Id}`,
         'type': 'symbol',
         'layout': {
-            'icon-image': 'marker-15',
+            'icon-image': 'marker-11',
             'icon-offset': [0, -6]
         },
         'paint': {
           //NOTE: This should control the color of the icon, but currently doesn't. It requires an 'sdf icon' to work, which I thought we were using. But maybe I'm wrong.
             'icon-color': this.Color
         }
+    });
+
+    this.Map.addLayer({
+      'id': `trip-dest-${this.Id}`,
+      'source': `dest-${this.Id}`,
+      'type': 'symbol',
+      'layout': {
+          'icon-image': 'marker-15',
+          'icon-offset': [0, 0]
+      },
+      'paint': {
+          'icon-color': this.Color,
+      }
     });
 
     let myThis = this;
@@ -158,6 +192,7 @@ class Trip {
         // Update point geometry to a new position based on counter denoting
         // the index to access the arc.
         point.features[0].geometry.coordinates = route.features[0].geometry.coordinates[0];
+
 
         // Update the route source with the new data.
         myThis.Map.getSource(`route-${myThis.Id}`).setData(route);
@@ -189,8 +224,10 @@ class Trip {
     // remove point and route layers from the map
     this.Map.removeLayer(`trip-route-${this.Id}`);
     this.Map.removeLayer(`trip-point-${this.Id}`);
+    this.Map.removeLayer(`trip-dest-${this.Id}`);
     // remove sources from the map
     this.Map.removeSource(`route-${this.Id}`);
     this.Map.removeSource(`point-${this.Id}`);
+    this.Map.removeSource(`dest-${this.Id}`);
   }
 }
