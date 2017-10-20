@@ -31,3 +31,9 @@ tura.io demo &amp; test data generation project
       * ``` docker build -t "demo" . ```
     * Run:
       * ``` docker run -dp 80:80 "demo" ```
+
+### Important Notes:
+  * On server restart, browser will require hard-refresh (CTRL-F5)
+  * Server not required unless for startup or streaming
+
+#### DATABASE REBUILD INSTRUCTIONS
