@@ -97,6 +97,11 @@ class Trip {
             }
         }]
     };
+    for(let i = 0; i < this.Map.drivers.length; i++) {
+      if(this.Map.drivers[i].location == undefined) {
+        this.Map.drivers[i].location = this.Route.originCoords;
+      };
+    };
 
     let dest = {
       'type': 'FeatureCollection',

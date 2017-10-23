@@ -1,5 +1,5 @@
 class MapBox extends mapboxgl.Map {
-///////////////////////////////////////////////////////////// CONSTRUCT
+
   constructor(container, style, center, zoom) {
     super(container, style, center, zoom);
     this.locations = [];
@@ -11,20 +11,42 @@ class MapBox extends mapboxgl.Map {
     this.maxTrips = 10; //NOTE: Make sure this works with Driver->Rider Trips the way we want.
     this.tripSpawnInterval = 500; //ms
     this.intervalId = 0;
-    this.amountOfDrivers = 10;
+    this.initialDrivers = 10;
+    this.driverFirstNames = ['Parham', 'Justine', 'David', 'Molly', 'Cedar', 'Jack', 'Rachel', 'Bob', 'Cheryl', 'Ricky'];
+    this.driverLastNames = ['Parvizi', 'Wang', 'Nielsen', 'LeCompte', 'Mora', 'Emrich', 'Agnic', 'Luc', 'Wilson', 'Bobby']
   }
 
-//////////////////////////////////////////////////////////// TRIP INIT
   initialize() {
+    if (this.intervalId !== 0) {
+      console.log(`Stopping: ${this.intervalId}`);
+      clearInterval(this.intervalId);
+    }
     let myThis = this;
     this.intervalId = setInterval(function() {
       myThis.addTrip();
     }, this.tripSpawnInterval);
   }
 
-  reinitialize() {
-    console.log(`Stopping: ${this.intervalId}`);
-    clearInterval(this.intervalId);
+  initDriverPool() {
+    for (let i = 0; i < this.initialDrivers; i++) {
+      let newDriver = new Driver();
+        newDriver.name = `${this.driverFirstNames[Math.floor(Math.random() * this.driverFirstNames.length)]} ${this.driverLastNames[Math.floor(Math.random() * this.driverLastNames.length)]}`;
+      this.drivers.push(newDriver);
+    };
+  }
+
+  addDriver() {
+    //NOTE: This is a dummy method designed to be called by the Driver Population controls
+    console.log('plus one driver');
+    let newDriver = new Driver()
+    this.drivers.push(newDriver);
+    //TODO: Add this Driver to the map as a Symbol layer
+  }
+
+  removeDriver() {
+    this.drivers.splice(Math.floor(Math.random() * this.drivers.length), 1);
+    //TODO: Remove driver's associated Symbol layer from the map.
+    console.log(this.drivers);
   }
 
   addTrip() {
@@ -43,21 +65,23 @@ class MapBox extends mapboxgl.Map {
 
       // TEMP: Probably make this next call from elsewhere?
       newTrip.animateRoute();
+      //TEMP: This should not be here, once we have actual drivers implemented.
+      $('#driver-pop').text(map.trips.length);
     }
   }
 
-  driverPool() {
-    let names = ['Parham', 'Justine', 'David', 'Molly', 'Cedar', 'Jack', 'Rachel', 'Bob', 'Cheryl', 'Ricky'];
-    for (let i = 0; i < this.amountOfDrivers; i++) {
-      let newDriver = new Driver();
-      if(this.amountOfDrivers <= names.length) {
-        newDriver.name = names[i];
-      };
-      this.drivers.push(newDriver);
+  async setLocations() {  //TODO: still has asnyc issues, revise
+    let result = await $.ajax({
+      url: 'db/read',
+      dataType: 'json'
+    });
+    for (let i = 0; i < result.length; i++) {
+      let location = new Point(result[i][0], result[i][1], result[i][2]);
+      this.locations.push(location);
     };
   }
 
-//////////////////////////////////////////////////////////// API / AJAX
+  //////////////////////////////////////////////////////////// API / AJAX
   routeCall() {
     return $.ajax({
       url: 'db/routes',
