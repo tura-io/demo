@@ -66,9 +66,9 @@ class Trip {
     //Emit data if we didn't roll fail-to-emit
     if (Math.random() * 101 > failPercent) {
       // console.log(objectToEmit);
-      // console.log('Data sent.');
+      console.log('Data sent.');
     } else {
-      // console.log('Data failed to send.');
+      console.log('Data failed to send.');
     }
   }
 
