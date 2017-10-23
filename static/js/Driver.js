@@ -1,6 +1,6 @@
 class Driver extends Person {
 
-  constructor(location, isHired = false) { //unique name
+  constructor(location, isHired = false) {
     super();
     this.location = location;
     this.isHired = isHired;

@@ -1,26 +1,39 @@
 # demo
 tura.io demo &amp; test data generation project
 
-## Create Mapbox Access Token
-  * create new file named 'mapbox_token.js' in /static/js/
-  * file should contain: 'let accessToken = 'YOUR ACCESS-TOKEN HERE';'
-  * (Development of Routes): also create 'mapbox_token.py' in main dir. w/ "MAPBOX_ACCESS_TOKEN = 'token here'"
+## Description
+  A testing program that simulates a ride-sharing app. Used for generation of geo-coordinate datasets.
 
-## Build Image:
-  (in /demo): sudo docker build -t "demo" .
-
-## Run Image:
-  sudo docker run -p 80:80 "demo"
-
-## Run (in detached mode):
-  sudo docker run -d -p 80:80 "demo"
-
-## For local server (w/o Docker):
-  change app.run() in demo.py (check comments)
+## Pre-Requisites
 
 #### Local Use:
-  Browser might require hard-refresh(ctrl-F5) to see changes
-#### Temporary Database links for testing:
-  /db/create
-  /db/write
-  /db/read
+  * Python3 enviroment
+  * Flask, Sqlite3, Mapbox packages
+  * Mapbox token files (see below)
+
+#### Docker:
+  * Docker client
+  * (see below)
+
+### Installation:
+  * Local:
+    * install necessary packages above
+    * create "mapbox_token.js" in /static/js/
+      * ``` let accessToken = 'YOURKEYHERE'; ```
+    * create "mapbox_token.py" in root
+      * ``` MAPBOX_ACCESS_TOKEN = 'YOURKEYHERE' ```
+    * run:
+      * ``` python demo.py ```
+
+  * Docker:
+    * NOTE: check demo.py -> app.run for correct run command before building or running locally...
+    * Build:
+      * ``` docker build -t "demo" . ```
+    * Run:
+      * ``` docker run -dp 80:80 "demo" ```
+
+### Important Notes:
+  * On server restart, browser will require hard-refresh (CTRL-F5)
+  * Server not required unless for startup or streaming
+
+#### DATABASE REBUILD INSTRUCTIONS
