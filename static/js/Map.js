@@ -46,7 +46,7 @@ class MapBox extends mapboxgl.Map {
   removeDriver() {
     this.drivers.splice(Math.floor(Math.random() * this.drivers.length), 1);
     //TODO: Remove driver's associated Symbol layer from the map.
-    console.log(this.drivers);
+    // console.log(this.drivers);
   }
 
   addTrip() {
