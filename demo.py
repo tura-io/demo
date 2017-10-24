@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import json
 import db_mngr
 from dbm import DBManager
@@ -19,6 +19,12 @@ def db_read():
 def db_read_routes():
     all_routes = DBM.read_routes()
     return json.dumps(all_routes)
+
+@app.route('/stream/collect', methods=['POST'])
+def stream_collect_data():
+    if request.method == 'POST':
+        return None
+
 
 if __name__ == '__main__':
     app.run(debug=True)

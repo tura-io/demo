@@ -67,5 +67,5 @@ function driverListClick (event) {
   setTimeout(function() {
     $('#driver-card').fadeOut();
   }, 5000);
-  console.log(event);
+  // console.log(event);
 }

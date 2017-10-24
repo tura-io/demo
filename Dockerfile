@@ -1,7 +1,6 @@
 FROM gliderlabs/alpine:3.4
 
 MAINTAINER Adrian Agnic "adrian@tura.io"
-MAINTAINER Charles Emrich "charles@tura.io"
 
 RUN apk add --no-cache python3 && \
   python3 -m ensurepip && \

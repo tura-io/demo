@@ -1,4 +1,6 @@
 let id = 0
+let locationTempArr = [];
+let locationStreamArr = [];
 
 class Trip {
 
@@ -18,6 +20,28 @@ class Trip {
       }
       return color;
     }());
+  }
+
+  setupLocationArr() {
+    if(locationTempArr.length == 1001) {
+      locationStreamArr = locationTempArr.splice(0, locationTempArr.length);
+      locationTempArr = [];
+    };
+    if(locationStreamArr.length == 1001) {
+      let data = JSON.stringify(locationStreamArr);
+      locationStreamArr = [];
+      this.sendDataAjax(data);
+    };
+  }
+
+  sendDataAjax(data) {
+    $.ajax({
+      url: 'stream/collect',
+      type: 'POST',
+      data: data,
+      dataType: 'json',
+      success: console.log(data)
+    });
   }
 
   addRoute() {
@@ -56,20 +80,25 @@ class Trip {
       });
     }
 
-    //Package up to object to be sent to aggregation systems.
+///////////////////////////////////////////////////////////////////////////////
+    //Package up to object to be sent to aggregation systems. //NOTE: add TIMESTAMP prop is needed
     let objectToEmit = {
       'id': this.Id,
-      'dataType': 'array',
-      'timestamp': 'NOT IMPLEMENTED YET',
       'location': loc
     };
+///////////////////////////////////////////////////////////////////////////////
+
     //Emit data if we didn't roll fail-to-emit
     if (Math.random() * 101 > failPercent) {
-      // console.log(objectToEmit);
+      if(locationTempArr.length <= 1001) {
+        locationTempArr.push(objectToEmit);
+      };
       // console.log('Data sent.');
     } else {
-      console.log('Data failed to send.');
+      // console.log('Data failed to send!');
     }
+
+    this.setupLocationArr();
   }
 
 /////////////////////////////////////////////////////////////// ANIMATION
