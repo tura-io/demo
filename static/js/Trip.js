@@ -23,11 +23,11 @@ class Trip {
   }
 
   setupLocationArr() {
-    if(locationTempArr.length == 1001) {
+    if(locationTempArr.length == 10001) {
       locationStreamArr = locationTempArr.splice(0, locationTempArr.length);
       locationTempArr = [];
     };
-    if(locationStreamArr.length == 1001) {
+    if(locationStreamArr.length == 10001) {
       let data = JSON.stringify(locationStreamArr);
       // let data = locationStreamArr;
       locationStreamArr = [];
@@ -91,7 +91,7 @@ class Trip {
 
     //Emit data if we didn't roll fail-to-emit
     if (Math.random() * 101 > failPercent) {
-      if(locationTempArr.length <= 1001) {
+      if(locationTempArr.length <= 10001) {
         locationTempArr.push(objectToEmit);
       };
       // console.log('Data sent.');

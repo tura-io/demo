@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 import json
-import db_mngr, kafka
+import db_mngr, data_logger, kafka
 from dbm import DBManager
 
 app = Flask(__name__)
@@ -24,7 +24,8 @@ def db_read_routes():
 def stream_collect_data():
     if request.method == 'POST':
         json_data = request.get_json(force=True)
-        kafka.write_data(json_data)
+        data_logger.write_data(json_data)
+        kafka.pro_duce(request.data)
         return json.dumps(request.get_json(force=True))
 
 
