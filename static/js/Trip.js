@@ -29,6 +29,7 @@ class Trip {
     };
     if(locationStreamArr.length == 1001) {
       let data = JSON.stringify(locationStreamArr);
+      // let data = locationStreamArr;
       locationStreamArr = [];
       this.sendDataAjax(data);
     };
@@ -39,9 +40,8 @@ class Trip {
       url: 'stream/collect',
       type: 'POST',
       data: data,
-      dataType: 'json'
-    }).then(function(res) {
-        console.log(res);
+      dataType: 'json',
+      success: console.log('data sent')
     });
   }
 
