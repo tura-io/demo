@@ -23,7 +23,7 @@ def db_read_routes():
 @app.route('/stream/collect', methods=['POST'])
 def stream_collect_data():
     if request.method == 'POST':
-        return None
+        return json.dumps(request.get_json(force=True))
 
 
 if __name__ == '__main__':

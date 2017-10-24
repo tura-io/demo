@@ -39,8 +39,9 @@ class Trip {
       url: 'stream/collect',
       type: 'POST',
       data: data,
-      dataType: 'json',
-      success: console.log(data)
+      dataType: 'json'
+    }).then(function(res) {
+        console.log(res);
     });
   }
 
