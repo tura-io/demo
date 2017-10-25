@@ -29,7 +29,6 @@ class Trip {
     };
     if(locationStreamArr.length == 10001) {
       let data = JSON.stringify(locationStreamArr);
-      // let data = locationStreamArr;
       locationStreamArr = [];
       this.sendDataAjax(data);
     };

@@ -9,6 +9,9 @@ RUN apk add --no-cache python3 && \
   if [ ! -e /usr/bin/pip ]; then ln -s pip3 /usr/bin/pip ; fi && \
   rm -r /root/.cache
 
+RUN apk add --no-cache python3-dev
+RUN apk add --no-cache alpine-sdk
+
 COPY ./Requirements.txt /app/Requirements.txt
 
 WORKDIR /app
