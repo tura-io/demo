@@ -25,7 +25,7 @@ def stream_collect_data():
     if request.method == 'POST':
         json_data = request.get_json(force=True)
         data_logger.write_data(json_data)
-        kafka.pro_duce(request.data)
+        kafka.stream_out(request.data)
         return json.dumps(request.get_json(force=True))
 
 
