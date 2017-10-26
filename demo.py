@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 import json
-import db_mngr, data_logger
+import data_logger
 import kafka #enables streaming
 from dbm import DBManager
 
@@ -13,7 +13,7 @@ def index():
 
 @app.route('/db/read') #returns location data
 def db_read():
-    result = db_mngr.read()
+    result = DBM.read_locs()
     return json.dumps(result)
 
 @app.route('/db/routes') #returns route data

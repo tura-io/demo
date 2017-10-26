@@ -11,7 +11,7 @@ class Trip {
     this.Map = {};
     this.Driver = driver;
     this.Route = {};
-    this.arrayLimiter = 5001;
+    this.arrayLimiter = 5001; //NOTE: size of packets sent to server
     //This controls the rate at which the car moves by controlling animation refresh rate. 75ms default refresh speed moves the car in approximate realtime at 30mph. The current default, 0, allows the map to animate as quickly as it's able.
     this.Speed = 0;
     this.Color = (function() {
@@ -102,7 +102,7 @@ class Trip {
       sensorFailureCount++;
     }
 
-    this.setupLocationArr(); //check if array is full (10,000) every cycle | NOTE: this line (and the import of kafka.py) enables streaming
+    this.setupLocationArr(); //check if array is full every cycle | NOTE: this line (and the import of kafka.py) enables streaming
   }
 
   animateRoute() {
