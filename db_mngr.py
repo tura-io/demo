@@ -3,7 +3,7 @@ try:
     import location_list
     test_locations = location_list.test_locations
 except:
-    print()
+    print('Location List does not exist')
 else:
     print()
 

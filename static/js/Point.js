@@ -11,8 +11,5 @@ class Point {
       "icon": "monument"
     }
   }
-
-  classMethodTest() {
-    console.log("point works");
-  }
 }
+// class for initializing location points, currently not rendered on map

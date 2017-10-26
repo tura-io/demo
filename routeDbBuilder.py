@@ -5,9 +5,9 @@ import sqlite3 as db
 from mapbox import Directions
 import mapbox_token
 
-service = Directions(access_token = mapbox_token.MAPBOX_ACCESS_TOKEN)
+service = Directions(access_token = mapbox_token.MAPBOX_ACCESS_TOKEN) #Mapbox API
 
-result = db_mngr.read()
+result = db_mngr.read() #Get Location List to generate routes b/w them
 
 #Builds list of possible destinations and origins in memory.
 pairs = []
@@ -83,7 +83,7 @@ def rebuild_from_file():
         origin = pairs[idx][0]
         destination = pairs[idx][1]
         idx += 1
-        # print(idx)
+        print(idx)
         #Rebuild memory object from JSON
         result = json.loads(line)
         #Grab relevant keys
@@ -99,7 +99,7 @@ def rebuild_from_file():
     conn.close()
     routefile.close()
 
-#Uncomment this to rebuild Routes from routes.txt
-rebuild_from_file()
-#Uncomment this to rebuild Routes from Mapbox API
+#NOTE: Uncomment this to rebuild Routes from routes.txt on import
+#rebuild_from_file()
+#NOTE: Uncomment this to rebuild Routes from Mapbox API on import
 # rebuild_from_api()

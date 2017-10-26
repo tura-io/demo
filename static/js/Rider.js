@@ -5,9 +5,4 @@ class Rider extends Person {
     this.isPickedUp = isPickedUp;
     this.myDriver = myDriver;
   }
-
-  classMethodTest() {
-    console.log("works");
-    console.log(this.Role);
-  }
 }

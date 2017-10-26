@@ -47,5 +47,13 @@ tura.io demo &amp; test data generation project
       * ``` >>>db_mngr.create_route() ```
 
   * Insert data into Routes table:
-    * check routeDbBuilder.py to see correct function runs on import (bottom of page)
     * ``` >>>import routeDbBuilder ```
+    * ``` >>>routeDbBuilder.rebuild_from_file() ```
+
+    * If routes.txt is missing or corrupted:
+      * ``` >>>routeDbBuilder.rebuild_from_api() ``` to generate routes.txt
+      * ``` >>>routeDbBuilder.rebuild_from_file() ``` to insert data into DB from routes.txt
+
+  * Drop Database:
+    * Locations: ``` db_mngr.drop() ```
+    * Routes: ``` db_mngr.drop_routes() ```

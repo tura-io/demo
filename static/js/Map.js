@@ -8,12 +8,12 @@ class MapBox extends mapboxgl.Map {
     this.drivers = [];
     this.c = 0;
 
-    this.maxTrips = 10; //NOTE: Make sure this works with Driver->Rider Trips the way we want.
+    this.maxTrips = 10; //TODO: Make sure this works with Driver->Rider Trips the way we want.
     this.tripSpawnInterval = 500; //ms
     this.intervalId = 0;
     this.initialDrivers = 10;
-    this.driverFirstNames = ['Parham', 'Justine', 'David', 'Molly', 'Cedar', 'Jack', 'Rachel', 'Bob', 'Cheryl', 'Ricky'];
-    this.driverLastNames = ['Parvizi', 'Wang', 'Nielsen', 'LeCompte', 'Mora', 'Emrich', 'Agnic', 'Luc', 'Wilson', 'Bobby']
+    this.driverFirstNames = ['Parham', 'Justine', 'David', 'Molly', 'Cedar', 'Jack', 'Rachel', 'Adrian', 'Cheryl', 'Ricky'];
+    this.driverLastNames = ['Parvizi', 'Wang', 'Nielsen', 'LeCompte', 'Mora', 'Emrich', 'Agnic', 'Smith', 'Wilson', 'Bobby'];
   }
 
   initialize() {
@@ -50,7 +50,6 @@ class MapBox extends mapboxgl.Map {
 
   addTrip() {
     if (this.trips.length < this.maxTrips) {
-      // console.log(`Current trips: ${this.trips.length}. Adding one.`);
       let newTrip = new Trip(this.drivers[this.c]);
       this.drivers[this.c].isHired = true;
       if(this.c < (this.amountOfDrivers - 1)) {
@@ -62,22 +61,10 @@ class MapBox extends mapboxgl.Map {
       newTrip.addRoute();
       this.trips.push(newTrip);
 
-      // TEMP: Probably make this next call from elsewhere?
       newTrip.animateRoute();
       //TEMP: This should not be here, once we have actual drivers implemented.
       $('#driver-pop').text(map.trips.length);
     }
-  }
-
-  async setLocations() {  //TODO: still has asnyc issues, revise
-    let result = await $.ajax({
-      url: 'db/read',
-      dataType: 'json'
-    });
-    for (let i = 0; i < result.length; i++) {
-      let location = new Point(result[i][0], result[i][1], result[i][2]);
-      this.locations.push(location);
-    };
   }
 
   routeCall() {
@@ -87,7 +74,7 @@ class MapBox extends mapboxgl.Map {
       type: 'GET'
     });
   }
-  setRoutes() {
+  setRoutes() { //use AJAX route response to initialize as Route object and store in array
     let thus = this;
     this.routeCall().then(function(response) {
       for (let i = 0; i < response.length; i++) {
@@ -96,10 +83,11 @@ class MapBox extends mapboxgl.Map {
       };
     });
   }
-  async setRoutesHelper() {
+  async setRoutesHelper() { //async helper
     await this.setRoutes();
   }
-  async setLocations() {
+
+  async setLocations() {   //method for initializing locations as Points and storing them in Map object, currently not used
     let result = await $.ajax({
       url: 'db/read',
       dataType: 'json'

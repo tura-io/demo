@@ -1,6 +1,6 @@
-let id = 0
-let locationTempArr = [];
-let locationStreamArr = [];
+let id = 0 //global counter for trips
+let locationTempArr = []; //temp storage for data before streams
+let locationStreamArr = []; //copied from temp storage once length hits 10k and streamed out
 
 class Trip {
 
@@ -23,10 +23,12 @@ class Trip {
   }
 
   setupLocationArr() {
+    // when tempArr hits 10,000 geo-codes, it copies over data to streamArr then clears out tempArr for more data
     if(locationTempArr.length == 10001) {
       locationStreamArr = locationTempArr.splice(0, locationTempArr.length);
       locationTempArr = [];
     };
+    // when streamArr is copied from tempArr, send data to AJAX and clear out streamArr
     if(locationStreamArr.length == 10001) {
       let data = JSON.stringify(locationStreamArr);
       locationStreamArr = [];
@@ -34,7 +36,7 @@ class Trip {
     };
   }
 
-  sendDataAjax(data) {
+  sendDataAjax(data) { //sends a packet of 10,000 geo-codes to server to be streamed, NOTE: called every ~45sec for 10k geo-codes
     $.ajax({
       url: 'stream/collect',
       type: 'POST',
@@ -45,7 +47,6 @@ class Trip {
   }
 
   addRoute() {
-  //Designates a random route. TODO: remove this and add params to power this choice.
     var rand = Math.floor(Math.random() * (this.Map.routes.length));
     this.Route = this.Map.routes[rand];
     this.Driver.location = this.Route.originCoords;
@@ -79,13 +80,13 @@ class Trip {
       });
     }
 
-    //Package up to object to be sent to aggregation systems. //NOTE: add TIMESTAMP prop is needed
+    //Package up to object to be sent to aggregation systems. //TODO: add TIMESTAMP prop is needed
     let objectToEmit = {
       'id': this.Id,
       'location': loc
     };
 
-    //Emit data if we didn't roll fail-to-emit
+    //Push data to array if we didn't roll fail-to-emit
     if (Math.random() * 101 > failPercent) {
       if(locationTempArr.length <= 10001) {
         locationTempArr.push(objectToEmit);
@@ -95,7 +96,7 @@ class Trip {
       // console.log('Data failed to send!');
     }
 
-    this.setupLocationArr();
+    this.setupLocationArr(); //check if array is full (10,000) every cycle
   }
 
   animateRoute() {
@@ -172,7 +173,7 @@ class Trip {
     });
 
     this.Map.addLayer({
-      'id': `trip-route-${this.Id}`, //NOTE: This should eventually hold a reference to some  identifier for the trip. Probably include an ID in the class?
+      'id': `trip-route-${this.Id}`,
       'source': `route-${this.Id}`,
       'type': 'line',
       'paint': {
@@ -191,7 +192,7 @@ class Trip {
             'icon-offset': [0, -6]
         },
         'paint': {
-          //NOTE: This should control the color of the icon, but currently doesn't. It requires an 'sdf icon' to work, which I thought we were using. But maybe I'm wrong.
+          //NOTE: This should control the color of the icon, but currently doesn't. It requires an 'sdf icon' to work.
             'icon-color': this.Color
         }
     });
@@ -224,7 +225,7 @@ class Trip {
         myThis.Map.getSource(`route-${myThis.Id}`).setData(route);
         // Update the source with this new data.
         myThis.Map.getSource(`point-${myThis.Id}`).setData(point);
-        //TEMP: In final code, this call this emit data to a Kafka
+
         myThis.emitNoisy(1, 5, 1);
         // Request the next frame of animation so long as destination has not
         // been reached.

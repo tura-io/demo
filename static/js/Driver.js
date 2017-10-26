@@ -5,8 +5,4 @@ class Driver extends Person {
     this.location = location;
     this.isHired = isHired;
   }
-
-  classMethodTest() {
-    console.log("works");
-  }
 }

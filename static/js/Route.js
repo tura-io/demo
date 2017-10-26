@@ -9,8 +9,4 @@ class Route {
     this.distance = distance;
     this.coords = routeCoords;
   }
-
-  classMethodTest() {
-    console.log("route works");
-  }
 }

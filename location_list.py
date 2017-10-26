@@ -1,3 +1,4 @@
+# LIST OF ALL LOCATIONS WE USE, ROUTES ARE GENERATED FROM THESE POINTS
 test_locations = [
                    #West Side
                    ['Tura.io', -122.67546, 45.502647],
