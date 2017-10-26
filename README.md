@@ -41,21 +41,19 @@ tura.io demo &amp; test data generation project
   * "data_log.txt" logs all streamed data in JSON format. Log is currently not cleaned up or deleted by any process.
 
 #### DATABASE REBUILD INSTRUCTIONS
-  * Create Database:
-    * ``` >>>import db_mngr ```
-    * Locations Table(w/ data):
-      * ``` >>>db_mngr.create_w_data() ```
-    * Routes Table:
-      * ``` >>>db_mngr.create_route() ```
+  (In Python interpreter):
+  * ```>>> from dbm import DBManager ```
+  * ```>>> DBM = DBManager('demo.db') ```
+  * ```>>> DBM.drop() ``` ...will delete all tables in case of corruption
+
+  * Create Location table w/ data:
+    * ```>>> DBM.create_loc_wdata() ```
+  * Create Routes table:
+    * ```>>> DBM.create_routes() ```
 
   * Insert data into Routes table:
-    * ``` >>>import routeDbBuilder ```
-    * ``` >>>routeDbBuilder.rebuild_from_file() ```
-
-    * If routes.txt is missing or corrupted:
-      * ``` >>>routeDbBuilder.rebuild_from_api() ``` to generate routes.txt
-      * ``` >>>routeDbBuilder.rebuild_from_file() ``` to insert data into DB from routes.txt
-
-  * Drop Database:
-    * Locations: ``` db_mngr.drop() ```
-    * Routes: ``` db_mngr.drop_routes() ```
+    * ```>>> import routeDbBuilder as builder ```
+    * ```>>> builder.rebuild_from_file() ```
+  * If routes.txt does not exist or is corrupted:
+    * ```>>> builder.rebuild_from_api() ```
+    * leave running until complete

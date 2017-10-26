@@ -1,13 +1,15 @@
 import json
 import time
-import db_mngr
+from dbm import DBManager
 import sqlite3 as db
 from mapbox import Directions
 import mapbox_token
 
+DBM = DBManager('demo.db')
+
 service = Directions(access_token = mapbox_token.MAPBOX_ACCESS_TOKEN) #Mapbox API
 
-result = db_mngr.read() #Get Location List to generate routes b/w them
+result = DBM.read_locs() #Get Location List to generate routes b/w them
 
 #Builds list of possible destinations and origins in memory.
 pairs = []

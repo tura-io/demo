@@ -102,7 +102,7 @@ class Trip {
       sensorFailureCount++;
     }
 
-    this.setupLocationArr(); //check if array is full every cycle | NOTE: this line (and the import of kafka.py) enables streaming
+    // this.setupLocationArr(); //check if array is full every cycle | NOTE: this line (and the import of kafka.py) enables streaming
   }
 
   animateRoute() {
