@@ -10,19 +10,21 @@ tura.io demo &amp; test data generation project
   * Python3 enviroment
   * Flask, Sqlite3, Mapbox packages
   * Mapbox token files (see below)
+  * Kafka/Zookeeper instance if streaming is enabled
 
 #### Docker:
   * Docker client
+  * Docker Kafka Container as consumer
   * (see below)
 
 ### Installation:
   * Local:
-    * install necessary packages above
-    * create "mapbox_token.js" in /static/js/
+    * Install necessary packages above
+    * Create "mapbox_token.js" in /static/js/
       * ``` let accessToken = 'YOURKEYHERE'; ```
-    * create "mapbox_token.py" in root
+    * Create "mapbox_token.py" in root
       * ``` MAPBOX_ACCESS_TOKEN = 'YOURKEYHERE' ```
-    * run:
+    * Run:
       * ``` python demo.py ```
 
   * Docker:
@@ -34,6 +36,14 @@ tura.io demo &amp; test data generation project
 
 ### Important Notes:
   * On server restart, browser will require hard-refresh (CTRL-F5)
-  * Server not required unless for startup or streaming
 
 #### DATABASE REBUILD INSTRUCTIONS
+  * Create Database:
+    * Locations Table(w/ data):
+      * ``` >>>db_mngr.create_w_data() ```
+    * Routes Table:
+      * ``` >>>db_mngr.create_route() ```
+
+  * Insert data into Routes table:
+    * check routeDbBuilder.py to see correct function runs on import (bottom of page)
+    * ``` >>>import routeDbBuilder ```
