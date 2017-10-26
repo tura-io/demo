@@ -51,7 +51,6 @@ class Trip {
     this.Driver.location = this.Route.originCoords;
   }
 
-///////////////////////////////////////////////////////////////////////////// DATA EMISSION
   emitNoisy(failPercent, minorAbbPercent, majorAbbPercent) {
     let src = this.Map.getSource(`point-${this.Id}`);
     let loc = src._options.data.features[0].geometry.coordinates;
@@ -80,13 +79,11 @@ class Trip {
       });
     }
 
-///////////////////////////////////////////////////////////////////////////////
     //Package up to object to be sent to aggregation systems. //NOTE: add TIMESTAMP prop is needed
     let objectToEmit = {
       'id': this.Id,
       'location': loc
     };
-///////////////////////////////////////////////////////////////////////////////
 
     //Emit data if we didn't roll fail-to-emit
     if (Math.random() * 101 > failPercent) {
@@ -101,7 +98,6 @@ class Trip {
     this.setupLocationArr();
   }
 
-/////////////////////////////////////////////////////////////// ANIMATION
   animateRoute() {
     // A path line from origin to destination.
     var route = {

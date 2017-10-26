@@ -13,7 +13,7 @@ def create_w_data():
     dbi.execute('''CREATE TABLE locations (
     name text,
     x real,
-    y real)''') #sql-like commands, data types are limited so far
+    y real)''')
     for loc in test_locations:
         dbi.execute('''INSERT INTO locations (name, x, y) VALUES (?, ?, ?)''', (loc[0], loc[1], loc[2]))
         conn.commit()

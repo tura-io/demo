@@ -8,7 +8,6 @@ class Point {
     },
     this.properties = {
       "title": title,
-      //TODO: Redo constructor to allow custom icons.
       "icon": "monument"
     }
   }

@@ -50,31 +50,29 @@ def call(origin, destination):
     routeDist = result['features'][0]['properties']['distance']
     coords = result['features'][0]['geometry']['coordinates']
     str_coords = str(coords)
-    ########################################    DB
     conn = db.connect('demo.db')
     dbi = conn.cursor()
     dbi.execute('''INSERT INTO routes (origin, dest, originCoords, destCoords, routeTime, routeDist, route) VALUES (?, ?, ?, ?, ?, ?, ?)''', (origin['properties']['name'], destination['properties']['name'], originCoord, destCoord, routeTime, routeDist, str_coords))
     conn.commit()
     conn.close()
-    #####################################
     return result
 
-# def rebuild_from_api():
-#     idx = 0
-#     routefile = open("routes.txt","w+")
-#     while True:
-#         current_route = call(pairs[idx][0], pairs[idx][1])
-#         routefile.write(json.dumps(current_route) + "\r\n")
-#         #Reporting for the console.
-#         idx += 1
-#         print(f"Generating route #{idx}")
-#         time.sleep(1.001)
-#
-#         #Stop when idx hits a number of our choosing.
-#         if idx == (len(pairs)):
-#             print("Done.")
-#             break
-#     routefile.close()
+def rebuild_from_api():
+    idx = 0
+    routefile = open("routes.txt","w+")
+    while True:
+        current_route = call(pairs[idx][0], pairs[idx][1])
+        routefile.write(json.dumps(current_route) + "\r\n")
+        #Reporting for the console.
+        idx += 1
+        print(f"Generating route #{idx}")
+        time.sleep(1.001)
+
+        #Stop when idx hits a number of our choosing.
+        if idx == (len(pairs)):
+            print("Done.")
+            break
+    routefile.close()
 
 def rebuild_from_file():
     idx = 0
