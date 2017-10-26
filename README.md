@@ -3,7 +3,8 @@ tura.io demo &amp; test data generation project
 
 ## Description
   A testing program that simulates a ride-sharing app. Used for generation of geo-coordinate datasets.
-  Stats: 10,000 geo-codes generated e. ~45 sec.
+
+  10,000 geo-codes / min (SpawnRate = 100ms)
 
 ## Pre-Requisites
 

@@ -1,6 +1,7 @@
 let id = 0 //global counter for trips
 let locationTempArr = []; //temp storage for data before streams
 let locationStreamArr = []; //copied from temp storage once length hits 10k and streamed out
+let sensorFailureCount = 0; //total amount of sensor failures (data null)
 
 class Trip {
 
@@ -10,6 +11,7 @@ class Trip {
     this.Map = {};
     this.Driver = driver;
     this.Route = {};
+    this.arrayLimiter = 5001;
     //This controls the rate at which the car moves by controlling animation refresh rate. 75ms default refresh speed moves the car in approximate realtime at 30mph. The current default, 0, allows the map to animate as quickly as it's able.
     this.Speed = 0;
     this.Color = (function() {
@@ -24,19 +26,20 @@ class Trip {
 
   setupLocationArr() {
     // when tempArr hits 10,000 geo-codes, it copies over data to streamArr then clears out tempArr for more data
-    if(locationTempArr.length == 10001) {
+    if(locationTempArr.length == this.arrayLimiter) {
       locationStreamArr = locationTempArr.splice(0, locationTempArr.length);
       locationTempArr = [];
     };
     // when streamArr is copied from tempArr, send data to AJAX and clear out streamArr
-    if(locationStreamArr.length == 10001) {
+    if(locationStreamArr.length == this.arrayLimiter) {
       let data = JSON.stringify(locationStreamArr);
       locationStreamArr = [];
       this.sendDataAjax(data);
+      console.log('Sensor Failures: ' + sensorFailureCount);
     };
   }
 
-  sendDataAjax(data) { //sends a packet of 10,000 geo-codes to server to be streamed, NOTE: called every ~45sec for 10k geo-codes
+  sendDataAjax(data) { //sends a packet of 10,000 geo-codes to server to be streamed
     $.ajax({
       url: 'stream/collect',
       type: 'POST',
@@ -80,23 +83,26 @@ class Trip {
       });
     }
 
-    //Package up to object to be sent to aggregation systems. //TODO: add TIMESTAMP prop is needed
+    //Package up to object to be sent to aggregation systems.
     let objectToEmit = {
       'id': this.Id,
-      'location': loc
+      'location': loc,
+      'timestamp': null,
+      'driver-id': this.Driver.name
     };
 
+    let tk = new Date();
+    objectToEmit.timestamp = tk.getTime();
     //Push data to array if we didn't roll fail-to-emit
     if (Math.random() * 101 > failPercent) {
-      if(locationTempArr.length <= 10001) {
+      if(locationTempArr.length <= this.arrayLimiter) {
         locationTempArr.push(objectToEmit);
       };
-      // console.log('Data sent.');
     } else {
-      // console.log('Data failed to send!');
+      sensorFailureCount++;
     }
 
-    this.setupLocationArr(); //check if array is full (10,000) every cycle
+    this.setupLocationArr(); //check if array is full (10,000) every cycle | NOTE: this line (and the import of kafka.py) enables streaming
   }
 
   animateRoute() {

@@ -52,7 +52,7 @@ class MapBox extends mapboxgl.Map {
     if (this.trips.length < this.maxTrips) {
       let newTrip = new Trip(this.drivers[this.c]);
       this.drivers[this.c].isHired = true;
-      if(this.c < (this.amountOfDrivers - 1)) {
+      if(this.c < (this.initialDrivers - 1)) {
         this.c++;
       }else {
         this.c = 0;

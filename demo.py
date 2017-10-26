@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import json
-import db_mngr, data_logger, kafka
+import db_mngr, data_logger
+import kafka #enables streaming
 from dbm import DBManager
 
 app = Flask(__name__)
