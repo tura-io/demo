@@ -100,8 +100,3 @@ def rebuild_from_file():
     conn.commit()
     conn.close()
     routefile.close()
-
-#NOTE: Uncomment this to rebuild Routes from routes.txt on import
-#rebuild_from_file()
-#NOTE: Uncomment this to rebuild Routes from Mapbox API on import
-# rebuild_from_api()
