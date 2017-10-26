@@ -36,6 +36,7 @@ tura.io demo &amp; test data generation project
 
 ### Important Notes:
   * On server restart, browser will require hard-refresh (CTRL-F5)
+  * "data_log.txt" logs all streamed data in JSON format. Log is currently not cleaned up or deleted by any process.
 
 #### DATABASE REBUILD INSTRUCTIONS
   * Create Database:
