@@ -40,6 +40,7 @@ tura.io demo &amp; test data generation project
 
 #### DATABASE REBUILD INSTRUCTIONS
   * Create Database:
+    * ``` >>>import db_mngr ```
     * Locations Table(w/ data):
       * ``` >>>db_mngr.create_w_data() ```
     * Routes Table:
