@@ -36,6 +36,7 @@ class Trip {
       locationStreamArr = [];
       this.sendDataAjax(data);
       console.log('Sensor Failures: ' + sensorFailureCount);
+      sensorFailureCount = 0;
     };
   }
 
@@ -102,7 +103,7 @@ class Trip {
       sensorFailureCount++;
     }
 
-    // this.setupLocationArr(); //check if array is full every cycle | NOTE: this line (and the import of kafka.py) enables streaming
+    this.setupLocationArr(); //check if array is full every cycle | NOTE: this line (and the import of kafka.py) enables streaming
   }
 
   animateRoute() {
