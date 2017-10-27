@@ -52,7 +52,7 @@ tura.io demo &amp; test data generation project
     * ```>>> DBM.create_routes() ```
 
   * Insert data into Routes table:
-    * ```>>> import routeDbBuilder as builder ```
+    * ```>>> import builder ```
     * ```>>> builder.rebuild_from_file() ```
   * If routes.txt does not exist or is corrupted:
     * ```>>> builder.rebuild_from_api() ```
