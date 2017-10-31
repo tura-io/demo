@@ -25,7 +25,7 @@ class Trip {
   }
 
   setupLocationArr() {
-    // when tempArr hits 10,000 geo-codes, it copies over data to streamArr then clears out tempArr for more data
+    // when tempArr hits array limiter, it copies over data to streamArr then clears out tempArr for more data
     if(locationTempArr.length == this.arrayLimiter) {
       locationStreamArr = locationTempArr.splice(0, locationTempArr.length);
       locationTempArr = [];
@@ -40,7 +40,7 @@ class Trip {
     };
   }
 
-  sendDataAjax(data) { //sends a packet of 10,000 geo-codes to server to be streamed
+  sendDataAjax(data) { //sends a packet of geo-codes to server to be streamed
     $.ajax({
       url: 'stream/collect',
       type: 'POST',
@@ -103,7 +103,7 @@ class Trip {
       sensorFailureCount++;
     }
 
-    this.setupLocationArr(); //check if array is full every cycle | NOTE: this line (and the import of kafka.py) enables streaming
+    // this.setupLocationArr(); //check if array is full every cycle | NOTE: this line (and the import of kafka.py) enables streaming
   }
 
   animateRoute() {
