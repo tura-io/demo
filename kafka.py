@@ -8,7 +8,7 @@ __author__ = 'Adrian Agnic <adrian@tura.io>'
 class Producer():
     """
     Simple kafka producer to stream out generated json data
-    Connection properties hardcoded
+    | Connection properties hardcoded |
     """
     def __init__(self):
         self.client = KafkaClient(hosts='127.0.0.1:9092') #NOTE: Connection to broker
