@@ -1,12 +1,12 @@
 from flask import Flask, render_template, request
 import json
 import data_logger
-from kafka import Producer #enables streaming
+# from kafka import Producer #enables streaming
 from dbm import DBManager
 
 app = Flask(__name__)
 DBM = DBManager('demo.db') #DB manager class w/ connection object init
-producer = Producer()
+# producer = Producer()
 
 @app.route('/')
 def index():
