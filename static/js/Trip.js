@@ -146,6 +146,17 @@ class Trip {
           }
       }]
     };
+
+    let latlong = {
+      'type': 'FeatureCollection',
+      'features': [{
+          'type': 'Feature',
+          'geometry': {
+              'type': 'Point',
+              'coordinates': this.Route.destCoords
+          }
+      }]
+    };
     // Calculate the distance in kilometers between route start/end point.
     var lineDistance = turf.lineDistance(route.features[0], 'kilometers');
     var tweens = [];
@@ -179,6 +190,11 @@ class Trip {
         'data': dest
     });
 
+    this.Map.addSource(`driver-${this.Id}`, {
+        'type': 'geojson',
+        'data': point
+    });
+
     this.Map.addLayer({
       'id': `trip-route-${this.Id}`,
       'source': `route-${this.Id}`,
@@ -196,7 +212,8 @@ class Trip {
         'type': 'symbol',
         'layout': {
             'icon-image': 'marker-11',
-            'icon-offset': [0, -6]
+            'icon-offset': [0, -6],
+            'text-field': `${this.Id}`
         },
         'paint': {
           //NOTE: This should control the color of the icon, but currently doesn't. It requires an 'sdf icon' to work.
@@ -216,6 +233,39 @@ class Trip {
           'icon-color': this.Color,
       }
     });
+
+    this.Map.addLayer({
+      'id': `trip-driver-${this.Id}`,
+      'source': `driver-${this.Id}`,
+      'type': 'symbol',
+      'layout': {
+          'icon-image': 'marker-15',
+          'icon-offset': [10, 0]
+      },
+      'paint': {
+          'icon-color': this.Color,
+      }
+    });
+
+    function denoteEvent(latlong, eventName) {
+      myThis.Map.addSource(`${eventName}`, {
+          'type': 'geojson',
+          'data': latlong
+      });
+      myThis.Map.addLayer({
+        'id': `${eventName}`,
+        'source': `${eventName}`,
+        'type': 'symbol',
+        'layout': {
+            'icon-image': 'marker-15',
+            'icon-offset': [0, 0],
+            'text-field': `${eventName}`
+        },
+        'paint': {
+            'icon-color': myThis.Color,
+        }
+      });
+    }
 
     let myThis = this;
     function animate() {
