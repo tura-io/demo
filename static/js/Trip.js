@@ -213,7 +213,8 @@ class Trip {
         'layout': {
             'icon-image': 'marker-11',
             'icon-offset': [0, -6],
-            'text-field': `${this.Id}`
+            'text-field': `${this.Id}`, // Add label for driver
+            'text-offset': [0, 1]       // Offset label for legibility
         },
         'paint': {
           //NOTE: This should control the color of the icon, but currently doesn't. It requires an 'sdf icon' to work.
@@ -248,6 +249,8 @@ class Trip {
     });
 
     function denoteEvent(latlong, eventName) {
+
+
       myThis.Map.addSource(`${eventName}`, {
           'type': 'geojson',
           'data': latlong
