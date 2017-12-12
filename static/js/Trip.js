@@ -219,19 +219,23 @@ class Trip {
 
     let myThis = this;
     function animate() {
-        //Shorten route geometry
+        //Shorten route geometry and Route speed vector
         if (route.features[0].geometry.coordinates.length > 1) {
           route.features[0].geometry.coordinates.splice(0, 1);
+          myThis.Route.speedVector.splice(0, 1);
         }
         // Update point geometry to a new position based on counter denoting
         // the index to access the arc.
         point.features[0].geometry.coordinates = route.features[0].geometry.coordinates[0];
         myThis.Driver.location = route.features[0].geometry.coordinates[0];
+        myThis.Speed = myThis.Route.speedVector[0];
 
         // Update the route source with the new data.
         myThis.Map.getSource(`route-${myThis.Id}`).setData(route);
         // Update the source with this new data.
         myThis.Map.getSource(`point-${myThis.Id}`).setData(point);
+        //console.log(myThis.Speed);
+        //console.log(myThis.Driver.location);
 
         myThis.emitNoisy(1, 5, 1);
         // Request the next frame of animation so long as destination has not

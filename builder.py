@@ -78,7 +78,7 @@ def rebuild_from_api():
 
 def rebuild_from_file():
     idx = 0
-    routefile = open("routes.txt", "r")
+    routefile = open("route_constant_speed.txt", "r")
     conn = db.connect('demo.db')
     dbi = conn.cursor()
     for line in routefile:
