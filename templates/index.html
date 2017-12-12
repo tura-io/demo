@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- Mapbox API CDN -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.40.0/mapbox-gl.js'></script>
+    <script src='//api.tiles.mapbox.com/mapbox.js/plugins/turf/v2.0.0/turf.min.js' charset='utf-8'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.40.0/mapbox-gl.css' rel='stylesheet' />
+    <!-- jQuery CDN -->
+    <script
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+    <!-- Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Materialize JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <!-- Our CSS and JS -->
+    <link rel="stylesheet" href="/static/css/master.css">
+    <script src="/static/js/mapbox_token.js" charset="utf-8"></script>
+    <script src="/static/js/Map.js" charset="utf-8"></script>
+    <script src="/static/js/Trip.js" charset="utf-8"></script>
+    <script src="/static/js/Route.js" charset="utf-8"></script>
+    <script src="/static/js/Point.js" charset="utf-8"></script>
+    <script src="/static/js/Person.js" charset="utf-8"></script>
+    <script src="/static/js/Driver.js" charset="utf-8"></script>
+    <!-- <script src="/static/js/Rider.js" charset="utf-8"></script> -->
+    <!---->
+    <title>Demo</title>
+  </head>
+
+  <body>
+    <div id='map'></div>
+    <div class='container'>
+      <div id='driver-list' class=''>
+        <div class="collection">
+        </div>
+      </div>
+      <div id='driver-card' class='card blue-grey'>
+        <div class='card-content white-text'>
+          <span class='card-title'>Dummy Text</span>
+          <p>Information about the driver and their analytics goes here.</p>
+        </div>
+      </div>
+      <div id='controls' class=''>
+        <ul>
+          <li class="control-panel">
+            <div class="right-align">
+              <span>Driver Population:   </span>
+              <a id='driver-pop-plus'class="btn-floating waves-effect waves-light"><i class="material-icons">add</i></a>
+              <div id='driver-pop' class='control-panel-number'></div>
+              <a id='driver-pop-minus'class="btn-floating waves-effect waves-light"><i class="material-icons">remove</i></a>
+            </div>
+          </li>
+          <li class="control-panel">
+            <div class="right-align">
+              <span>Passenger Max:   </span>
+              <a id='passenger-max-plus' class="btn-floating btn-sm waves-effect waves-light"><i class="material-icons">add</i></a>
+              <div id='passenger-max' class='control-panel-number'></div>
+              <a id='passenger-max-minus' class="btn-floating btn-small waves-effect waves-light"><i class="material-icons">remove</i></a>
+            </div>
+          </li>
+          <li class="control-panel">
+            <div class="right-align">
+              <span>Passenger Spawn Rate:   </span>
+              <a id='passenger-spawn-plus'class="btn-floating btn-sm waves-effect waves-light"><i class="material-icons">add</i></a>
+              <div id='passenger-spawn-rate' class='control-panel-number'></div>
+              <a id='passenger-spawn-minus'class="btn-floating btn-small waves-effect waves-light"><i class="material-icons">remove</i></a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- JS Scripts -->
+    <script src="/static/js/script.js" charset="utf-8"></script>
+    <script src="/static/js/interface.js" charset="utf-8"></script>
+  </body>
+</html>
