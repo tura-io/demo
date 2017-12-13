@@ -9,7 +9,7 @@ let sensorFailureCount = 0; //total amount of sensor failures (data null)
 //   'timestamp': 232535435,
 //   'stream_token': 'abc123',
 //   'event_context': {
-//     'location': [-122.67546, 45.502647]
+//     'location': this.Driver.location
 //   }
 // }
 
@@ -122,39 +122,11 @@ class Trip {
   // Callback function for dropping a marker where an event occurred on a trip.
   // Expects an event object as the input (see event.py from strom).
   denoteEvent(event_dict) {
-    let latlong = {
-      'type': 'FeatureCollection',
-      'features': [{
-          'type': 'Feature',
-          'geometry': {
-              'type': 'Point',
-              'coordinates': event_dict['event_context']['location']
-          }
-      }]
-    };
-    this.Map.addSource(`${event_dict['event_name']}`, {
-        'type': 'geojson',
-        'data': latlong
-    });
-    this.Map.addLayer({
-      'id': `${event_dict['event_name']}`,
-      'source': `${event_dict['event_name']}`,
-      'type': 'symbol',
-      'layout': {
-          'icon-image': 'marker-15',
-          'icon-offset': [0, 0],
-          'text-field': `${event_dict['event_name']}`,
-          'text-offset': [0, 1]       // Offset label for legibility
-      },
-      'paint': {
-          'icon-color': this.Color,
-      }
-    });
+    this.Map.setLayoutProperty(`event-${this.Id}`, 'text-field', event_dict['event_name']);
     let thus = this;
     setTimeout(function() {
-      thus.Map.removeLayer(`${event_dict['event_name']}`);
-      thus.Map.removeSource(`${event_dict['event_name']}`);
-    }, 2000)
+      thus.Map.setLayoutProperty(`event-${thus.Id}`, 'text-field', "");
+    }, 2000);
   }
 
   animateRoute() {
@@ -226,6 +198,11 @@ class Trip {
         'data': point
     });
 
+    this.Map.addSource(`event-point-${this.Id}`, {
+        'type': 'geojson',
+        'data': point
+    });
+
     this.Map.addSource(`dest-${this.Id}`, {
         'type': 'geojson',
         'data': dest
@@ -249,7 +226,6 @@ class Trip {
         'layout': {
             'icon-image': 'rocket-11',
             'icon-offset': [0, -6],
-            'text-field': `${this.Id}`, // Add label for driver
             'text-offset': [0, 1]       // Offset label for legibility
         },
         'paint': {
@@ -268,6 +244,16 @@ class Trip {
       },
       'paint': {
           'icon-color': this.Color,
+      }
+    });
+
+    // add invisible layer to show events
+    this.Map.addLayer({
+      'id': `event-${this.Id}`,
+      'source': `event-point-${this.Id}`,
+      'type': 'symbol',
+      'layout': {
+        'text-offset': [0, 1]
       }
     });
 
@@ -307,11 +293,20 @@ class Trip {
         // Update the route source with the new data.
         myThis.Map.getSource(`route-${myThis.Id}`).setData(route);
         myThis.Map.setPaintProperty(`trip-route-${myThis.Id}`, 'line-color', myThis.Color);
-        myThis.Map.setLayoutProperty(`trip-point-${myThis.Id}`, 'text-field', myThis.Speed.toString());
+        //myThis.Map.setLayoutProperty(`trip-point-${myThis.Id}`, 'text-field', myThis.Speed.toString());
         // Update the source with this new data.
         myThis.Map.getSource(`point-${myThis.Id}`).setData(point);
-        //console.log(myThis.Speed);
-        //console.log(myThis.Driver.location);
+
+        // Dummy event object for testing denoteEvent.
+         let test_event = {
+           'event_name': 'New event!',
+           'event_rules': '',
+           'timestamp': 232535435,
+           'stream_token': 'abc123',
+           'event_context': {
+             'location': myThis.Driver.location
+           }
+         };
 
         myThis.emitNoisy(1, 5, 1);
         // Request the next frame of animation so long as destination has not
