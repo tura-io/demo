@@ -34,7 +34,7 @@ def compute_speed(position_array, plot_turns=False):
         plt.plot(position_array[change_inds, 0], position_array[change_inds, 1], "rx")
         plt.show()
     default_speed = 65*np.ones((position_array.shape[0],1))
-    default_speed[change_inds,:] = 100
+    default_speed[change_inds,:] = 120
     return default_speed
 
 def add_computed_speed(route_file, write2file=True):
