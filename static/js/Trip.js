@@ -2,6 +2,16 @@ let id = 0 //global counter for trips
 let locationTempArr = []; //temp storage for data before streams
 let locationStreamArr = []; //copied from temp storage once length hits 10k and streamed out
 let sensorFailureCount = 0; //total amount of sensor failures (data null)
+// Dummy event object for testing denoteEvent.
+// let test_event = {
+//   'event_name': 'tura turn',
+//   'event_rules': '',
+//   'timestamp': 232535435,
+//   'stream_token': 'abc123',
+//   'event_context': {
+//     'location': [-122.67546, 45.502647]
+//   }
+// }
 
 class Trip {
 
@@ -11,7 +21,7 @@ class Trip {
     this.Map = {};
     this.Driver = driver;
     this.Route = {};
-    this.arrayLimiter = 10001; //NOTE: size of packets sent to server
+    this.arrayLimiter = 10001; //NOTE: size of packets sent to server.
     //This controls the rate at which the car moves by controlling animation refresh rate. 75ms default refresh speed moves the car in approximate realtime at 30mph. The current default, 0, allows the map to animate as quickly as it's able.
     this.Speed = 100;
     this.Color = (function() {
@@ -35,6 +45,8 @@ class Trip {
       let data = JSON.stringify(locationStreamArr);
       locationStreamArr = [];
       // this.sendDataAjax(data);
+      // Test the denoteEvent callback below:
+      // this.denoteEvent(test_event)
       console.log('Sensor Failures: ' + sensorFailureCount);
       sensorFailureCount = 0;
     };
@@ -106,6 +118,44 @@ class Trip {
     this.setupLocationArr(); //check if array is full every cycle | NOTE: this line (and the import of kafka.py) enables streaming
   }
 
+  // Callback function for dropping a marker where an event occurred on a trip.
+  // Expects an event object as the input (see event.py from strom).
+  denoteEvent(event_dict) {
+    let latlong = {
+      'type': 'FeatureCollection',
+      'features': [{
+          'type': 'Feature',
+          'geometry': {
+              'type': 'Point',
+              'coordinates': event_dict['event_context']['location']
+          }
+      }]
+    };
+    this.Map.addSource(`${event_dict['event_name']}`, {
+        'type': 'geojson',
+        'data': latlong
+    });
+    this.Map.addLayer({
+      'id': `${event_dict['event_name']}`,
+      'source': `${event_dict['event_name']}`,
+      'type': 'symbol',
+      'layout': {
+          'icon-image': 'marker-15',
+          'icon-offset': [0, 0],
+          'text-field': `${event_dict['event_name']}`,
+          'text-offset': [0, 1]       // Offset label for legibility
+      },
+      'paint': {
+          'icon-color': this.Color,
+      }
+    });
+    let thus = this;
+    setTimeout(function() {
+      thus.Map.removeLayer(`${event_dict['event_name']}`);
+      thus.Map.removeSource(`${event_dict['event_name']}`);
+    }, 2000)
+  }
+
   animateRoute() {
     // A path line from origin to destination.
     var route = {
@@ -146,6 +196,7 @@ class Trip {
           }
       }]
     };
+
     // Calculate the distance in kilometers between route start/end point.
     var lineDistance = turf.lineDistance(route.features[0], 'kilometers');
     var tweens = [];
@@ -196,7 +247,9 @@ class Trip {
         'type': 'symbol',
         'layout': {
             'icon-image': 'rocket-11',
-            'icon-offset': [0, -6]
+            'icon-offset': [0, -6],
+            'text-field': `${this.Id}`, // Add label for driver
+            'text-offset': [0, 1]       // Offset label for legibility
         },
         'paint': {
           //NOTE: This should control the color of the icon, but currently doesn't. It requires an 'sdf icon' to work.
