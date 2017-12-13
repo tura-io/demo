@@ -195,7 +195,7 @@ class Trip {
         'source': `point-${this.Id}`,
         'type': 'symbol',
         'layout': {
-            'icon-image': 'marker-11',
+            'icon-image': 'rocket-11',
             'icon-offset': [0, -6]
         },
         'paint': {
@@ -209,7 +209,7 @@ class Trip {
       'source': `dest-${this.Id}`,
       'type': 'symbol',
       'layout': {
-          'icon-image': 'marker-15',
+          'icon-image': 'alcohol-shop-15',
           'icon-offset': [0, 0]
       },
       'paint': {
@@ -230,8 +230,21 @@ class Trip {
         myThis.Driver.location = route.features[0].geometry.coordinates[0];
         myThis.Speed = myThis.Route.speedVector[0];
 
+        if (myThis.Speed >= 401) {
+            myThis.Color = '#40e0d0'
+        } else if (myThis.Speed >= 301) {
+            myThis.Color = '#8EB55D'
+        } else if (myThis.Speed >= 201) {
+            myThis.Color = '#ff8c00'
+        } else if (myThis.Speed >= 101) {
+            myThis.Color = '#FF5230'
+        } else {
+            myThis.Color = '#ff0080'
+        }
+
         // Update the route source with the new data.
         myThis.Map.getSource(`route-${myThis.Id}`).setData(route);
+        myThis.Map.setPaintProperty(`trip-route-${myThis.Id}`, 'line-color', myThis.Color);
         // Update the source with this new data.
         myThis.Map.getSource(`point-${myThis.Id}`).setData(point);
         //console.log(myThis.Speed);
