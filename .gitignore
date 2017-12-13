@@ -2,3 +2,4 @@ static/js/mapbox_token.js
 mapbox_token.py
 __pycache__/
 data_log.txt
+**/.idea
