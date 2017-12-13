@@ -23,7 +23,8 @@ class Trip {
     this.Route = {};
     this.arrayLimiter = 10001; //NOTE: size of packets sent to server.
     //This controls the rate at which the car moves by controlling animation refresh rate. 75ms default refresh speed moves the car in approximate realtime at 30mph. The current default, 0, allows the map to animate as quickly as it's able.
-    this.Speed = 0;
+    this.Speed = 85;
+
     this.Color = (function() {
       let letters = '0123456789ABCDEF';
       let color = '#';
@@ -246,7 +247,7 @@ class Trip {
         'source': `point-${this.Id}`,
         'type': 'symbol',
         'layout': {
-            'icon-image': 'marker-11',
+            'icon-image': 'rocket-11',
             'icon-offset': [0, -6],
             'text-field': `${this.Id}`, // Add label for driver
             'text-offset': [0, 1]       // Offset label for legibility
@@ -262,7 +263,7 @@ class Trip {
       'source': `dest-${this.Id}`,
       'type': 'symbol',
       'layout': {
-          'icon-image': 'marker-15',
+          'icon-image': 'alcohol-shop-15',
           'icon-offset': [0, 0]
       },
       'paint': {
@@ -272,19 +273,45 @@ class Trip {
 
     let myThis = this;
     function animate() {
-        //Shorten route geometry
+        //Shorten route geometry and Route speed vector
         if (route.features[0].geometry.coordinates.length > 1) {
           route.features[0].geometry.coordinates.splice(0, 1);
+          myThis.Route.speedVector.splice(0, 1);
         }
         // Update point geometry to a new position based on counter denoting
         // the index to access the arc.
         point.features[0].geometry.coordinates = route.features[0].geometry.coordinates[0];
         myThis.Driver.location = route.features[0].geometry.coordinates[0];
+        if (!isNaN(Math.floor(myThis.Route.speedVector[0]))){
+            myThis.Speed = myThis.Route.speedVector[0];
+        }
+
+        if (myThis.Speed >= 96) {
+            myThis.Color = '#2196f3'
+        } else if (myThis.Speed >= 91) {
+            myThis.Color = '#5961D3'
+        } else if (myThis.Speed >= 86) {
+            myThis.Color = '#6D56C0'
+        } else if (myThis.Speed >= 81) {
+            myThis.Color = '#8646A6'
+        }else if (myThis.Speed >= 76) {
+            myThis.Color = '#B02E7F'
+        }else if (myThis.Speed >= 71) {
+            myThis.Color = '#CB1E64'
+        }else if (myThis.Speed >= 66) {
+            myThis.Color = '#E70E48'
+        } else {
+            myThis.Color = '#f44336'
+        }
 
         // Update the route source with the new data.
         myThis.Map.getSource(`route-${myThis.Id}`).setData(route);
+        myThis.Map.setPaintProperty(`trip-route-${myThis.Id}`, 'line-color', myThis.Color);
+        myThis.Map.setLayoutProperty(`trip-point-${myThis.Id}`, 'text-field', myThis.Speed.toString());
         // Update the source with this new data.
         myThis.Map.getSource(`point-${myThis.Id}`).setData(point);
+        //console.log(myThis.Speed);
+        //console.log(myThis.Driver.location);
 
         myThis.emitNoisy(1, 5, 1);
         // Request the next frame of animation so long as destination has not
