@@ -27,7 +27,7 @@ def compute_speed(position_array, plot_turns=False):
     change_window = DeriveWindowSum.window_sum(change_heading, 2)
     big_change = np.abs(change_window) > 60
 
-    change_inds = np.nonzero(big_change[4:-1]+big_change[3:-2]+big_change[2:-3]+big_change[1:-4]++big_change[:-5])[0]+1
+    change_inds = np.nonzero(big_change[4:-1]+big_change[3:-2]+big_change[2:-3]+big_change[1:-4]+big_change[:-5])[0]+1
     if plot_turns:
         plt.plot(position_array[:,0], position_array[:,1],'x-')
         plt.plot(position_array[0,0], position_array[0,1], 'or')
