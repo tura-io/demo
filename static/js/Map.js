@@ -61,7 +61,7 @@ class MapBox extends mapboxgl.Map {
       newTrip.Map = this;
       newTrip.addRoute();
       this.trips.push(newTrip);
-
+      newTrip.initClient();
       newTrip.animateRoute();
       //TEMP: This should not be here, once we have actual drivers implemented.
       $('#driver-pop').text(map.trips.length);

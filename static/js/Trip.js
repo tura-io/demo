@@ -2,6 +2,7 @@ let id = 0 //global counter for trips
 let locationTempArr = []; //temp storage for data before streams
 let locationStreamArr = []; //copied from temp storage once length hits 10k and streamed out
 let sensorFailureCount = 0; //total amount of sensor failures (data null)
+const template = "{\"stream_name\": \"driver_data\", \"version\": 0, \"stream_token\": \"abc123\", \"timestamp\": null, \"measures\": {\"location\": {\"val\": null, \"dtype\": \"varchar(60)\"}}, \"fields\": {\"region-code\": {}}, \"user_ids\": {\"driver-id\": {}, \"id\": {}}, \"tags\": {}, \"foreign_keys\": [], \"filters\": [{\"func_type\": \"filter_data\", \"func_name\": \"ButterLowpass\", \"filter_name\": \"buttery_location\", \"func_params\": {\"order\": 2, \"nyquist\": 0.05}, \"measures\": [\"location\"]}, {\"func_type\": \"filter_data\", \"func_name\": \"WindowAverage\", \"filter_name\": \"window_location\", \"func_params\": {\"window_len\": 3}, \"measures\": [\"location\"]}], \"dparam_rules\": [{\"func_name\": \"DeriveHeading\", \"func_type\": \"derive_param\", \"func_params\": {\"window\": 1, \"units\": \"deg\", \"heading_type\": \"bearing\", \"swap_lon_lat\": true}, \"measure_rules\": {\"spatial_measure\": \"location\", \"output_name\": \"bears\"}, \"measures\": [\"location\"]}, {\"func_name\": \"DeriveChange\", \"func_type\": \"derive_param\", \"func_params\": {\"window\": 1, \"angle_change\": true}, \"measure_rules\": {\"target_measure\": \"bears\", \"output_name\": \"change_in_heading\"}, \"derived_measures\": [\"bears\"]}], \"event_rules\": {\"ninety_degree_turn\": {\"func_type\": \"detect_event\", \"func_name\": \"DetectThreshold\", \"event_rules\": {\"measure\": \"change_in_heading\", \"threshold_value\": 15, \"comparison_operator\": \">=\"}, \"event_name\": \"ninety_degree_turn\", \"stream_token\": null, \"derived_measures\": [\"change_in_heading\"]}}, \"storage_rules\":{\"store_raw\":true, \"store_filtered\":true, \"store_derived\":true}}";
 // Dummy event object for testing denoteEvent.
 // let test_event = {
 //   'event_name': 'tura turn',
@@ -21,10 +22,10 @@ class Trip {
     this.Map = {};
     this.Driver = driver;
     this.Route = {};
-    this.arrayLimiter = 10001; //NOTE: size of packets sent to server.
+    this.arrayLimiter = 1001; //NOTE: size of packets sent to server.
     //This controls the rate at which the car moves by controlling animation refresh rate. 75ms default refresh speed moves the car in approximate realtime at 30mph. The current default, 0, allows the map to animate as quickly as it's able.
     this.Speed = 85;
-
+    this.Client = StromClient();
     this.Color = (function() {
       let letters = '0123456789ABCDEF';
       let color = '#';
@@ -33,6 +34,10 @@ class Trip {
       }
       return color;
     }());
+  }
+
+  initClient() {
+    this.Client.registerDevice(this.Id, template);
   }
 
   setupLocationArr() {
@@ -45,7 +50,8 @@ class Trip {
     if(locationStreamArr.length == this.arrayLimiter) {
       let data = JSON.stringify(locationStreamArr);
       locationStreamArr = [];
-      // this.sendDataAjax(data);
+      this.Client.send(this.Id, data);
+      // this.sendDataAjax(data); // post to kafka route, not used!
       // Test the denoteEvent callback below:
       // this.denoteEvent(test_event)
       console.log('Sensor Failures: ' + sensorFailureCount);
