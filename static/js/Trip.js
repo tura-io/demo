@@ -23,7 +23,7 @@ class Trip {
     this.Route = {};
     this.arrayLimiter = 10001; //NOTE: size of packets sent to server.
     //This controls the rate at which the car moves by controlling animation refresh rate. 75ms default refresh speed moves the car in approximate realtime at 30mph. The current default, 0, allows the map to animate as quickly as it's able.
-    this.Speed = 100;
+    this.Speed = 85;
     this.Color = (function() {
       let letters = '0123456789ABCDEF';
       let color = '#';
@@ -281,7 +281,9 @@ class Trip {
         // the index to access the arc.
         point.features[0].geometry.coordinates = route.features[0].geometry.coordinates[0];
         myThis.Driver.location = route.features[0].geometry.coordinates[0];
-        myThis.Speed = myThis.Route.speedVector[0];
+        if (!isNaN(Math.floor(myThis.Route.speedVector[0]))){
+            myThis.Speed = myThis.Route.speedVector[0];
+        }
 
         if (myThis.Speed >= 96) {
             myThis.Color = '#2196f3'
@@ -304,6 +306,7 @@ class Trip {
         // Update the route source with the new data.
         myThis.Map.getSource(`route-${myThis.Id}`).setData(route);
         myThis.Map.setPaintProperty(`trip-route-${myThis.Id}`, 'line-color', myThis.Color);
+        myThis.Map.setLayoutProperty(`trip-point-${myThis.Id}`, 'text-field', myThis.Speed.toString());
         // Update the source with this new data.
         myThis.Map.getSource(`point-${myThis.Id}`).setData(point);
         //console.log(myThis.Speed);
