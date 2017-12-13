@@ -31,6 +31,7 @@ class MapBox extends mapboxgl.Map {
     for (let i = 0; i < this.initialDrivers; i++) {
       let newDriver = new Driver();
         newDriver.name = `${this.driverFirstNames[Math.floor(Math.random() * this.driverFirstNames.length)]} ${this.driverLastNames[Math.floor(Math.random() * this.driverLastNames.length)]}`;
+        newDriver.initClient();
       this.drivers.push(newDriver);
     };
   }
@@ -39,6 +40,7 @@ class MapBox extends mapboxgl.Map {
     //NOTE: This is a dummy method designed to be called by the Driver Population controls
     console.log('+1 driver...');
     let newDriver = new Driver()
+    newDriver.initClient();
     this.drivers.push(newDriver);
     //TODO: Add this Driver to the map as a Symbol layer
   }
@@ -61,7 +63,6 @@ class MapBox extends mapboxgl.Map {
       newTrip.Map = this;
       newTrip.addRoute();
       this.trips.push(newTrip);
-      newTrip.initClient();
       newTrip.animateRoute();
       //TEMP: This should not be here, once we have actual drivers implemented.
       $('#driver-pop').text(map.trips.length);
