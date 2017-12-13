@@ -230,16 +230,22 @@ class Trip {
         myThis.Driver.location = route.features[0].geometry.coordinates[0];
         myThis.Speed = myThis.Route.speedVector[0];
 
-        if (myThis.Speed >= 401) {
-            myThis.Color = '#40e0d0'
-        } else if (myThis.Speed >= 301) {
-            myThis.Color = '#8EB55D'
-        } else if (myThis.Speed >= 201) {
-            myThis.Color = '#ff8c00'
-        } else if (myThis.Speed >= 101) {
-            myThis.Color = '#FF5230'
+        if (myThis.Speed >= 96) {
+            myThis.Color = '#2196f3'
+        } else if (myThis.Speed >= 91) {
+            myThis.Color = '#5961D3'
+        } else if (myThis.Speed >= 86) {
+            myThis.Color = '#6D56C0'
+        } else if (myThis.Speed >= 81) {
+            myThis.Color = '#8646A6'
+        }else if (myThis.Speed >= 76) {
+            myThis.Color = '#B02E7F'
+        }else if (myThis.Speed >= 71) {
+            myThis.Color = '#CB1E64'
+        }else if (myThis.Speed >= 66) {
+            myThis.Color = '#E70E48'
         } else {
-            myThis.Color = '#ff0080'
+            myThis.Color = '#f44336'
         }
 
         // Update the route source with the new data.
