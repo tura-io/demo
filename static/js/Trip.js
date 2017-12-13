@@ -33,6 +33,7 @@ class Trip {
       }
       return color;
     }());
+    this.Trigger = true;
   }
 
   setupLocationArr() {
@@ -126,7 +127,7 @@ class Trip {
     let thus = this;
     setTimeout(function() {
       thus.Map.setLayoutProperty(`event-${thus.Id}`, 'text-field', "");
-    }, 2000);
+    }, 1000);
   }
 
   animateRoute() {
@@ -304,6 +305,11 @@ class Trip {
              'location': myThis.Driver.location
            }
          };
+
+         if (myThis.Trigger) {
+             myThis.denoteEvent(test_event)
+             myThis.Trigger = false
+         }
 
         myThis.emitNoisy(1, 5, 1);
         // Request the next frame of animation so long as destination has not
