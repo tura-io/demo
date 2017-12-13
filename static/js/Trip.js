@@ -222,15 +222,11 @@ class Trip {
     this.Map.addLayer({
         'id': `trip-point-${this.Id}`,
         'source': `point-${this.Id}`,
-        'type': 'symbol',
-        'layout': {
-            'icon-image': 'rocket-11',
-            'icon-offset': [0, -6],
-            'text-offset': [0, 1]       // Offset label for legibility
-        },
+        'type': 'circle',
         'paint': {
-          //NOTE: This should control the color of the icon, but currently doesn't. It requires an 'sdf icon' to work.
-            'icon-color': this.Color
+            'circle-radius': 8,
+            'circle-color': this.Color,
+            'circle-translate': [5,-5]
         }
     });
 
@@ -293,7 +289,8 @@ class Trip {
         // Update the route source with the new data.
         myThis.Map.getSource(`route-${myThis.Id}`).setData(route);
         myThis.Map.setPaintProperty(`trip-route-${myThis.Id}`, 'line-color', myThis.Color);
-        //myThis.Map.setLayoutProperty(`trip-point-${myThis.Id}`, 'text-field', myThis.Speed.toString());
+        // Update the color of the circles
+        myThis.Map.setPaintProperty(`trip-point-${myThis.Id}`,'circle-color', myThis.Color)
         // Update the source with this new data.
         myThis.Map.getSource(`point-${myThis.Id}`).setData(point);
 
