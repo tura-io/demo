@@ -9,7 +9,7 @@ let sensorFailureCount = 0; //total amount of sensor failures (data null)
 //   'timestamp': 232535435,
 //   'stream_token': 'abc123',
 //   'event_context': {
-//     'location': [-122.67546, 45.502647]
+//     'location': this.Driver.location
 //   }
 // }
 
@@ -34,6 +34,8 @@ class Trip {
       }
       return color;
     }());
+    this.Trigger = true;
+    this.SpeedVector = [];
   }
 
   setupLocationArr() {
@@ -48,8 +50,6 @@ class Trip {
       this.locationStreamArr = [];
       this.Driver.Client.process(this.Driver.name, data);
       // this.sendDataAjax(data); // NOTE: post to kafka route, not used!
-      // Test the denoteEvent callback below:
-      // this.denoteEvent(test_event)
       console.log('Sensor Failures: ' + sensorFailureCount);
       sensorFailureCount = 0;
     };
@@ -69,6 +69,7 @@ class Trip {
     var rand = Math.floor(Math.random() * (this.Map.routes.length));
     this.Route = this.Map.routes[rand];
     this.Driver.location = this.Route.originCoords;
+    this.SpeedVector = this.Route.speedVector.map(x => x);
   }
 
   emitNoisy(failPercent, minorAbbPercent, majorAbbPercent) {
@@ -125,39 +126,11 @@ class Trip {
   // Callback function for dropping a marker where an event occurred on a trip.
   // Expects an event object as the input (see event.py from strom).
   denoteEvent(event_dict) {
-    let latlong = {
-      'type': 'FeatureCollection',
-      'features': [{
-          'type': 'Feature',
-          'geometry': {
-              'type': 'Point',
-              'coordinates': event_dict['event_context']['location']
-          }
-      }]
-    };
-    this.Map.addSource(`${event_dict['event_name']}`, {
-        'type': 'geojson',
-        'data': latlong
-    });
-    this.Map.addLayer({
-      'id': `${event_dict['event_name']}`,
-      'source': `${event_dict['event_name']}`,
-      'type': 'symbol',
-      'layout': {
-          'icon-image': 'marker-15',
-          'icon-offset': [0, 0],
-          'text-field': `${event_dict['event_name']}`,
-          'text-offset': [0, 1]       // Offset label for legibility
-      },
-      'paint': {
-          'icon-color': this.Color,
-      }
-    });
+    this.Map.setLayoutProperty(`event-${this.Id}`, 'text-field', event_dict['event_name']);
     let thus = this;
     setTimeout(function() {
-      thus.Map.removeLayer(`${event_dict['event_name']}`);
-      thus.Map.removeSource(`${event_dict['event_name']}`);
-    }, 2000)
+      thus.Map.setLayoutProperty(`event-${thus.Id}`, 'text-field', "");
+    }, 1000);
   }
 
   animateRoute() {
@@ -229,6 +202,11 @@ class Trip {
         'data': point
     });
 
+    this.Map.addSource(`event-point-${this.Id}`, {
+        'type': 'geojson',
+        'data': point
+    });
+
     this.Map.addSource(`dest-${this.Id}`, {
         'type': 'geojson',
         'data': dest
@@ -269,20 +247,33 @@ class Trip {
       }
     });
 
+    // add invisible layer to show events
+    this.Map.addLayer({
+      'id': `event-${this.Id}`,
+      'source': `event-point-${this.Id}`,
+      'type': 'symbol',
+      'layout': {
+        'text-offset': [0, 1]
+      }
+    });
+
     let myThis = this;
     function animate() {
         //Shorten route geometry and Route speed vector
         if (route.features[0].geometry.coordinates.length > 1) {
           route.features[0].geometry.coordinates.splice(0, 1);
-          myThis.Route.speedVector.splice(0, 1);
+          myThis.SpeedVector.splice(0, 1);
         }
         // Update point geometry to a new position based on counter denoting
         // the index to access the arc.
         point.features[0].geometry.coordinates = route.features[0].geometry.coordinates[0];
         myThis.Driver.location = route.features[0].geometry.coordinates[0];
-        if (!isNaN(Math.floor(myThis.Route.speedVector[0]))){
-            myThis.Speed = myThis.Route.speedVector[0];
-        }
+        if (!isNaN(Math.floor(myThis.SpeedVector[0]))){
+            myThis.Speed = myThis.SpeedVector[0];
+        } //else if (myThis.Speed == 85) {
+        //     console.log("I'm a bad route! I started at " + myThis.Route.origin + " and I ended at " + myThis.Route.destination);
+        //     console.log(myThis.Route.speedVector);
+        // }
 
         if (myThis.Speed >= 96) {
             myThis.Color = '#2196f3'
@@ -305,13 +296,26 @@ class Trip {
         // Update the route source with the new data.
         myThis.Map.getSource(`route-${myThis.Id}`).setData(route);
         myThis.Map.setPaintProperty(`trip-route-${myThis.Id}`, 'line-color', myThis.Color);
-        myThis.Map.setLayoutProperty(`trip-point-${myThis.Id}`, 'text-field', myThis.Speed.toString());
         // Update the color of the circles
         myThis.Map.setPaintProperty(`trip-point-${myThis.Id}`,'circle-color', myThis.Color)
         // Update the source with this new data.
         myThis.Map.getSource(`point-${myThis.Id}`).setData(point);
-        //console.log(myThis.Speed);
-        //console.log(myThis.Driver.location);
+
+        // Dummy event object for testing denoteEvent.
+         let test_event = {
+           'event_name': 'New event!',
+           'event_rules': '',
+           'timestamp': 232535435,
+           'stream_token': 'abc123',
+           'event_context': {
+             'location': myThis.Driver.location
+           }
+         };
+
+         if (myThis.Trigger) {
+             myThis.denoteEvent(test_event)
+             myThis.Trigger = false
+         }
 
         myThis.emitNoisy(1, 5, 1);
         // Request the next frame of animation so long as destination has not
