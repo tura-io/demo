@@ -45,5 +45,10 @@ class DBManager(object):
         result = self.dbi.fetchall()
         return result
 
+    def  read_one(self):
+        self.dbi.execute('''SELECT rowid from routes WHERE origin={} AND dest="Holocene"  ''')
+        result = self.dbi.fetchall()
+        return result
+
     def __del__(self):
         self.conn.close()

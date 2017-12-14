@@ -34,6 +34,7 @@ class Trip {
       return color;
     }());
     this.Trigger = true;
+    this.SpeedVector = [];
   }
 
   setupLocationArr() {
@@ -68,6 +69,7 @@ class Trip {
     var rand = Math.floor(Math.random() * (this.Map.routes.length));
     this.Route = this.Map.routes[rand];
     this.Driver.location = this.Route.originCoords;
+    this.SpeedVector = this.Route.speedVector.map(x => x);
   }
 
   emitNoisy(failPercent, minorAbbPercent, majorAbbPercent) {
@@ -259,15 +261,18 @@ class Trip {
         //Shorten route geometry and Route speed vector
         if (route.features[0].geometry.coordinates.length > 1) {
           route.features[0].geometry.coordinates.splice(0, 1);
-          myThis.Route.speedVector.splice(0, 1);
+          myThis.SpeedVector.splice(0, 1);
         }
         // Update point geometry to a new position based on counter denoting
         // the index to access the arc.
         point.features[0].geometry.coordinates = route.features[0].geometry.coordinates[0];
         myThis.Driver.location = route.features[0].geometry.coordinates[0];
-        if (!isNaN(Math.floor(myThis.Route.speedVector[0]))){
-            myThis.Speed = myThis.Route.speedVector[0];
-        }
+        if (!isNaN(Math.floor(myThis.SpeedVector[0]))){
+            myThis.Speed = myThis.SpeedVector[0];
+        } //else if (myThis.Speed == 85) {
+        //     console.log("I'm a bad route! I started at " + myThis.Route.origin + " and I ended at " + myThis.Route.destination);
+        //     console.log(myThis.Route.speedVector);
+        // }
 
         if (myThis.Speed >= 96) {
             myThis.Color = '#2196f3'
