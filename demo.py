@@ -33,5 +33,5 @@ def stream_collect_data():
 
 if __name__ == '__main__':
     #app.run(debug=True)
-    app.run()
+    app.run(port=5001)
     #app.run(host='0.0.0.0', port=80) #USE FOR DOCKER BUILD

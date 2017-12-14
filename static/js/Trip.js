@@ -1,6 +1,6 @@
 let id = 0 //global counter for trips
-let locationTempArr = []; //temp storage for data before streams
-let locationStreamArr = []; //copied from temp storage once length hits 10k and streamed out
+// let locationTempArr = []; //temp storage for data before streams
+// let locationStreamArr = []; //copied from temp storage once length hits 10k and streamed out
 let sensorFailureCount = 0; //total amount of sensor failures (data null)
 // Dummy event object for testing denoteEvent.
 // let test_event = {
@@ -21,10 +21,11 @@ class Trip {
     this.Map = {};
     this.Driver = driver;
     this.Route = {};
-    this.arrayLimiter = 10001; //NOTE: size of packets sent to server.
+    this.arrayLimiter = 101; //NOTE: size of packets sent to server.
     //This controls the rate at which the car moves by controlling animation refresh rate. 75ms default refresh speed moves the car in approximate realtime at 30mph. The current default, 0, allows the map to animate as quickly as it's able.
     this.Speed = 85;
-
+    this.locationTempArr = [];
+    this.locationStreamArr = [];
     this.Color = (function() {
       let letters = '0123456789ABCDEF';
       let color = '#';
@@ -39,15 +40,16 @@ class Trip {
 
   setupLocationArr() {
     // when tempArr hits array limiter, it copies over data to streamArr then clears out tempArr for more data
-    if(locationTempArr.length == this.arrayLimiter) {
-      locationStreamArr = locationTempArr.splice(0, locationTempArr.length);
-      locationTempArr = [];
+    if(this.locationTempArr.length == this.arrayLimiter) {
+      this.locationStreamArr = this.locationTempArr.splice(0, this.locationTempArr.length);
+      this.locationTempArr = [];
     };
     // when streamArr is copied from tempArr, send data to AJAX and clear out streamArr
-    if(locationStreamArr.length == this.arrayLimiter) {
-      let data = JSON.stringify(locationStreamArr);
-      locationStreamArr = [];
-      // this.sendDataAjax(data);
+    if(this.locationStreamArr.length == this.arrayLimiter) {
+      let data = JSON.stringify(this.locationStreamArr);
+      this.locationStreamArr = [];
+      this.Driver.Client.process(this.Driver.name, data);
+      // this.sendDataAjax(data); // NOTE: post to kafka route, not used!
       // Test the denoteEvent callback below:
       // this.denoteEvent(test_event)
       console.log('Sensor Failures: ' + sensorFailureCount);
@@ -105,15 +107,16 @@ class Trip {
       'id': this.Id,
       'location': loc,
       'timestamp': null,
-      'driver-id': this.Driver.name
+      'driver-id': this.Driver.name,
+      'region-code': 'PDX'
     };
 
     let tk = new Date();
     objectToEmit.timestamp = tk.getTime();
     //Push data to array if we didn't roll fail-to-emit
     if (Math.random() * 101 > failPercent) {
-      if(locationTempArr.length <= this.arrayLimiter) {
-        locationTempArr.push(objectToEmit);
+      if(this.locationTempArr.length <= this.arrayLimiter) {
+        this.locationTempArr.push(this.Driver.Client.formatData(this.Driver.template, JSON.stringify(objectToEmit)));
       };
     } else {
       sensorFailureCount++;
