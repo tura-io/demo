@@ -50,8 +50,6 @@ class Trip {
       this.locationStreamArr = [];
       this.Driver.Client.process(this.Driver.name, data);
       // this.sendDataAjax(data); // NOTE: post to kafka route, not used!
-      // Test the denoteEvent callback below:
-      // this.denoteEvent(test_event)
       console.log('Sensor Failures: ' + sensorFailureCount);
       sensorFailureCount = 0;
     };

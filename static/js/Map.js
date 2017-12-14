@@ -39,7 +39,7 @@ class MapBox extends mapboxgl.Map {
   addDriver() {
     //NOTE: This is a dummy method designed to be called by the Driver Population controls
     console.log('+1 driver...');
-    let newDriver = new Driver()
+    let newDriver = new Driver();
     newDriver.initClient();
     this.drivers.push(newDriver);
     //TODO: Add this Driver to the map as a Symbol layer
