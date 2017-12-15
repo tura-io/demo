@@ -23,7 +23,7 @@ class Trip {
     this.Route = {};
     this.arrayLimiter = 101; //NOTE: size of packets sent to server.
     //This controls the rate at which the car moves by controlling animation refresh rate. 75ms default refresh speed moves the car in approximate realtime at 30mph. The current default, 0, allows the map to animate as quickly as it's able.
-    this.Speed = 205;
+    this.Speed = 0;
     this.locationTempArr = [];
     this.locationStreamArr = [];
     this.Color = (function() {

@@ -10,5 +10,6 @@ class Driver extends Person {
 
   initClient() {
     this.Client.registerDevice(this.name, this.template, this.name.replace(/\s/g, ""));
+    //this.Client.registerEvent('event');
   }
 }

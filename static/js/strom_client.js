@@ -7,7 +7,7 @@ author: Adrian Agnic <adrian@tura.io>
 */
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-const StromClient = ({url='http://127.0.0.1:5000', /*socket=io('http://127.0.0.1:5002'),*/ tokens={}} = {}) => ({
+const StromClient = ({url='http://127.0.0.1:5000', /*socket=io('http://127.0.0.1:5003'),*/ tokens={}} = {}) => ({
   url,
   //socket,
   tokens,
