@@ -46,7 +46,7 @@ class Trip {
     if(this.locationStreamArr.length == this.arrayLimiter) {
       let data = JSON.stringify(this.locationStreamArr);
       this.locationStreamArr = [];
-      this.Driver.Client.process(this.Driver.name, data);
+      this.Driver.Client.process(this.Driver.name, this.Driver.name.replace(/\s/g, ""), data);
       // this.sendDataAjax(data); // NOTE: post to kafka route, not used!
       // Test the denoteEvent callback below:
       // this.denoteEvent(test_event)
