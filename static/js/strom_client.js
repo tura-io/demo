@@ -66,7 +66,7 @@ const StromClient = ({url='http://127.0.0.1:5000', socket=io(url), tokens={}} = 
     regDev_r.send('template=' + encodeURIComponent(new_tmpl));
   },
   registerEvent(eventName, cb=null, passData=false) {
-    if (callback != null) {
+    if (cb != null) {
       if (passData == true) {
         socket.on(eventName, (cb, data) => {cb(data);});
       } else {
@@ -83,7 +83,7 @@ const StromClient = ({url='http://127.0.0.1:5000', socket=io(url), tokens={}} = 
     send_r.onreadystatechange = function() {
       if (send_r.readyState === 4) {
         if (send_r.status === 202) {
-          console.log('Data sent.');
+          console.log('Socket data sent.');
         }
       }
     };
