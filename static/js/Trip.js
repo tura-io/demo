@@ -46,11 +46,11 @@ class Trip {
     };
     // when streamArr is copied from tempArr, send data to AJAX and clear out streamArr
     if(this.locationStreamArr.length == this.arrayLimiter) {
-      let data = JSON.stringify(this.locationStreamArr);
+      let data = this.locationStreamArr;
       this.locationStreamArr = [];
       this.Driver.Client.process(this.Driver.name, this.Driver.name.replace(/\s/g, ""), data);
       // this.sendDataAjax(data); // NOTE: post to kafka route, not used!
-      console.log('Sensor Failures: ' + sensorFailureCount);
+      // console.log('Sensor Failures: ' + sensorFailureCount);
       sensorFailureCount = 0;
     };
   }
@@ -114,7 +114,7 @@ class Trip {
     //Push data to array if we didn't roll fail-to-emit
     if (Math.random() * 101 > failPercent) {
       if(this.locationTempArr.length <= this.arrayLimiter) {
-        this.locationTempArr.push(this.Driver.Client.formatData(this.Driver.template, JSON.stringify(objectToEmit)));
+        this.locationTempArr.push(this.Driver.Client.formatData(this.Driver.template, objectToEmit));
       };
     } else {
       sensorFailureCount++;
