@@ -34,7 +34,8 @@ class Trip {
       }
       return color;
     }());
-    this.Trigger = true;
+    // this.Trigger = true;
+    this.Trigger = false;
     this.SpeedVector = [];
   }
 
@@ -312,10 +313,15 @@ class Trip {
            }
          };
 
-         if (myThis.Trigger) {
-             myThis.denoteEvent(test_event)
-             myThis.Trigger = false
-         }
+         // if (myThis.Trigger) {
+         //     myThis.denoteEvent(test_event)
+         //     myThis.Trigger = false
+         // }
+
+        if (myThis.Trigger) {
+          myThis.denoteEvent(test_event)
+          // myThis.Trigger = false
+        }
 
         myThis.emitNoisy(1, 5, 1);
         // Request the next frame of animation so long as destination has not

@@ -14,7 +14,6 @@ class MapBox extends mapboxgl.Map {
     this.initialDrivers = 10;
     this.driverFirstNames = ['Parham', 'Justine', 'David', 'Molly', 'Cedar', 'Jack', 'Rachel', 'Adrian', 'Cheryl', 'Ricky'];
     this.driverLastNames = ['Parvizi', 'Wang', 'Nielsen', 'LeCompte', 'Mora', 'Emrich', 'Agnic', 'Smith', 'Wilson', 'Bobby'];
-    this.eventDisplay = false;
   }
 
   initialize() {
@@ -55,7 +54,13 @@ class MapBox extends mapboxgl.Map {
   toggleEvent() {
     // toggle eventDisplay true or false when its checkbox is clicked
      console.log('toggling event');
-     this.eventDisplay = !this.eventDisplay;
+     // this.eventDisplay = !this.eventDisplay;
+     map.trips.forEach(function(trip, idx) {
+       console.log('trip', trip);
+       console.log('trip.Trigger', trip.Trigger);
+       trip.Trigger = !trip.Trigger;
+       console.log('trip.Trigger', trip.Trigger);
+     });
   }
 
   addTrip() {
