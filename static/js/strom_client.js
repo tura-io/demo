@@ -35,19 +35,16 @@ const StromClient = ({url='http://127.0.0.1:5000', socket=io(url), tokens={}} = 
     json_tmpl.fields["region-code"] = json_data["region-code"];
     json_tmpl.user_ids.id = json_data.id;
     json_tmpl.user_ids["driver-id"] = json_data["driver-id"];
+    json_tmpl.engine_rules["kafka"] = json_data["driver-id"].replace(/\s/g, "");
     let tmpl = json_tmpl;
     return tmpl;
   },
   tokenizeData(name, data) {
     let token = this.tokens[name];
-    console.log(token);
     let json_data = data;;
-    console.log(json_data[0]['stream_token']);
-    console.log(json_data.length);
     for (let i = 0; i < json_data.length; i++) {
       json_data[i]['stream_token'] = token;
     }
-    console.log(json_data[0]['stream_token']);
     return JSON.stringify(json_data);
   },
   registerDevice(name, template, topic) {
