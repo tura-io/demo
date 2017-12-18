@@ -29,22 +29,25 @@ const StromClient = ({url='http://127.0.0.1:5000', socket=io(url), tokens={}} = 
   },
   formatData(template, data) {
     let json_tmpl = JSON.parse(template);
-    let json_data = JSON.parse(data);
+    let json_data = data;
     json_tmpl.timestamp = json_data.timestamp;
     json_tmpl.measures.location.val = json_data.location;
     json_tmpl.fields["region-code"] = json_data["region-code"];
     json_tmpl.user_ids.id = json_data.id;
     json_tmpl.user_ids["driver-id"] = json_data["driver-id"];
-    let tmpl = JSON.stringify(json_tmpl);
+    let tmpl = json_tmpl;
     return tmpl;
   },
   tokenizeData(name, data) {
     let token = this.tokens[name];
-    str_data = JSON.stringify(data);
-    json_data = JSON.parse(str_data);
-    for (let i = 0;i <= json_data.length;i++) {
-      json_data['stream_token'] = token;
+    console.log(token);
+    let json_data = data;;
+    console.log(json_data[0]['stream_token']);
+    console.log(json_data.length);
+    for (let i = 0; i < json_data.length; i++) {
+      json_data[i]['stream_token'] = token;
     }
+    console.log(json_data[0]['stream_token']);
     return JSON.stringify(json_data);
   },
   registerDevice(name, template, topic) {
@@ -88,7 +91,7 @@ const StromClient = ({url='http://127.0.0.1:5000', socket=io(url), tokens={}} = 
       }
     };
     send_r.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-    send_r.send('stream_data=' + encodeURIComponent(token_data) + '&topic=' + topic);
+    send_r.send('stream_data=' + encodeURIComponent(token_data) + '&topic=' + encodeURIComponent(topic));
   }
 });
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
