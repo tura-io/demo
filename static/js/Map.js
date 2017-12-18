@@ -14,6 +14,7 @@ class MapBox extends mapboxgl.Map {
     this.initialDrivers = 10;
     this.driverFirstNames = ['Parham', 'Justine', 'David', 'Molly', 'Cedar', 'Jack', 'Rachel', 'Adrian', 'Cheryl', 'Ricky'];
     this.driverLastNames = ['Parvizi', 'Wang', 'Nielsen', 'LeCompte', 'Mora', 'Emrich', 'Agnic', 'Smith', 'Wilson', 'Bobby'];
+    this.eventDisplay = false;
   }
 
   initialize() {
@@ -49,6 +50,12 @@ class MapBox extends mapboxgl.Map {
     console.log('-1 driver...');
     this.drivers.splice(Math.floor(Math.random() * this.drivers.length), 1);
     //TODO: Remove driver's associated Symbol layer from the map.
+  }
+
+  toggleEvent() {
+    // toggle eventDisplay true or false when its checkbox is clicked
+     console.log('toggling event');
+     this.eventDisplay = !this.eventDisplay;
   }
 
   addTrip() {

@@ -50,6 +50,13 @@ $(function () {
     updateDriverList();
     $('#driver-pop').text(map.drivers.length);
   });
+
+  // Event Toggle Click Handlers
+  $('#test-event').click(function() {
+    // if (map.eventDisplay) {
+      map.toggleEvent();
+    // }
+  });
 });
 
 function updateDriverList () {
