@@ -320,7 +320,6 @@ class Trip {
 
         if (myThis.Trigger) {
           myThis.denoteEvent(test_event)
-          // myThis.Trigger = false
         }
 
         myThis.emitNoisy(1, 5, 1);

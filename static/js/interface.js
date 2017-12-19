@@ -71,7 +71,7 @@ $(function () {
     //   }
     // };
 
-    // map.eventDisplay = !map.eventDisplay
+    map.eventDisplay = !map.eventDisplay
     // console.log(map.eventDisplay)
     // if (map.eventDisplay) {
     //   console.log(map.eventDisplay)

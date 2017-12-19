@@ -14,6 +14,7 @@ class MapBox extends mapboxgl.Map {
     this.initialDrivers = 10;
     this.driverFirstNames = ['Parham', 'Justine', 'David', 'Molly', 'Cedar', 'Jack', 'Rachel', 'Adrian', 'Cheryl', 'Ricky'];
     this.driverLastNames = ['Parvizi', 'Wang', 'Nielsen', 'LeCompte', 'Mora', 'Emrich', 'Agnic', 'Smith', 'Wilson', 'Bobby'];
+    this.eventDisplay = false;
   }
 
   initialize() {
@@ -73,6 +74,9 @@ class MapBox extends mapboxgl.Map {
         this.c = 0;
       };
       newTrip.Map = this;
+      // The Trigger attribute is defaulted to false for a Trip, but we want to
+      // set it in response to whether the event checkbox is true or false.
+      newTrip.Trigger = this.eventDisplay;
       newTrip.addRoute();
       this.trips.push(newTrip);
       newTrip.animateRoute();
