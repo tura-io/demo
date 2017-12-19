@@ -52,3 +52,9 @@
   bottom: 5vh;
   right: 5vh;
 }
+
+#dashboard {
+  z-index: 2;
+  position: absolute;
+  bottom: 0;
+}
