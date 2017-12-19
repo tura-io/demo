@@ -70,9 +70,9 @@ class Trip {
     this.Route = this.Map.routes[rand];
     this.Driver.location = this.Route.originCoords;
     this.SpeedVector = this.Route.speedVector.map(x => x);
-    console.log('Speed Vector: '+this.SpeedVector);
+    //console.log('Speed Vector: '+this.SpeedVector);
     this.modifySpeed();
-    console.log('=====Modified Speed Vector: '+this.SpeedVector);
+    //console.log('=====Modified Speed Vector: '+this.SpeedVector);
   }
 
   emitNoisy(failPercent, minorAbbPercent, majorAbbPercent) {

@@ -45,6 +45,11 @@ class MapBox extends mapboxgl.Map {
     //TODO: Add this Driver to the map as a Symbol layer
   }
 
+  modifyDriverSpeed(name,modifier){
+    console.log("DRIVER: "+name);
+    console.log("modifier: "+modifier);
+  }
+
   removeDriver() {
     console.log('-1 driver...');
     this.drivers.splice(Math.floor(Math.random() * this.drivers.length), 1);

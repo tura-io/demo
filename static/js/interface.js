@@ -65,26 +65,39 @@ function updateDriverList () {
 
 function driverListClick (event) {
   $('#driver-card').show();
-  // add an integer speed slider
-  // grab driver id and user speed input
-  // then pass speed modifier and driver id and reset speed
+
   let nameClicked = $(this).attr("id");
   console.log("DRIVER INCLICK "+nameClicked)
-  console.log(event);
   let cleanName = nameClicked.replace(/\s/g,"");
-  //report name
+
+  //report driver name
   $('.card-content').append(
     `<span class='card-test'>${nameClicked}</span>`);
-  //slider current value name
-  $('.card-content').append(
-    `<span class='card-test' id="slider-value" style="color:red;"></span>`);
-  //slider
-  $('.card-content').append(
-    `-20<input class="speed-slider" id="${cleanName}-slider" type="range" min="-20" max="20" onchange=""showValue(this.value);">20`);
 
-    function showValue(x){
-        document.getElementById("slider-value").innerHTML=x;
-    }
+  //nonUiSliderslider
+  $('.card-content').append(
+    `<div class="speed-slider" id="${cleanName}-slider">`);
+
+    var slider = document.getElementById(`${cleanName}-slider`);
+    noUiSlider.create(slider, {
+        start: [ 0 ],
+        tooltips: true,
+        range: {
+            'min' : -20,
+            'max' : 20
+        },
+        format: wNumb({
+            decimals: 0
+        })
+    });
+
+    // Slider callback value
+    var modifier;
+    slider.noUiSlider.on('end', function(values, handle){
+        modifier = values[handle];
+        console.log("End callback value: "+modifier);
+        map.modifyDriverSpeed(cleanName,modifier);
+    });
 
 
 //  setTimeout(function() {
