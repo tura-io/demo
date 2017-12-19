@@ -54,33 +54,12 @@ $(function () {
   // Event Toggle Click Handlers
   $('#test-event').click(function() {
     console.log('test-event clicked!')
-    // console.log(map.eventDisplay)
     // Dummy Event
     console.log('map.trips', map.trips);
-    // let loc = map.trips.forEach(function(trip, idx) {
-    //   map.trips[idx].Driver.location
-    // });
-    // let test_event = {
-    //   'event_name': 'New event!',
-    //   'event_rules': '',
-    //   'timestamp': 232535435,
-    //   'stream_token': 'abc123',
-    //   'event_context': {
-    //     // 'location': map.trips.Driver.location
-    //     'location': loc
-    //   }
-    // };
 
     map.eventDisplay = !map.eventDisplay
-    // console.log(map.eventDisplay)
-    // if (map.eventDisplay) {
-    //   console.log(map.eventDisplay)
-    //   map.trips.forEach(function(trip, idx) {
-    //     console.log('about to call denoteEvent')
-    //     map.trips[idx].denoteEvent(test_event)
-    //   });
-    // }
-    map.toggleEvent()
+    // map.toggleEvent()
+    map.toggleEvent(trip.Trigger);
   });
 });
 
