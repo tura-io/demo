@@ -70,6 +70,9 @@ class Trip {
     this.Route = this.Map.routes[rand];
     this.Driver.location = this.Route.originCoords;
     this.SpeedVector = this.Route.speedVector.map(x => x);
+    console.log('Speed Vector: '+this.SpeedVector);
+    this.modifySpeed();
+    console.log('=====Modified Speed Vector: '+this.SpeedVector);
   }
 
   emitNoisy(failPercent, minorAbbPercent, majorAbbPercent) {
@@ -131,6 +134,14 @@ class Trip {
     setTimeout(function() {
       thus.Map.setLayoutProperty(`event-${thus.Id}`, 'text-field', "");
     }, 1000);
+  }
+
+
+  modifySpeed(){
+    for (var i=0; i<this.SpeedVector.length; i++){
+       this.SpeedVector[i] += this.Driver.speedModifier;
+     }
+    return this.SpeedVector;
   }
 
   animateRoute() {
@@ -256,6 +267,7 @@ class Trip {
         'text-offset': [0, 1]
       }
     });
+
 
     let myThis = this;
     function animate() {
