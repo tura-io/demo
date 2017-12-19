@@ -303,20 +303,17 @@ class Trip {
         myThis.Map.getSource(`point-${myThis.Id}`).setData(point);
 
         // Dummy event object for testing denoteEvent.
-         let test_event = {
-           'event_name': 'New event!',
-           'event_rules': '',
-           'timestamp': 232535435,
-           'stream_token': 'abc123',
-           'event_context': {
-             'location': myThis.Driver.location
-           }
-         };
+       let test_event = {
+         'event_name': 'New event!',
+         'event_rules': '',
+         'timestamp': 232535435,
+         'stream_token': 'abc123',
+         'event_context': {
+           'location': myThis.Driver.location
+         }
+       };
 
-         // if (myThis.Trigger) {
-         //     myThis.denoteEvent(test_event)
-         //     myThis.Trigger = false
-         // }
+        myThis.Trigger = map.eventDisplay;
 
         if (myThis.Trigger) {
           myThis.denoteEvent(test_event)

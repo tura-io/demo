@@ -52,19 +52,9 @@ class MapBox extends mapboxgl.Map {
     //TODO: Remove driver's associated Symbol layer from the map.
   }
 
-  // toggleEvent() {
-  //   // toggle eventDisplay true or false when its checkbox is clicked
-  //    console.log('toggling event');
-  //    // this.eventDisplay = !this.eventDisplay;
-  //    map.trips.forEach(function(trip, idx) {
-  //      console.log('trip', trip);
-  //      console.log('trip.Trigger', trip.Trigger);
-  //      trip.Trigger = !trip.Trigger;
-  //      console.log('trip.Trigger', trip.Trigger);
-  //    });
-  // }
-
   toggleEvent(attribute) {
+    """ toggleEvent method to toggle any event boolean attribute """
+    """ Will be called by a click event handler in interface.js """
     // toggle eventDisplay true or false when its checkbox is clicked
      console.log('toggling event');
      // this.eventDisplay = !this.eventDisplay;

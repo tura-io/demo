@@ -53,12 +53,7 @@ $(function () {
 
   // Event Toggle Click Handlers
   $('#test-event').click(function() {
-    console.log('test-event clicked!')
-    // Dummy Event
-    console.log('map.trips', map.trips);
-
     map.eventDisplay = !map.eventDisplay
-    // map.toggleEvent()
     map.toggleEvent(trip.Trigger);
   });
 });
