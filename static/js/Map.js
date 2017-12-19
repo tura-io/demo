@@ -15,6 +15,8 @@ class MapBox extends mapboxgl.Map {
     this.driverFirstNames = ['Parham', 'Justine', 'David', 'Molly', 'Cedar', 'Jack', 'Rachel', 'Adrian', 'Cheryl', 'Ricky'];
     this.driverLastNames = ['Parvizi', 'Wang', 'Nielsen', 'LeCompte', 'Mora', 'Emrich', 'Agnic', 'Smith', 'Wilson', 'Bobby'];
     this.eventDisplay = false;
+    this.allNames = ['Parham', 'Molly', 'David', 'Justine', 'Adrian', 'Kody', 'Lucy', 'Allison', 'Ricky', 'Lucky'];
+    this.tempNames = [];
   }
 
   initialize() {
@@ -29,10 +31,13 @@ class MapBox extends mapboxgl.Map {
   }
 
   initDriverPool() {
+    this.tempNames = this.allNames.map(x => x);
     for (let i = 0; i < this.initialDrivers; i++) {
       let newDriver = new Driver();
-        newDriver.name = `${this.driverFirstNames[Math.floor(Math.random() * this.driverFirstNames.length)]} ${this.driverLastNames[Math.floor(Math.random() * this.driverLastNames.length)]}`;
-        newDriver.initClient();
+      // newDriver.name = `${this.driverFirstNames[Math.floor(Math.random() * this.driverFirstNames.length)]} ${this.driverLastNames[Math.floor(Math.random() * this.driverLastNames.length)]}`;
+      newDriver.name = this.tempNames[0];
+      this.tempNames.splice(0, 1);
+      newDriver.initClient();
       this.drivers.push(newDriver);
     };
   }
