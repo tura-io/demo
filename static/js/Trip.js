@@ -34,7 +34,8 @@ class Trip {
       }
       return color;
     }());
-    this.Trigger = true;
+    // this.Trigger = true;
+    this.Trigger = false;
     this.SpeedVector = [];
   }
 
@@ -302,20 +303,21 @@ class Trip {
         myThis.Map.getSource(`point-${myThis.Id}`).setData(point);
 
         // Dummy event object for testing denoteEvent.
-         let test_event = {
-           'event_name': 'New event!',
-           'event_rules': '',
-           'timestamp': 232535435,
-           'stream_token': 'abc123',
-           'event_context': {
-             'location': myThis.Driver.location
-           }
-         };
-
-         if (myThis.Trigger) {
-             myThis.denoteEvent(test_event)
-             myThis.Trigger = false
+       let test_event = {
+         'event_name': 'New event!',
+         'event_rules': '',
+         'timestamp': 232535435,
+         'stream_token': 'abc123',
+         'event_context': {
+           'location': myThis.Driver.location
          }
+       };
+
+        myThis.Trigger = map.eventDisplay;
+
+        if (myThis.Trigger) {
+          myThis.denoteEvent(test_event)
+        }
 
         myThis.emitNoisy(0, 0, 0);
         // Request the next frame of animation so long as destination has not
