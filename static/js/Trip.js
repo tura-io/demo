@@ -34,7 +34,8 @@ class Trip {
       }
       return color;
     }());
-    this.Trigger = true;
+    // this.Trigger = true;
+    this.Trigger = false;
     this.SpeedVector = [];
   }
 
@@ -46,11 +47,11 @@ class Trip {
     };
     // when streamArr is copied from tempArr, send data to AJAX and clear out streamArr
     if(this.locationStreamArr.length == this.arrayLimiter) {
-      let data = JSON.stringify(this.locationStreamArr);
+      let data = this.locationStreamArr;
       this.locationStreamArr = [];
       this.Driver.Client.process(this.Driver.name, this.Driver.name.replace(/\s/g, ""), data);
       // this.sendDataAjax(data); // NOTE: post to kafka route, not used!
-      console.log('Sensor Failures: ' + sensorFailureCount);
+      // console.log('Sensor Failures: ' + sensorFailureCount);
       sensorFailureCount = 0;
     };
   }
@@ -114,7 +115,7 @@ class Trip {
     //Push data to array if we didn't roll fail-to-emit
     if (Math.random() * 101 > failPercent) {
       if(this.locationTempArr.length <= this.arrayLimiter) {
-        this.locationTempArr.push(this.Driver.Client.formatData(this.Driver.template, JSON.stringify(objectToEmit)));
+        this.locationTempArr.push(this.Driver.Client.formatData(this.Driver.template, objectToEmit));
       };
     } else {
       sensorFailureCount++;
@@ -316,20 +317,21 @@ class Trip {
         myThis.Map.getSource(`point-${myThis.Id}`).setData(point);
 
         // Dummy event object for testing denoteEvent.
-         let test_event = {
-           'event_name': 'New event!',
-           'event_rules': '',
-           'timestamp': 232535435,
-           'stream_token': 'abc123',
-           'event_context': {
-             'location': myThis.Driver.location
-           }
-         };
-
-         if (myThis.Trigger) {
-             myThis.denoteEvent(test_event)
-             myThis.Trigger = false
+       let test_event = {
+         'event_name': 'New event!',
+         'event_rules': '',
+         'timestamp': 232535435,
+         'stream_token': 'abc123',
+         'event_context': {
+           'location': myThis.Driver.location
          }
+       };
+
+        myThis.Trigger = map.eventDisplay;
+
+        if (myThis.Trigger) {
+          myThis.denoteEvent(test_event)
+        }
 
         myThis.emitNoisy(1, 5, 1);
         // Request the next frame of animation so long as destination has not

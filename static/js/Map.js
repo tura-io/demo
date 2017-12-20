@@ -14,6 +14,9 @@ class MapBox extends mapboxgl.Map {
     this.initialDrivers = 5;
     this.driverFirstNames = ['Parham', 'Justine', 'David', 'Molly', 'Cedar', 'Jack', 'Rachel', 'Adrian', 'Cheryl', 'Ricky'];
     this.driverLastNames = ['Parvizi', 'Wang', 'Nielsen', 'LeCompte', 'Mora', 'Emrich', 'Agnic', 'Smith', 'Wilson', 'Bobby'];
+    this.eventDisplay = false;
+    this.allNames = ['Parham', 'Molly', 'David', 'Justine', 'Adrian', 'Kody', 'Lucy', 'Allison', 'Ricky', 'Lucky'];
+    this.tempNames = [];
   }
 
   initialize() {
@@ -28,10 +31,13 @@ class MapBox extends mapboxgl.Map {
   }
 
   initDriverPool() {
+    this.tempNames = this.allNames.map(x => x);
     for (let i = 0; i < this.initialDrivers; i++) {
       let newDriver = new Driver();
-        newDriver.name = `${this.driverFirstNames[Math.floor(Math.random() * this.driverFirstNames.length)]} ${this.driverLastNames[Math.floor(Math.random() * this.driverLastNames.length)]}`;
-        newDriver.initClient();
+      // newDriver.name = `${this.driverFirstNames[Math.floor(Math.random() * this.driverFirstNames.length)]} ${this.driverLastNames[Math.floor(Math.random() * this.driverLastNames.length)]}`;
+      newDriver.name = this.tempNames[0];
+      this.tempNames.splice(0, 1);
+      newDriver.initClient();
       this.drivers.push(newDriver);
     };
   }
@@ -61,6 +67,20 @@ class MapBox extends mapboxgl.Map {
     //TODO: Remove driver's associated Symbol layer from the map.
   }
 
+  toggleEvent(attribute) {
+    // """ toggleEvent method to toggle any event boolean attribute """
+    // """ Will be called by a click event handler in interface.js """
+    // toggle eventDisplay true or false when its checkbox is clicked
+     console.log('toggling event');
+     // this.eventDisplay = !this.eventDisplay;
+     map.trips.forEach(function(trip, idx) {
+       console.log('trip', trip);
+       console.log('attribute', attribute);
+       trip.attribute = !trip.attribute;
+       console.log('attribute', attribute);
+     });
+  }
+
   addTrip() {
     if (this.trips.length < this.maxTrips) {
       let newTrip = new Trip(this.drivers[this.c]);
@@ -71,6 +91,9 @@ class MapBox extends mapboxgl.Map {
         this.c = 0;
       };
       newTrip.Map = this;
+      // The Trigger attribute is defaulted to false for a Trip, but we want to
+      // set it in response to whether the event checkbox is true or false.
+      newTrip.Trigger = this.eventDisplay;
       newTrip.addRoute();
       this.trips.push(newTrip);
       newTrip.animateRoute();
