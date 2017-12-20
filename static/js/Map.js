@@ -8,10 +8,10 @@ class MapBox extends mapboxgl.Map {
     this.drivers = [];
     this.c = 0;
 
-    this.maxTrips = 10; //TODO: Make sure this works with Driver->Rider Trips the way we want.
+    this.maxTrips = 5; //TODO: Make sure this works with Driver->Rider Trips the way we want.
     this.tripSpawnInterval = 500; //ms
     this.intervalId = 0;
-    this.initialDrivers = 10;
+    this.initialDrivers = 5;
     this.driverFirstNames = ['Parham', 'Justine', 'David', 'Molly', 'Cedar', 'Jack', 'Rachel', 'Adrian', 'Cheryl', 'Ricky'];
     this.driverLastNames = ['Parvizi', 'Wang', 'Nielsen', 'LeCompte', 'Mora', 'Emrich', 'Agnic', 'Smith', 'Wilson', 'Bobby'];
     this.eventDisplay = false;
@@ -49,6 +49,16 @@ class MapBox extends mapboxgl.Map {
     newDriver.initClient();
     this.drivers.push(newDriver);
     //TODO: Add this Driver to the map as a Symbol layer
+  }
+
+  modifyDriverSpeed(name,modifier){
+    for (var i=0; i < this.drivers.length; i++) {
+        if (name == this.drivers[i].name){
+            this.drivers[i].setModifier(modifier);
+            //console.log("DRIVER: "+this.drivers[i].name);
+            //console.log("modifier: "+modifier);
+        }
+    };
   }
 
   removeDriver() {

@@ -62,7 +62,8 @@ function updateDriverList () {
   $('#driver-list > .collection').empty();
   for (var i = 0; i < map.drivers.length; i++) {
     $('#driver-list > .collection').append(
-      `<a class="collection-item"><div>${map.drivers[i].name}<i class="material-icons secondary-content">fiber_manual_record</i></div></a>`
+       //include unique id for driver
+      `<a class="collection-item" id="${map.drivers[i].name}"><div>${map.drivers[i].name}<i class="material-icons secondary-content">fiber_manual_record</i></div></a>`
     );
     $('#driver-list > .collection a').last().click(driverListClick);
   }
@@ -70,8 +71,46 @@ function updateDriverList () {
 
 function driverListClick (event) {
   $('#driver-card').show();
-  setTimeout(function() {
-    $('#driver-card').fadeOut();
-  }, 5000);
-  // console.log(event);
+
+  let nameClicked = $(this).attr("id");
+  let cleanName = nameClicked.replace(/\s/g,"");
+
+
+  //report driver name
+  $('.card-content').append(
+    `<span class='card-test'>${nameClicked}</span>`);
+
+  $('.card-content').append(
+    `<br><br><br>`);
+
+  //nonUiSliderslider
+  $('.card-content').append(
+    `<div class="speed-slider" id="${cleanName}-slider">`);
+
+    var slider = document.getElementById(`${cleanName}-slider`);
+    noUiSlider.create(slider, {
+        start: [ 0 ],
+        tooltips: true,
+        range: {
+            'min' : -65,
+            'max' : 1000
+        },
+        format: wNumb({
+            decimals: 0
+        })
+    });
+
+    // Slider callback value
+    var modifier;
+    slider.noUiSlider.on('end', function(values, handle){
+        modifier = values[handle];
+        map.modifyDriverSpeed(nameClicked,modifier);
+    });
+
+
+
+
+//  setTimeout(function() {
+//    $('#driver-card').fadeOut();
+//  }, 5000);
 }
