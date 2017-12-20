@@ -73,7 +73,6 @@ function driverListClick (event) {
   $('#driver-card').show();
 
   let nameClicked = $(this).attr("id");
-  console.log("DRIVER INCLICK "+nameClicked)
   let cleanName = nameClicked.replace(/\s/g,"");
 
   //report driver name
