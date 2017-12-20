@@ -75,9 +75,13 @@ function driverListClick (event) {
   let nameClicked = $(this).attr("id");
   let cleanName = nameClicked.replace(/\s/g,"");
 
+
   //report driver name
   $('.card-content').append(
     `<span class='card-test'>${nameClicked}</span>`);
+
+  $('.card-content').append(
+    `<br><br><br>`);
 
   //nonUiSliderslider
   $('.card-content').append(
@@ -102,6 +106,8 @@ function driverListClick (event) {
         modifier = values[handle];
         map.modifyDriverSpeed(nameClicked,modifier);
     });
+
+
 
 
 //  setTimeout(function() {
