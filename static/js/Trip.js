@@ -2,16 +2,7 @@ let id = 0 //global counter for trips
 // let locationTempArr = []; //temp storage for data before streams
 // let locationStreamArr = []; //copied from temp storage once length hits 10k and streamed out
 let sensorFailureCount = 0; //total amount of sensor failures (data null)
-// Dummy event object for testing denoteEvent.
-// let test_event = {
-//   'event_name': 'tura turn',
-//   'event_rules': '',
-//   'timestamp': 232535435,
-//   'stream_token': 'abc123',
-//   'event_context': {
-//     'location': this.Driver.location
-//   }
-// }
+
 
 class Trip {
 
@@ -21,7 +12,7 @@ class Trip {
     this.Map = {};
     this.Driver = driver;
     this.Route = {};
-    this.arrayLimiter = 101; //NOTE: size of packets sent to server.
+    this.arrayLimiter = 11; //NOTE: size of packets sent to server.
     //This controls the rate at which the car moves by controlling animation refresh rate. 75ms default refresh speed moves the car in approximate realtime at 30mph. The current default, 0, allows the map to animate as quickly as it's able.
     this.Speed = 85;
     this.locationTempArr = [];
@@ -37,6 +28,7 @@ class Trip {
     // this.Trigger = true;
     this.Trigger = false;
     this.SpeedVector = [];
+    this.tripTurns = 0;
   }
 
   setupLocationArr() {
@@ -126,12 +118,19 @@ class Trip {
 
   // Callback function for dropping a marker where an event occurred on a trip.
   // Expects an event object as the input (see event.py from strom).
-  denoteEvent(event_dict) {
-    this.Map.setLayoutProperty(`event-${this.Id}`, 'text-field', event_dict['event_name']);
+  denoteTurn() {
+    this.Map.setLayoutProperty(`event-${this.Id}`, 'text-field', 'Turn');
     let thus = this;
     setTimeout(function() {
       thus.Map.setLayoutProperty(`event-${thus.Id}`, 'text-field', "");
-    }, 1000);
+    }, 500);
+  }
+
+  turnCheck() {
+      if (this.Driver.turnCount > this.tripTurns) {
+          this.denoteTurn();
+          this.tripTurns +=1;
+      }
   }
 
   animateRoute() {
@@ -301,23 +300,13 @@ class Trip {
         myThis.Map.setPaintProperty(`trip-point-${myThis.Id}`,'circle-color', myThis.Color)
         // Update the source with this new data.
         myThis.Map.getSource(`point-${myThis.Id}`).setData(point);
+        myThis.Map.getSource(`event-point-${myThis.Id}`).setData(point);
 
         // Dummy event object for testing denoteEvent.
-       let test_event = {
-         'event_name': 'New event!',
-         'event_rules': '',
-         'timestamp': 232535435,
-         'stream_token': 'abc123',
-         'event_context': {
-           'location': myThis.Driver.location
-         }
-       };
 
         myThis.Trigger = map.eventDisplay;
 
-        if (myThis.Trigger) {
-          myThis.denoteEvent(test_event)
-        }
+        myThis.turnCheck();
 
         myThis.emitNoisy(1, 5, 1);
         // Request the next frame of animation so long as destination has not
@@ -343,6 +332,12 @@ class Trip {
       this.Map.trips.indexOf(e => e.Id === this.Id), 1);
       this.Driver.isHired = false;
     // remove point and route layers from the map
+    if (parseInt(this.Id) > 1) {
+        let last_id = parseInt(this.Id) - 1;
+        this.Map.removeLayer(`event-${last_id}`);
+        this.Map.removeSource(`event-point-${last_id}`);
+    }
+
     this.Map.removeLayer(`trip-route-${this.Id}`);
     this.Map.removeLayer(`trip-point-${this.Id}`);
     this.Map.removeLayer(`trip-dest-${this.Id}`);
