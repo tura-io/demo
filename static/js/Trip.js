@@ -236,16 +236,6 @@ class Trip {
         }
     });
 
-//    this.Map.addLayer({
-//        'id': `trip-point-text-${this.Id}`,
-//        'source': `point-${this.Id}`,
-//        'type': 'symbol',
-//        'layout': {
-//            'text-offset': [0, 1],
-//            'text-field':  this.Driver.name
-//        }
-//    });
-
     this.Map.addLayer({
       'id': `trip-dest-${this.Id}`,
       'source': `dest-${this.Id}`,
