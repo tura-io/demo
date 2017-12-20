@@ -58,8 +58,8 @@ class MapBox extends mapboxgl.Map {
   }
 
   toggleEvent(attribute) {
-    """ toggleEvent method to toggle any event boolean attribute """
-    """ Will be called by a click event handler in interface.js """
+    // """ toggleEvent method to toggle any event boolean attribute """
+    // """ Will be called by a click event handler in interface.js """
     // toggle eventDisplay true or false when its checkbox is clicked
      console.log('toggling event');
      // this.eventDisplay = !this.eventDisplay;
