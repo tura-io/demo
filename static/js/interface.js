@@ -83,8 +83,8 @@ function driverListClick (event) {
         start: [ 0 ],
         tooltips: true,
         range: {
-            'min' : -20,
-            'max' : 20
+            'min' : -65,
+            'max' : 1000
         },
         format: wNumb({
             decimals: 0
@@ -95,8 +95,7 @@ function driverListClick (event) {
     var modifier;
     slider.noUiSlider.on('end', function(values, handle){
         modifier = values[handle];
-        console.log("End callback value: "+modifier);
-        map.modifyDriverSpeed(cleanName,modifier);
+        map.modifyDriverSpeed(nameClicked,modifier);
     });
 
 
