@@ -317,7 +317,7 @@ class Trip {
              myThis.Trigger = false
          }
 
-        myThis.emitNoisy(1, 5, 1);
+        myThis.emitNoisy(0, 0, 0);
         // Request the next frame of animation so long as destination has not
         // been reached.
         if (point.features[0].geometry.coordinates[0]
