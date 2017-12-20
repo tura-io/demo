@@ -93,7 +93,7 @@ function driverListClick (event) {
         tooltips: true,
         range: {
             'min' : -65,
-            'max' : 1000
+            'max' : 100
         },
         format: wNumb({
             decimals: 0
@@ -107,8 +107,20 @@ function driverListClick (event) {
         map.modifyDriverSpeed(nameClicked,modifier);
     });
 
-
-
+    slider.noUiSlider.on('slide', function(values, handle){
+        var val = values[handle];
+        var sliderLoc = $(this['target']);
+        if (val < -45)
+            sliderLoc.css("background-color","#2196f3");
+        else if (val < -25 )
+            sliderLoc.css("background-color","#5961D3");
+        else if (val < 0 )
+            sliderLoc.css("background-color","#6D56C0");
+        else if (val < 100 )
+            sliderLoc.css("background-color","#8646A6");
+        else
+            sliderLoc.css("background-color","#B02E7F");
+    });
 
 //  setTimeout(function() {
 //    $('#driver-card').fadeOut();
