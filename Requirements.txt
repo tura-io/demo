@@ -1,4 +1,4 @@
 Flask
-Requests
+Sqlite3
 Mapbox
 pykafka
