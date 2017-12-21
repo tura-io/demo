@@ -5,7 +5,12 @@ Data-generation app and demonstration of Strom event-detection capabilities.
 
 #### Pre-Requisites:
 * Python 3.6
-* Flask, Sqlite3, Mapbox, Pykafka
+* [Flask](http://flask.pocoo.org/)
+  * *HTTP Server and templating micro-framework*
+* [Sqlite3](https://www.sqlite.org/)
+  * *Light-weight SQL Database engine*
+* [Mapbox](https://www.mapbox.com/)
+  * *Mapping library*
 * Mapbox token files (see below)
 * *All can be installed with*:
   * ``` pip install Requirements.txt ```

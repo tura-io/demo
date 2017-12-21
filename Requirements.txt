@@ -1,4 +1,3 @@
-Flask
-Sqlite3
-Mapbox
-pykafka
+flask
+sqlite3
+mapbox
