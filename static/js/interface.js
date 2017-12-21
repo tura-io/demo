@@ -83,9 +83,9 @@ function createSpeedControlCard () {
 
       //report driver name
       $('.card-content').append(
-        `<span class="${cleanName}-list" id="${cleanName}-name">${cleanName}</span>`);
-      $('.card-content').append(
-        `<br><br><br>`);
+        `<br><span class="${cleanName}-list" id="${cleanName}-name">${cleanName}</span><br><br><br>`);
+//      $('.card-content').append(
+//        `<br><br><br>`);
       //create nonUiSlider
       $('.card-content').append(
         `<div class="${cleanName}-list" class="speed-slider" id="${cleanName}-slider">`);
@@ -109,7 +109,7 @@ function createSpeedControlCard () {
       sliders[i].noUiSlider.on('end', function(values, handle){
         modifier = values[handle];
         map.modifyDriverSpeed(cleanName,modifier);
-        console.log("Name "+cleanName+" modifier "+modifier);
+        //console.log("Name "+cleanName+" modifier "+modifier);
       });
 
       sliders[i].noUiSlider.on('slide', function(values, handle){
