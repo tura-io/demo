@@ -118,20 +118,7 @@ class Trip {
 
   // Callback function for dropping a marker where an event occurred on a trip.
   // Expects an event object as the input (see event.py from strom).
-  denoteTurn() {
-    this.Map.setLayoutProperty(`event-${this.Id}`, 'text-field', 'Turn');
-    let thus = this;
-    setTimeout(function() {
-      thus.Map.setLayoutProperty(`event-${thus.Id}`, 'text-field', "");
-    }, 500);
-  }
 
-  turnCheck() {
-      if (this.Driver.turnCount > this.tripTurns) {
-          this.denoteTurn();
-          this.tripTurns +=1;
-      }
-  }
 
   animateRoute() {
     // A path line from origin to destination.
@@ -157,6 +144,18 @@ class Trip {
             }
         }]
     };
+
+    var eventPoint = {
+        'type': 'FeatureCollection',
+        'features': [{
+            'type': 'Feature',
+            'geometry': {
+                'type': 'Point',
+                'coordinates': this.Route.originCoords
+            }
+        }]
+    };
+
     for(let i = 0; i < this.Map.drivers.length; i++) {
       if(this.Map.drivers[i].location == undefined) {
         this.Map.drivers[i].location = this.Route.originCoords;
@@ -173,6 +172,8 @@ class Trip {
           }
       }]
     };
+
+
 
     // Calculate the distance in kilometers between route start/end point.
     var lineDistance = turf.lineDistance(route.features[0], 'kilometers');
@@ -204,7 +205,7 @@ class Trip {
 
     this.Map.addSource(`event-point-${this.Id}`, {
         'type': 'geojson',
-        'data': point
+        'data': eventPoint
     });
 
     this.Map.addSource(`dest-${this.Id}`, {
@@ -253,11 +254,29 @@ class Trip {
       'source': `event-point-${this.Id}`,
       'type': 'symbol',
       'layout': {
-        'text-offset': [0, 1]
+        'text-offset': [0, 0]
       }
     });
 
     let myThis = this;
+
+    function denoteTurn() {
+      eventPoint.features[0].geometry.coordinates = myThis.Driver.turnCoords;
+      myThis.Map.getSource(`event-point-${myThis.Id}`).setData(eventPoint);
+      myThis.Map.setLayoutProperty(`event-${myThis.Id}`, 'text-field', 'Turn');
+      let thus = myThis;
+      setTimeout(function() {
+        thus.Map.setLayoutProperty(`event-${thus.Id}`, 'text-field', "");
+      }, 500);
+    }
+
+    function turnCheck() {
+      if (myThis.Driver.turnCount > myThis.tripTurns) {
+        myThis.tripTurns +=1;
+        denoteTurn();
+      }
+    }
+
     function animate() {
         //Shorten route geometry and Route speed vector
         if (route.features[0].geometry.coordinates.length > 1) {
@@ -300,15 +319,16 @@ class Trip {
         myThis.Map.setPaintProperty(`trip-point-${myThis.Id}`,'circle-color', myThis.Color)
         // Update the source with this new data.
         myThis.Map.getSource(`point-${myThis.Id}`).setData(point);
-        myThis.Map.getSource(`event-point-${myThis.Id}`).setData(point);
+        //myThis.Map.getSource(`event-point-${myThis.Id}`).setData(point);
+
 
         // Dummy event object for testing denoteEvent.
 
         myThis.Trigger = map.eventDisplay;
 
-        myThis.turnCheck();
+        turnCheck();
 
-        myThis.emitNoisy(1, 5, 1);
+        myThis.emitNoisy(0, 0, 0);
         // Request the next frame of animation so long as destination has not
         // been reached.
         if (point.features[0].geometry.coordinates[0]
@@ -327,10 +347,11 @@ class Trip {
   }
 
   complete() {
+    this.Driver.turnCount = 0;
     // remove trip from those listed on the map
     this.Map.trips.splice(
-      this.Map.trips.indexOf(e => e.Id === this.Id), 1);
-      this.Driver.isHired = false;
+    this.Map.trips.indexOf(e => e.Id === this.Id), 1);
+    this.Driver.isHired = false;
     // remove point and route layers from the map
     if (parseInt(this.Id) > 1) {
         let last_id = parseInt(this.Id) - 1;

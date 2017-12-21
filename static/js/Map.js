@@ -9,7 +9,7 @@ class MapBox extends mapboxgl.Map {
     this.c = 0;
 
     this.maxTrips = 1; //TODO: Make sure this works with Driver->Rider Trips the way we want.
-    this.tripSpawnInterval = 500; //ms
+    this.tripSpawnInterval = 2000; //ms
     this.intervalId = 0;
     this.initialDrivers = 1;
     this.driverFirstNames = ['Parham', 'Justine', 'David', 'Molly', 'Cedar', 'Jack', 'Rachel', 'Adrian', 'Cheryl', 'Ricky'];
