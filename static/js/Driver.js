@@ -16,11 +16,11 @@ class Driver extends Person {
   }
 
   alertEvent(resp) {
-    if (resp) {
-      alert(resp);
-    } else {
-      alert("Event");
-    }
+//    if (resp) {
+//      alert(resp);
+//    } else {
+//      alert("Event");
+//    }
   }
 
   setModifier(modifier){

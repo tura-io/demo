@@ -6,6 +6,7 @@ $(function () {
 
   //Initialize Driver list
   updateDriverList();
+  updateData();
 
   //Control Passenger Spawn Rate
   $('#passenger-spawn-plus').click(function() {
@@ -53,10 +54,19 @@ $(function () {
 
   // Event Toggle Click Handlers
   $('#test-event').click(function() {
-    map.eventDisplay = !map.eventDisplay
-    map.toggleEvent(trip.Trigger);
+    //map.eventDisplay = !map.eventDisplay
+    //map.toggleEvent(trip.Trigger);
+    $('#total-trips').text(id);
   });
+
+
 });
+
+function updateData(){
+  setInterval(function() {
+    $('#total-trips').text(id);
+  }, 3000);
+}
 
 function updateDriverList () {
   $('#driver-list > .collection').empty();

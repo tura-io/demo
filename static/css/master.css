@@ -58,3 +58,7 @@
   position: absolute;
   bottom: 0;
 }
+
+#stats-header {
+ text-align: center;
+}
