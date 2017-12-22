@@ -6,6 +6,7 @@ $(function () {
 
   //Initialize Driver list
   updateDriverList();
+  createSpeedControlCard();
 
   //Control Passenger Spawn Rate
   $('#passenger-spawn-plus').click(function() {
@@ -69,48 +70,62 @@ function updateDriverList () {
   }
 }
 
-function driverListClick (event) {
-  $('#driver-card').show();
+function driverListClick(event){
+    $('#driver-card').toggle();
+}
 
-  let nameClicked = $(this).attr("id");
-  let cleanName = nameClicked.replace(/\s/g,"");
+function createSpeedControlCard () {
+  var sliders=[];
 
+  for (var i = 0; i < map.drivers.length; i++) {
 
-  //report driver name
-  $('.card-content').append(
-    `<span class='card-test'>${nameClicked}</span>`);
+      let cleanName = map.drivers[i].name.replace(/\s/g,"");
 
-  $('.card-content').append(
-    `<br><br><br>`);
+      //report driver name
+      $('.card-content').append(
+        `<br><span class="${cleanName}-list" id="${cleanName}-name">${cleanName}</span><br><br><br>`);
+//      $('.card-content').append(
+//        `<br><br><br>`);
+      //create nonUiSlider
+      $('.card-content').append(
+        `<div class="${cleanName}-list" class="speed-slider" id="${cleanName}-slider">`);
 
-  //nonUiSliderslider
-  $('.card-content').append(
-    `<div class="speed-slider" id="${cleanName}-slider">`);
+      sliders.push(document.getElementById(`${cleanName}-slider`));
+      noUiSlider.create(sliders[i], {
+            start: [ 0 ],
+            tooltips: true,
+            range: {
+                'min' : -65,
+                'max' : 100
+            },
+            format: wNumb({
+                decimals: 0
+            })
+      });
 
-    var slider = document.getElementById(`${cleanName}-slider`);
-    noUiSlider.create(slider, {
-        start: [ 0 ],
-        tooltips: true,
-        range: {
-            'min' : -65,
-            'max' : 1000
-        },
-        format: wNumb({
-            decimals: 0
-        })
-    });
-
-    // Slider callback value
-    var modifier;
-    slider.noUiSlider.on('end', function(values, handle){
+      // Slider Events
+      // Slider callback value
+      var modifier;
+      sliders[i].noUiSlider.on('end', function(values, handle){
         modifier = values[handle];
-        map.modifyDriverSpeed(nameClicked,modifier);
-    });
+        map.modifyDriverSpeed(cleanName,modifier);
+        //console.log("Name "+cleanName+" modifier "+modifier);
+      });
 
+      sliders[i].noUiSlider.on('slide', function(values, handle){
+        var val = values[handle];
+        var sliderLoc = $(this['target']);
+        if (val < -45)
+            sliderLoc.css("background-color","#B02E7F");
+        else if (val < -25 )
+            sliderLoc.css("background-color","#8646A6");
+        else if (val < 0 )
+            sliderLoc.css("background-color","#6D56C0");
+        else if (val < 100 )
+            sliderLoc.css("background-color","#5961D3");
+        else
+            sliderLoc.css("background-color","#2196f3");
+      });
 
-
-
-//  setTimeout(function() {
-//    $('#driver-card').fadeOut();
-//  }, 5000);
+  }//foreachdriver
 }
