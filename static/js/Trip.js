@@ -38,6 +38,7 @@ class Trip {
       let rollOver = this.locationTempArr.pop();
       this.locationTempArr.splice(0);
       this.locationTempArr.push(rollOver);
+      sensorFailureCount = 0;
     }
     // // when tempArr hits array limiter, it copies over data to streamArr then clears out tempArr for more data
     // if(this.locationTempArr.length == this.arrayLimiter) {
