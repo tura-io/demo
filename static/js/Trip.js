@@ -261,6 +261,7 @@ class Trip {
     let myThis = this;
 
     function denoteTurn() {
+        console.log("denoting turn");
       eventPoint.features[0].geometry.coordinates = myThis.Driver.turnCoords;
       myThis.Map.getSource(`event-point-${myThis.Id}`).setData(eventPoint);
       myThis.Map.setLayoutProperty(`event-${myThis.Id}`, 'text-field', 'Turn');
@@ -273,7 +274,12 @@ class Trip {
     function turnCheck() {
       if (myThis.Driver.turnCount > myThis.tripTurns) {
         myThis.tripTurns +=1;
-        denoteTurn();
+        console.log("turn check");
+        console.log(myThis.tripTurns);
+        if (myThis.Trigger) {
+          console.log("Trigger TRUE")
+          denoteTurn();
+        }
       }
     }
 
