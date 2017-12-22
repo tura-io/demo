@@ -1,44 +1,41 @@
-# demo
-tura.io demo &amp; test data generation project
+### Tura Strom Demo
 
-## Description
-  A testing program that simulates a ride-sharing app. Used for generation of geo-coordinate datasets.
+##### Description:
+Data-generation app and demonstration of Strom event-detection capabilities.
 
-  10,000 geo-codes / min (SpawnRate = 100ms)
+#### Pre-Requisites:
+* Python 3.6
+* [Flask](http://flask.pocoo.org/)
+  * *HTTP Server and templating micro-framework*
+* [Sqlite3](https://www.sqlite.org/)
+  * *Light-weight SQL Database engine*
+* [Mapbox](https://www.mapbox.com/)
+  * *Mapping library*
+* Mapbox token files (see below)
+* *All can be installed with*:
+  * ``` pip install Requirements.txt ```
 
-## Pre-Requisites
+#### Download:
+* ``` git clone git@github.com:tura-io/demo.git ```
 
-#### Local Use:
-  * Python3 enviroment
-  * Flask, Sqlite3, Mapbox packages
-  * Mapbox token files (see below)
-  * Kafka/Zookeeper instance if streaming is enabled
-
-#### Docker:
-  * Docker client
-  * Docker Kafka Container as consumer
-  * (see below)
-
-### Installation:
-  * Local:
-    * Install necessary packages above
-    * Create "mapbox_token.js" in /static/js/
-      * ``` let accessToken = 'YOURKEYHERE'; ```
-    * Create "mapbox_token.py" in root
+#### Mapbox Requirements:
+Create token files(example uses linux commands, replace these with whichever is correct for your OS):
+  * ``` cd demo/ ```
+  * ``` touch mapbox_token.py ```
+    * mapbox_token.py should contain:
       * ``` MAPBOX_ACCESS_TOKEN = 'YOURKEYHERE' ```
-    * Run:
-      * ``` python demo.py ```
 
-  * Docker:
-    * NOTE: check demo.py -> app.run for correct run command before building or running locally...
-    * Build:
-      * ``` docker build -t "demo" . ```
-    * Run:
-      * ``` docker run -dp 80:80 "demo" ```
+  * ``` cd demo/static/js ```
+  * ``` touch mapbox_token.js ```
+    * mapbox_token.js should contain:
+      * ``` let accessToken = 'YOURKEYHERE'; ```
+
+#### Run:
+* ``` cd demo/ ```
+* ``` python demo.py ```
 
 ### Important Notes:
   * On server restart, browser will require hard-refresh (CTRL-F5)
-  * "data_log.txt" logs all streamed data in JSON format. Log is currently not cleaned up or deleted by any process.
 
 #### DATABASE REBUILD INSTRUCTIONS
   (In Python interpreter):

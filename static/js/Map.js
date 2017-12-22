@@ -7,16 +7,16 @@ class MapBox extends mapboxgl.Map {
     this.trips = [];
     this.drivers = [];
     this.c = 0;
-
-    this.maxTrips = 5; //TODO: Make sure this works with Driver->Rider Trips the way we want.
-    this.tripSpawnInterval = 500; //ms
+    this.maxTrips = 2; //TODO: Make sure this works with Driver->Rider Trips the way we want.
+    this.tripSpawnInterval = 2000; //ms
     this.intervalId = 0;
-    this.initialDrivers = 5;
+    this.initialDrivers = 2;
     this.driverFirstNames = ['Parham', 'Justine', 'David', 'Molly', 'Cedar', 'Jack', 'Rachel', 'Adrian', 'Cheryl', 'Ricky'];
     this.driverLastNames = ['Parvizi', 'Wang', 'Nielsen', 'LeCompte', 'Mora', 'Emrich', 'Agnic', 'Smith', 'Wilson', 'Bobby'];
     this.eventDisplay = false;
     this.allNames = ['Parham', 'Molly', 'David', 'Justine', 'Adrian', 'Kody', 'Lucy', 'Allison', 'Ricky', 'Lucky'];
     this.tempNames = [];
+    this.activeDrivers = [];
   }
 
   initialize() {
@@ -40,6 +40,7 @@ class MapBox extends mapboxgl.Map {
       newDriver.initClient();
       this.drivers.push(newDriver);
     };
+    this.activeDrivers = this.drivers.map(x => x);
   }
 
   addDriver() {
@@ -67,38 +68,43 @@ class MapBox extends mapboxgl.Map {
     //TODO: Remove driver's associated Symbol layer from the map.
   }
 
-  toggleEvent(attribute) {
-    // """ toggleEvent method to toggle any event boolean attribute """
-    // """ Will be called by a click event handler in interface.js """
+  toggleEvent() {
+    //Will be called by a click event handler in interface.js
     // toggle eventDisplay true or false when its checkbox is clicked
      console.log('toggling event');
-     // this.eventDisplay = !this.eventDisplay;
      map.trips.forEach(function(trip, idx) {
        console.log('trip', trip);
-       console.log('attribute', attribute);
-       trip.attribute = !trip.attribute;
-       console.log('attribute', attribute);
+       trip.Trigger = !trip.Trigger;
      });
   }
 
   addTrip() {
     if (this.trips.length < this.maxTrips) {
-      let newTrip = new Trip(this.drivers[this.c]);
-      this.drivers[this.c].isHired = true;
-      if(this.c < (this.initialDrivers - 1)) {
-        this.c++;
-      }else {
-        this.c = 0;
-      };
-      newTrip.Map = this;
-      // The Trigger attribute is defaulted to false for a Trip, but we want to
-      // set it in response to whether the event checkbox is true or false.
-      newTrip.Trigger = this.eventDisplay;
-      newTrip.addRoute();
-      this.trips.push(newTrip);
-      newTrip.animateRoute();
-      //TEMP: This should not be here, once we have actual drivers implemented.
-      $('#driver-pop').text(map.trips.length);
+      if (this.activeDrivers.length >= 1) {
+        let newTrip = new Trip(this.activeDrivers[this.c]);
+        console.log(this.activeDrivers);
+        console.log(this.c);
+        this.activeDrivers[this.c].isHired = true;
+        this.activeDrivers.splice(this.c, 1);
+        // this.c++;
+        console.log("Got Driver in AddTrip");
+        newTrip.Map = this;
+        // The Trigger attribute is defaulted to false for a Trip, but we want to
+        // set it in response to whether the event checkbox is true or false.
+        newTrip.Trigger = this.eventDisplay;
+        newTrip.addRoute();
+        this.trips.push(newTrip);
+        newTrip.animateRoute();
+        //TEMP: This should not be here, once we have actual drivers implemented.
+        $('#driver-pop').text(map.trips.length);
+      } else {
+        console.log("NO AVAILABLE DRIVER");
+      }
+      // if(this.c < (this.initialDrivers - 1)) {
+      //   this.c++;
+      // }else {
+      //   this.c = 0;
+      // };
     }
   }
 

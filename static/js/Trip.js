@@ -2,16 +2,7 @@ let id = 0 //global counter for trips
 // let locationTempArr = []; //temp storage for data before streams
 // let locationStreamArr = []; //copied from temp storage once length hits 10k and streamed out
 let sensorFailureCount = 0; //total amount of sensor failures (data null)
-// Dummy event object for testing denoteEvent.
-// let test_event = {
-//   'event_name': 'tura turn',
-//   'event_rules': '',
-//   'timestamp': 232535435,
-//   'stream_token': 'abc123',
-//   'event_context': {
-//     'location': this.Driver.location
-//   }
-// }
+
 
 class Trip {
 
@@ -21,7 +12,7 @@ class Trip {
     this.Map = {};
     this.Driver = driver;
     this.Route = {};
-    this.arrayLimiter = 101; //NOTE: size of packets sent to server.
+    this.arrayLimiter = 7; //NOTE: size of packets sent to server.
     //This controls the rate at which the car moves by controlling animation refresh rate. 75ms default refresh speed moves the car in approximate realtime at 30mph. The current default, 0, allows the map to animate as quickly as it's able.
     this.Speed = 85;
     this.locationTempArr = [];
@@ -37,23 +28,32 @@ class Trip {
     // this.Trigger = true;
     this.Trigger = false;
     this.SpeedVector = [];
+    this.tripTurns = 0;
   }
 
   setupLocationArr() {
-    // when tempArr hits array limiter, it copies over data to streamArr then clears out tempArr for more data
-    if(this.locationTempArr.length == this.arrayLimiter) {
-      this.locationStreamArr = this.locationTempArr.splice(0, this.locationTempArr.length);
-      this.locationTempArr = [];
-    };
-    // when streamArr is copied from tempArr, send data to AJAX and clear out streamArr
-    if(this.locationStreamArr.length == this.arrayLimiter) {
-      let data = this.locationStreamArr;
-      this.locationStreamArr = [];
+    if (this.locationTempArr.length == this.arrayLimiter) {
+      let data = this.locationTempArr.map(x => x);
       this.Driver.Client.process(this.Driver.name, this.Driver.name.replace(/\s/g, ""), data);
-      // this.sendDataAjax(data); // NOTE: post to kafka route, not used!
-      // console.log('Sensor Failures: ' + sensorFailureCount);
+      let rollOver = this.locationTempArr.pop();
+      this.locationTempArr.splice(0);
+      this.locationTempArr.push(rollOver);
       sensorFailureCount = 0;
-    };
+    }
+    // // when tempArr hits array limiter, it copies over data to streamArr then clears out tempArr for more data
+    // if(this.locationTempArr.length == this.arrayLimiter) {
+    //   this.locationStreamArr = this.locationTempArr.splice(0, this.locationTempArr.length);
+    //   this.locationTempArr = [];
+    // };
+    // // when streamArr is copied from tempArr, send data to AJAX and clear out streamArr
+    // if(this.locationStreamArr.length == this.arrayLimiter) {
+    //   let data = this.locationStreamArr;
+    //   this.locationStreamArr = [];
+    //   this.Driver.Client.process(this.Driver.name, this.Driver.name.replace(/\s/g, ""), data);
+    //   // this.sendDataAjax(data); // NOTE: post to kafka route, not used!
+    //   // console.log('Sensor Failures: ' + sensorFailureCount);
+    //   sensorFailureCount = 0;
+    // };
   }
 
   sendDataAjax(data) { //sends a packet of geo-codes to server to be streamed
@@ -126,13 +126,7 @@ class Trip {
 
   // Callback function for dropping a marker where an event occurred on a trip.
   // Expects an event object as the input (see event.py from strom).
-  denoteEvent(event_dict) {
-    this.Map.setLayoutProperty(`event-${this.Id}`, 'text-field', event_dict['event_name']);
-    let thus = this;
-    setTimeout(function() {
-      thus.Map.setLayoutProperty(`event-${thus.Id}`, 'text-field', "");
-    }, 1000);
-  }
+
 
 
   animateRoute() {
@@ -159,6 +153,18 @@ class Trip {
             }
         }]
     };
+
+    var eventPoint = {
+        'type': 'FeatureCollection',
+        'features': [{
+            'type': 'Feature',
+            'geometry': {
+                'type': 'Point',
+                'coordinates': this.Route.originCoords
+            }
+        }]
+    };
+
     for(let i = 0; i < this.Map.drivers.length; i++) {
       if(this.Map.drivers[i].location == undefined) {
         this.Map.drivers[i].location = this.Route.originCoords;
@@ -175,6 +181,8 @@ class Trip {
           }
       }]
     };
+
+
 
     // Calculate the distance in kilometers between route start/end point.
     var lineDistance = turf.lineDistance(route.features[0], 'kilometers');
@@ -206,7 +214,7 @@ class Trip {
 
     this.Map.addSource(`event-point-${this.Id}`, {
         'type': 'geojson',
-        'data': point
+        'data': eventPoint
     });
 
     this.Map.addSource(`dest-${this.Id}`, {
@@ -257,12 +265,39 @@ class Trip {
       'source': `event-point-${this.Id}`,
       'type': 'symbol',
       'layout': {
-        'text-offset': [0, 1]
+        'text-offset': [0, 0]
       }
     });
 
 
     let myThis = this;
+
+    function denoteTurn() {
+        console.log("denoting turn");
+      eventPoint.features[0].geometry.coordinates = myThis.Driver.turnCoords;
+      if (eventPoint && myThis.Map.getSource(`event-point-${myThis.Id}`)) {
+          myThis.Map.getSource(`event-point-${myThis.Id}`).setData(eventPoint);
+      }
+
+      myThis.Map.setLayoutProperty(`event-${myThis.Id}`, 'text-field', 'Turn');
+      let thus = myThis;
+      setTimeout(function() {
+        thus.Map.setLayoutProperty(`event-${thus.Id}`, 'text-field', "");
+      }, 500);
+    }
+
+    function turnCheck() {
+      if (myThis.Driver.turnCount > myThis.tripTurns) {
+        myThis.tripTurns +=1;
+        console.log("turn check");
+        console.log(myThis.tripTurns);
+        if (myThis.Trigger) {
+          console.log("Trigger TRUE")
+          denoteTurn();
+        }
+      }
+    }
+
     function animate() {
         //Shorten route geometry and Route speed vector
         if (route.features[0].geometry.coordinates.length > 1) {
@@ -305,23 +340,14 @@ class Trip {
         myThis.Map.setPaintProperty(`trip-point-${myThis.Id}`,'circle-color', myThis.Color)
         // Update the source with this new data.
         myThis.Map.getSource(`point-${myThis.Id}`).setData(point);
+        //myThis.Map.getSource(`event-point-${myThis.Id}`).setData(point);
+
 
         // Dummy event object for testing denoteEvent.
-       let test_event = {
-         'event_name': 'New event!',
-         'event_rules': '',
-         'timestamp': 232535435,
-         'stream_token': 'abc123',
-         'event_context': {
-           'location': myThis.Driver.location
-         }
-       };
 
         myThis.Trigger = map.eventDisplay;
 
-        if (myThis.Trigger) {
-          myThis.denoteEvent(test_event)
-        }
+        turnCheck();
 
         myThis.emitNoisy(0, 0, 0);
         // Request the next frame of animation so long as destination has not
@@ -342,11 +368,19 @@ class Trip {
   }
 
   complete() {
+    this.Map.activeDrivers.push(this.Driver);
+    this.Driver.turnCount = 0;
     // remove trip from those listed on the map
     this.Map.trips.splice(
-      this.Map.trips.indexOf(e => e.Id === this.Id), 1);
-      this.Driver.isHired = false;
+    this.Map.trips.indexOf(e => e.Id === this.Id), 1);
+    this.Driver.isHired = false;
     // remove point and route layers from the map
+    if (parseInt(this.Id) > 2) {
+        let last_id = parseInt(this.Id) - 2;
+        this.Map.removeLayer(`event-${last_id}`);
+        this.Map.removeSource(`event-point-${last_id}`);
+    }
+
     this.Map.removeLayer(`trip-route-${this.Id}`);
     this.Map.removeLayer(`trip-point-${this.Id}`);
     this.Map.removeLayer(`trip-dest-${this.Id}`);
