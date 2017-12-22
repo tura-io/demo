@@ -16,6 +16,7 @@ class MapBox extends mapboxgl.Map {
     this.eventDisplay = false;
     this.allNames = ['Parham', 'Molly', 'David', 'Justine', 'Adrian', 'Kody', 'Lucy', 'Allison', 'Ricky', 'Lucky'];
     this.tempNames = [];
+    this.activeDrivers = [];
   }
 
   initialize() {
@@ -39,6 +40,7 @@ class MapBox extends mapboxgl.Map {
       newDriver.initClient();
       this.drivers.push(newDriver);
     };
+    this.activeDrivers = this.drivers.map(x => x);
   }
 
   addDriver() {
@@ -78,22 +80,31 @@ class MapBox extends mapboxgl.Map {
 
   addTrip() {
     if (this.trips.length < this.maxTrips) {
-      let newTrip = new Trip(this.drivers[this.c]);
-      this.drivers[this.c].isHired = true;
-      if(this.c < (this.initialDrivers - 1)) {
-        this.c++;
-      }else {
-        this.c = 0;
-      };
-      newTrip.Map = this;
-      // The Trigger attribute is defaulted to false for a Trip, but we want to
-      // set it in response to whether the event checkbox is true or false.
-      newTrip.Trigger = this.eventDisplay;
-      newTrip.addRoute();
-      this.trips.push(newTrip);
-      newTrip.animateRoute();
-      //TEMP: This should not be here, once we have actual drivers implemented.
-      $('#driver-pop').text(map.trips.length);
+      if (this.activeDrivers.length >= 1) {
+        let newTrip = new Trip(this.activeDrivers[this.c]);
+        console.log(this.activeDrivers);
+        console.log(this.c);
+        this.activeDrivers[this.c].isHired = true;
+        this.activeDrivers.splice(this.c, 1);
+        // this.c++;
+        console.log("Got Driver in AddTrip");
+        newTrip.Map = this;
+        // The Trigger attribute is defaulted to false for a Trip, but we want to
+        // set it in response to whether the event checkbox is true or false.
+        newTrip.Trigger = this.eventDisplay;
+        newTrip.addRoute();
+        this.trips.push(newTrip);
+        newTrip.animateRoute();
+        //TEMP: This should not be here, once we have actual drivers implemented.
+        $('#driver-pop').text(map.trips.length);
+      } else {
+        console.log("NO AVAILABLE DRIVER");
+      }
+      // if(this.c < (this.initialDrivers - 1)) {
+      //   this.c++;
+      // }else {
+      //   this.c = 0;
+      // };
     }
   }
 
