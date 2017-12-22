@@ -6,7 +6,8 @@ $(function () {
 
   //Initialize Driver list
   updateDriverList();
-  updateData();
+  createDriverEvents();
+  updateStatistics();
   createSpeedControlCard();
 
   //Control Passenger Spawn Rate
@@ -64,9 +65,20 @@ $(function () {
 
 });
 
-function updateData(){
+function createDriverEvents(){
+    for (var i = 0; i < map.drivers.length; i++) {
+        let cleanName = map.drivers[i].name.replace(/\s/g,"");
+        $('#total-events').append(`${cleanName}<ul id="${cleanName}-events"></ul>`);
+    }
+}
+
+function updateStatistics(){
   setInterval(function() {
     $('#total-trips').text(id);
+    for (var i = 0; i < map.drivers.length; i++) {
+        let cleanName = map.drivers[i].name.replace(/\s/g,"");
+        $(`#${cleanName}-events`).text(map.drivers[i].turnCount);
+    }
   }, 3000);
 }
 
