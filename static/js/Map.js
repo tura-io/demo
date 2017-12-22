@@ -7,11 +7,10 @@ class MapBox extends mapboxgl.Map {
     this.trips = [];
     this.drivers = [];
     this.c = 0;
-
-    this.maxTrips = 5; //TODO: Make sure this works with Driver->Rider Trips the way we want.
-    this.tripSpawnInterval = 500; //ms
+    this.maxTrips = 1; //TODO: Make sure this works with Driver->Rider Trips the way we want.
+    this.tripSpawnInterval = 2000; //ms
     this.intervalId = 0;
-    this.initialDrivers = 5;
+    this.initialDrivers = 1;
     this.driverFirstNames = ['Parham', 'Justine', 'David', 'Molly', 'Cedar', 'Jack', 'Rachel', 'Adrian', 'Cheryl', 'Ricky'];
     this.driverLastNames = ['Parvizi', 'Wang', 'Nielsen', 'LeCompte', 'Mora', 'Emrich', 'Agnic', 'Smith', 'Wilson', 'Bobby'];
     this.eventDisplay = false;
@@ -67,17 +66,13 @@ class MapBox extends mapboxgl.Map {
     //TODO: Remove driver's associated Symbol layer from the map.
   }
 
-  toggleEvent(attribute) {
-    // """ toggleEvent method to toggle any event boolean attribute """
-    // """ Will be called by a click event handler in interface.js """
+  toggleEvent() {
+    //Will be called by a click event handler in interface.js
     // toggle eventDisplay true or false when its checkbox is clicked
      console.log('toggling event');
-     // this.eventDisplay = !this.eventDisplay;
      map.trips.forEach(function(trip, idx) {
        console.log('trip', trip);
-       console.log('attribute', attribute);
-       trip.attribute = !trip.attribute;
-       console.log('attribute', attribute);
+       trip.Trigger = !trip.Trigger;
      });
   }
 

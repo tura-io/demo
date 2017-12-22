@@ -54,8 +54,8 @@ $(function () {
 
   // Event Toggle Click Handlers
   $('#test-event').click(function() {
-    map.eventDisplay = !map.eventDisplay
-    map.toggleEvent(trip.Trigger);
+    map.eventDisplay = !map.eventDisplay;
+    map.toggleEvent();
   });
 });
 
