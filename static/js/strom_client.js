@@ -66,12 +66,12 @@ const StromClient = ({url='http://127.0.0.1:5000', socket=io(url), tokens={}} = 
     regDev_r.send('template=' + encodeURIComponent(new_tmpl));
   },
   registerEvent(eventName, cb, passData=true) {
-    socket.on(eventName, function(data) {
-      if (passData == true) {
-        cb(data);
-      } else {
-        cb();
-      }
+    socket.on(eventName, function (data) {
+        if (passData == true) {
+            cb(data);
+        } else {
+            cb();
+        }
     });
   },
   process(name, topic, data) {
