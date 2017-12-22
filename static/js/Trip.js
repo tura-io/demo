@@ -275,7 +275,10 @@ class Trip {
     function denoteTurn() {
         console.log("denoting turn");
       eventPoint.features[0].geometry.coordinates = myThis.Driver.turnCoords;
-      myThis.Map.getSource(`event-point-${myThis.Id}`).setData(eventPoint);
+      if (eventPoint && myThis.Map.getSource(`event-point-${myThis.Id}`)) {
+          myThis.Map.getSource(`event-point-${myThis.Id}`).setData(eventPoint);
+      }
+
       myThis.Map.setLayoutProperty(`event-${myThis.Id}`, 'text-field', 'Turn');
       let thus = myThis;
       setTimeout(function() {
@@ -372,8 +375,8 @@ class Trip {
     this.Map.trips.indexOf(e => e.Id === this.Id), 1);
     this.Driver.isHired = false;
     // remove point and route layers from the map
-    if (parseInt(this.Id) > 1) {
-        let last_id = parseInt(this.Id) - 1;
+    if (parseInt(this.Id) > 2) {
+        let last_id = parseInt(this.Id) - 2;
         this.Map.removeLayer(`event-${last_id}`);
         this.Map.removeSource(`event-point-${last_id}`);
     }
