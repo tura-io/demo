@@ -21,7 +21,7 @@ class Trip {
     this.Map = {};
     this.Driver = driver;
     this.Route = {};
-    this.arrayLimiter = 101; //NOTE: size of packets sent to server.
+    this.arrayLimiter = 21; //NOTE: size of packets sent to server.
     //This controls the rate at which the car moves by controlling animation refresh rate. 75ms default refresh speed moves the car in approximate realtime at 30mph. The current default, 0, allows the map to animate as quickly as it's able.
     this.Speed = 85;
     this.locationTempArr = [];
@@ -40,20 +40,27 @@ class Trip {
   }
 
   setupLocationArr() {
-    // when tempArr hits array limiter, it copies over data to streamArr then clears out tempArr for more data
-    if(this.locationTempArr.length == this.arrayLimiter) {
-      this.locationStreamArr = this.locationTempArr.splice(0, this.locationTempArr.length);
-      this.locationTempArr = [];
-    };
-    // when streamArr is copied from tempArr, send data to AJAX and clear out streamArr
-    if(this.locationStreamArr.length == this.arrayLimiter) {
-      let data = this.locationStreamArr;
-      this.locationStreamArr = [];
+    if (this.locationTempArr.length == this.arrayLimiter) {
+      let data = this.locationTempArr.map(x => x);
       this.Driver.Client.process(this.Driver.name, this.Driver.name.replace(/\s/g, ""), data);
-      // this.sendDataAjax(data); // NOTE: post to kafka route, not used!
-      // console.log('Sensor Failures: ' + sensorFailureCount);
-      sensorFailureCount = 0;
-    };
+      let rollOver = this.locationTempArr.pop();
+      this.locationTempArr.splice(0);
+      this.locationTempArr.push(rollOver);
+    }
+    // // when tempArr hits array limiter, it copies over data to streamArr then clears out tempArr for more data
+    // if(this.locationTempArr.length == this.arrayLimiter) {
+    //   this.locationStreamArr = this.locationTempArr.splice(0, this.locationTempArr.length);
+    //   this.locationTempArr = [];
+    // };
+    // // when streamArr is copied from tempArr, send data to AJAX and clear out streamArr
+    // if(this.locationStreamArr.length == this.arrayLimiter) {
+    //   let data = this.locationStreamArr;
+    //   this.locationStreamArr = [];
+    //   this.Driver.Client.process(this.Driver.name, this.Driver.name.replace(/\s/g, ""), data);
+    //   // this.sendDataAjax(data); // NOTE: post to kafka route, not used!
+    //   // console.log('Sensor Failures: ' + sensorFailureCount);
+    //   sensorFailureCount = 0;
+    // };
   }
 
   sendDataAjax(data) { //sends a packet of geo-codes to server to be streamed
