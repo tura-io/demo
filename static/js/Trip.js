@@ -120,6 +120,7 @@ class Trip {
   // Expects an event object as the input (see event.py from strom).
 
 
+
   animateRoute() {
     // A path line from origin to destination.
     var route = {
@@ -241,7 +242,9 @@ class Trip {
       'type': 'symbol',
       'layout': {
           'icon-image': 'alcohol-shop-15',
-          'icon-offset': [0, 0]
+          'icon-offset': [0, 0],
+          'text-offset': [0, 1],
+          'text-field':  this.Driver.name
       },
       'paint': {
           'icon-color': this.Color,
@@ -257,6 +260,7 @@ class Trip {
         'text-offset': [0, 0]
       }
     });
+
 
     let myThis = this;
 
@@ -294,7 +298,7 @@ class Trip {
         point.features[0].geometry.coordinates = route.features[0].geometry.coordinates[0];
         myThis.Driver.location = route.features[0].geometry.coordinates[0];
         if (!isNaN(Math.floor(myThis.SpeedVector[0]))){
-            myThis.Speed = myThis.SpeedVector[0];
+            myThis.Speed = myThis.SpeedVector[0] + parseInt(myThis.Driver.speedModifier);
         } //else if (myThis.Speed == 85) {
         //     console.log("I'm a bad route! I started at " + myThis.Route.origin + " and I ended at " + myThis.Route.destination);
         //     console.log(myThis.Route.speedVector);

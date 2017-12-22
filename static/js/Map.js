@@ -7,7 +7,6 @@ class MapBox extends mapboxgl.Map {
     this.trips = [];
     this.drivers = [];
     this.c = 0;
-
     this.maxTrips = 1; //TODO: Make sure this works with Driver->Rider Trips the way we want.
     this.tripSpawnInterval = 2000; //ms
     this.intervalId = 0;
@@ -51,6 +50,16 @@ class MapBox extends mapboxgl.Map {
     //TODO: Add this Driver to the map as a Symbol layer
   }
 
+  modifyDriverSpeed(name,modifier){
+    for (var i=0; i < this.drivers.length; i++) {
+        if (name == this.drivers[i].name){
+            this.drivers[i].setModifier(modifier);
+            //console.log("DRIVER: "+this.drivers[i].name);
+            //console.log("modifier: "+modifier);
+        }
+    };
+  }
+
   removeDriver() {
     console.log('-1 driver...');
     this.drivers.splice(Math.floor(Math.random() * this.drivers.length), 1);
@@ -58,8 +67,7 @@ class MapBox extends mapboxgl.Map {
   }
 
   toggleEvent() {
-    //""" toggleEvent method to toggle any event boolean attribute """
-    //""" Will be called by a click event handler in interface.js """
+    //Will be called by a click event handler in interface.js
     // toggle eventDisplay true or false when its checkbox is clicked
      console.log('toggling event');
      map.trips.forEach(function(trip, idx) {
