@@ -365,6 +365,7 @@ class Trip {
   }
 
   complete() {
+    this.Map.activeDrivers.push(this.Driver);
     this.Driver.turnCount = 0;
     // remove trip from those listed on the map
     this.Map.trips.splice(
