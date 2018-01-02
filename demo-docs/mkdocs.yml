@@ -1,0 +1,7 @@
+site_name: Demo Docs
+site_description: Documentation for the demo project
+theme: readthedocs
+pages:
+- Index: 'index.md'
+- Project Components:
+    - Demo Overview: 'overview.md'

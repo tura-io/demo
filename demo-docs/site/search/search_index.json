@@ -1,0 +1,39 @@
+{
+    "docs": [
+        {
+            "location": "/",
+            "text": "Welcome to the Demo Docs\n\n\nThis site hosts all the documentation on the demo project.\n\n\nFor full documentation on mkdocs visit \nmkdocs.org\n.\n\n\nmkdocs Commands\n\n\n\n\nmkdocs new [dir-name]\n - Create a new project.\n\n\nmkdocs serve\n - Start the live-reloading docs server.\n\n\nmkdocs build\n - Build the documentation site.\n\n\nmkdocs help\n - Print this help message.\n\n\n\n\nProject layout\n\n\nmkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.\n\n\n\nTo Add a Page\n\n\nAdd a markdown file to the docs folder and add to the pages\nconfiguration in `mkdocs.yml`.\n\nFormat:\n    - <Page Name>: '<source file for documentation>'",
+            "title": "Index"
+        },
+        {
+            "location": "/#welcome-to-the-demo-docs",
+            "text": "This site hosts all the documentation on the demo project.  For full documentation on mkdocs visit  mkdocs.org .",
+            "title": "Welcome to the Demo Docs"
+        },
+        {
+            "location": "/#mkdocs-commands",
+            "text": "mkdocs new [dir-name]  - Create a new project.  mkdocs serve  - Start the live-reloading docs server.  mkdocs build  - Build the documentation site.  mkdocs help  - Print this help message.",
+            "title": "mkdocs Commands"
+        },
+        {
+            "location": "/#project-layout",
+            "text": "mkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.",
+            "title": "Project layout"
+        },
+        {
+            "location": "/#to-add-a-page",
+            "text": "Add a markdown file to the docs folder and add to the pages\nconfiguration in `mkdocs.yml`.\n\nFormat:\n    - <Page Name>: '<source file for documentation>'",
+            "title": "To Add a Page"
+        },
+        {
+            "location": "/overview/",
+            "text": "Demo Overview\n\n\nOverview on the demo project purpose and general architecture here.",
+            "title": "Demo Overview"
+        },
+        {
+            "location": "/overview/#demo-overview",
+            "text": "Overview on the demo project purpose and general architecture here.",
+            "title": "Demo Overview"
+        }
+    ]
+}
