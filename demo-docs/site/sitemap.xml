@@ -12,7 +12,13 @@
     
         
     <url>
-     <loc>/overview/</loc>
+     <loc>/Map/</loc>
+     <lastmod>2018-01-02</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/Trip/</loc>
      <lastmod>2018-01-02</lastmod>
      <changefreq>daily</changefreq>
     </url>

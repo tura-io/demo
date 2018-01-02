@@ -26,14 +26,14 @@
             "title": "To Add a Page"
         },
         {
-            "location": "/overview/",
-            "text": "Demo Overview\n\n\nOverview on the demo project purpose and general architecture here.",
-            "title": "Demo Overview"
+            "location": "/Map/",
+            "text": "",
+            "title": "js"
         },
         {
-            "location": "/overview/#demo-overview",
-            "text": "Overview on the demo project purpose and general architecture here.",
-            "title": "Demo Overview"
+            "location": "/Trip/",
+            "text": "",
+            "title": "js"
         }
     ]
 }

@@ -3,5 +3,11 @@ site_description: Documentation for the demo project
 theme: readthedocs
 pages:
 - Index: 'index.md'
-- Project Components:
-    - Demo Overview: 'overview.md'
+- JavaScript Project Components:
+  - script: 'script.md'
+  - interface: interface.md
+  - strom_client: 'strom_client.md'
+  - Map: 'Map.md'
+  - Trip: 'Trip.md'
+  - Route: 'Route.md'
+  - Point: 'Point.md'
