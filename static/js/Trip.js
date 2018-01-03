@@ -1,7 +1,7 @@
-let id = 0 //global counter for trips
+let id = 0 // global counter for trips
 // let locationTempArr = []; //temp storage for data before streams
 // let locationStreamArr = []; //copied from temp storage once length hits 10k and streamed out
-let sensorFailureCount = 0; //total amount of sensor failures (data null)
+let sensorFailureCount = 0; // total amount of sensor failures (data null)
 
 
 class Trip {
@@ -12,8 +12,8 @@ class Trip {
     this.Map = {};
     this.Driver = driver;
     this.Route = {};
-    this.arrayLimiter = 7; //NOTE: size of packets sent to server.
-    //This controls the rate at which the car moves by controlling animation refresh rate. 75ms default refresh speed moves the car in approximate realtime at 30mph. The current default, 0, allows the map to animate as quickly as it's able.
+    this.arrayLimiter = 7; // NOTE: size of packets sent to server.
+    // This controls the rate at which the car moves by controlling animation refresh rate. 75ms default refresh speed moves the car in approximate realtime at 30mph. The current default, 0, allows the map to animate as quickly as it's able.
     this.Speed = 85;
     this.locationTempArr = [];
     this.locationStreamArr = [];
@@ -25,7 +25,6 @@ class Trip {
       }
       return color;
     }());
-    // this.Trigger = true;
     this.Trigger = false;
     this.SpeedVector = [];
     this.tripTurns = 0;
@@ -56,7 +55,8 @@ class Trip {
     // };
   }
 
-  sendDataAjax(data) { //sends a packet of geo-codes to server to be streamed
+  sendDataAjax(data) {
+    // sends a packet of geo-codes to server to be streamed
     $.ajax({
       url: 'stream/collect',
       type: 'POST',
@@ -124,11 +124,6 @@ class Trip {
     this.setupLocationArr(); //check if array is full every cycle | NOTE: this line (and the import of kafka.py) enables streaming
   }
 
-  // Callback function for dropping a marker where an event occurred on a trip.
-  // Expects an event object as the input (see event.py from strom).
-
-
-
   animateRoute() {
     // A path line from origin to destination.
     var route = {
@@ -141,7 +136,7 @@ class Trip {
             }
         }]
     };
-    // A single point that animates along the route.
+    // A single point that animates along the route. The "driver."
     // Coordinates are initially set to origin.
     var point = {
         'type': 'FeatureCollection',
@@ -154,6 +149,7 @@ class Trip {
         }]
     };
 
+    // The location of an event.
     var eventPoint = {
         'type': 'FeatureCollection',
         'features': [{
@@ -171,6 +167,7 @@ class Trip {
       };
     };
 
+    // The target destination of a trip.
     let dest = {
       'type': 'FeatureCollection',
       'features': [{
@@ -182,14 +179,12 @@ class Trip {
       }]
     };
 
-
-
     // Calculate the distance in kilometers between route start/end point.
     var lineDistance = turf.lineDistance(route.features[0], 'kilometers');
     var tweens = [];
 
     var numberOfFrames = 0;
-    //NOTE: One possible optimization route is decreasing the resolution of the animations. I've made that easily controllable from within source by adding the variable below:
+    // NOTE: One possible optimization route is decreasing the resolution of the animations. I've made that easily controllable from within source by adding the variable below:
     var resolution = 40;
     // Draw an arc between the `origin` & `destination` of the two points
     for (var i = 0; i < resolution * lineDistance; i++) {
@@ -269,18 +264,23 @@ class Trip {
       }
     });
 
-
+    // Store the context of `this` using a variable so we can refer to the Trip object
+    // as `this` inside functions.
     let myThis = this;
 
     function denoteTurn() {
-        console.log("denoting turn");
+      console.log("denoting turn");
+      // Set the location of the eventPoint to the turn coordinates from the socket stream.
       eventPoint.features[0].geometry.coordinates = myThis.Driver.turnCoords;
       if (eventPoint && myThis.Map.getSource(`event-point-${myThis.Id}`)) {
           myThis.Map.getSource(`event-point-${myThis.Id}`).setData(eventPoint);
       }
-
+      // Define and render a Mapbox layer that contains a text-field that says "Turn".
       myThis.Map.setLayoutProperty(`event-${myThis.Id}`, 'text-field', 'Turn');
+      // Use a variable to preserve the context of `this` for the Trip object.
       let thus = myThis;
+      // Toggle visibility off of the event by setting the text-field to an empty
+      // string.
       setTimeout(function() {
         thus.Map.setLayoutProperty(`event-${thus.Id}`, 'text-field', "");
       }, 500);
@@ -342,9 +342,9 @@ class Trip {
         myThis.Map.getSource(`point-${myThis.Id}`).setData(point);
         //myThis.Map.getSource(`event-point-${myThis.Id}`).setData(point);
 
-
-        // Dummy event object for testing denoteEvent.
-
+        // Set the value of the Trigger attribute to the value of the eventDisplay attribute on the Map
+        // object. We do this before calling turnCheck to make sure that we have the "right" boolean
+        // value to display - or not display - any potential turns.
         myThis.Trigger = map.eventDisplay;
 
         turnCheck();
@@ -368,6 +368,7 @@ class Trip {
   }
 
   complete() {
+    // Remove driver of Trip from the list of active drivers on the Map object.
     this.Map.activeDrivers.push(this.Driver);
     this.Driver.turnCount = 0;
     // remove trip from those listed on the map
@@ -380,7 +381,7 @@ class Trip {
         this.Map.removeLayer(`event-${last_id}`);
         this.Map.removeSource(`event-point-${last_id}`);
     }
-
+    // Remove trip layer from the map.
     this.Map.removeLayer(`trip-route-${this.Id}`);
     this.Map.removeLayer(`trip-point-${this.Id}`);
     this.Map.removeLayer(`trip-dest-${this.Id}`);

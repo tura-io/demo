@@ -20,6 +20,7 @@ class MapBox extends mapboxgl.Map {
   }
 
   initialize() {
+    // Spawn new trips every however many seconds tripSpawnInterval is set to.
     if (this.intervalId !== 0) {
       console.log(`Stopping: ${this.intervalId}`);
       clearInterval(this.intervalId);
@@ -31,6 +32,10 @@ class MapBox extends mapboxgl.Map {
   }
 
   initDriverPool() {
+    // Create list of drivers from the list of potential drivers and initializing a socket client
+    // for each driver in the list of active drivers. We specifically make a copy tempNames of the list of
+    // potential drivers allNames so that we can remove driver names that have already been initialized.
+    // This prevents a bug where a trip with a duplicate driver name freezes on the Map.
     this.tempNames = this.allNames.map(x => x);
     for (let i = 0; i < this.initialDrivers; i++) {
       let newDriver = new Driver();
@@ -69,8 +74,9 @@ class MapBox extends mapboxgl.Map {
   }
 
   toggleEvent() {
-    //Will be called by a click event handler in interface.js
-    // toggle eventDisplay true or false when its checkbox is clicked
+    // Is called by the click event handler in interface.js to flip the Trigger
+    // boolean attribute on the Trip object to determine whether events on a trip
+    // are visible.
      console.log('toggling event');
      map.trips.forEach(function(trip, idx) {
        console.log('trip', trip);
@@ -79,6 +85,10 @@ class MapBox extends mapboxgl.Map {
   }
 
   addTrip() {
+    // Method to add a new trip every few seconds in the initialize method.
+    // While the number of trips on the map is fewer than the maximum number of
+    // trips to be displayed, initialize a new trip with a driver from the list
+    // of activeDrivers, and remove that driver from that list.
     if (this.trips.length < this.maxTrips) {
       if (this.activeDrivers.length >= 1) {
         let newTrip = new Trip(this.activeDrivers[this.c]);
@@ -109,13 +119,16 @@ class MapBox extends mapboxgl.Map {
   }
 
   routeCall() {
+    // http request for the route data from the sqlite3 database.
     return $.ajax({
       url: 'db/routes',
       dataType: 'json',
       type: 'GET'
     });
   }
-  setRoutes() { //use AJAX route response to initialize as Route object and store in array
+
+  setRoutes() {
+    // use AJAX route response to initialize as Route object and store in array
     let thus = this;
     this.routeCall().then(function(response) {
       for (let i = 0; i < response.length; i++) {
@@ -124,11 +137,14 @@ class MapBox extends mapboxgl.Map {
       };
     });
   }
-  async setRoutesHelper() { //async helper
+
+  async setRoutesHelper() {
+    // async helper
     await this.setRoutes();
   }
 
-  async setLocations() {   //method for initializing locations as Points and storing them in Map object, currently not used
+  async setLocations() {
+    // method for initializing locations as Points and storing them in Map object, currently not used
     let result = await $.ajax({
       url: 'db/read',
       dataType: 'json'

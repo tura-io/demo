@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>js - Demo Docs</title>
+  <title>Map - Demo Docs</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
@@ -17,7 +17,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "js";
+    var mkdocs_page_name = "Map";
     var mkdocs_page_input_path = "Map.md";
     var mkdocs_page_url = "/Map/";
   </script>
@@ -54,18 +54,45 @@
           
             <li class="toctree-l1">
 		
-    <span class="caption-text">static</span>
+    <span class="caption-text">JavaScript Project Components</span>
     <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../script/">script</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../interface/">interface</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../strom_client/">strom_client</a>
+                </li>
                 <li class=" current">
                     
-    <a class="current" href="./">js</a>
+    <a class="current" href="./">Map</a>
     <ul class="subnav">
             
+    <li class="toctree-l3"><a href="#map-augmenting-the-mapbox-map">Map - Augmenting the MapBox Map</a></li>
+    
+
     </ul>
                 </li>
                 <li class="">
                     
-    <a class="" href="../Trip/">js</a>
+    <a class="" href="../Trip/">Trip</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../Driver/">Driver</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../Route/">Route</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../Point/">Point</a>
                 </li>
     </ul>
 	    </li>
@@ -92,11 +119,11 @@
     
       
         
-          <li>static &raquo;</li>
+          <li>JavaScript Project Components &raquo;</li>
         
       
     
-    <li>js</li>
+    <li>Map</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -106,7 +133,167 @@
           <div role="main">
             <div class="section">
               
-                
+                <h1 id="map-augmenting-the-mapbox-map">Map - Augmenting the MapBox Map</h1>
+<p>The Map class is an instance of the Mapbox Map with several methods for controlling
+the drivers and routes.</p>
+<p>The Map class has knowledge of:
+    - the maximum number of trips to be displayed on the map
+    - the drivers on the map (as an array of drivers)
+    - the trips
+    - the available locations
+    - a boolean attribute for whether the event display button has been toggled
+    - a count</p>
+<p>The Map class makes use of the following methods:</p>
+<pre><code>initialize() {
+  // Spawn new trips every however many seconds tripSpawnInterval is set to.
+  if (this.intervalId !== 0) {
+    console.log(`Stopping: ${this.intervalId}`);
+    clearInterval(this.intervalId);
+  }
+  let myThis = this;
+  this.intervalId = setInterval(function() {
+    myThis.addTrip();
+  }, this.tripSpawnInterval);
+}
+</code></pre>
+
+<pre><code>initDriverPool() {
+  // Create list of drivers from the list of potential drivers and initializing a socket client
+  // for each driver in the list of active drivers. We specifically make a copy tempNames of the list of
+  // potential drivers allNames so that we can remove driver names that have already been initialized.
+  // This prevents a bug where a trip with a duplicate driver name freezes on the Map.
+  this.tempNames = this.allNames.map(x =&gt; x);
+  for (let i = 0; i &lt; this.initialDrivers; i++) {
+    let newDriver = new Driver();
+    // newDriver.name = `${this.driverFirstNames[Math.floor(Math.random() * this.driverFirstNames.length)]} ${this.driverLastNames[Math.floor(Math.random() * this.driverLastNames.length)]}`;
+    newDriver.name = this.tempNames[0];
+    this.tempNames.splice(0, 1);
+    newDriver.initClient();
+    this.drivers.push(newDriver);
+  };
+  this.activeDrivers = this.drivers.map(x =&gt; x);
+}
+</code></pre>
+
+<pre><code>addDriver() {
+  //NOTE: This is a dummy method designed to be called by the Driver Population controls
+  console.log('+1 driver...');
+  let newDriver = new Driver();
+  newDriver.initClient();
+  this.drivers.push(newDriver);
+  //TODO: Add this Driver to the map as a Symbol layer
+}
+</code></pre>
+
+<pre><code>modifyDriverSpeed(name,modifier){
+  for (var i=0; i &lt; this.drivers.length; i++) {
+      if (name == this.drivers[i].name){
+          this.drivers[i].setModifier(modifier);
+          //console.log(&quot;DRIVER: &quot;+this.drivers[i].name);
+          //console.log(&quot;modifier: &quot;+modifier);
+      }
+  };
+}
+</code></pre>
+
+<pre><code>removeDriver() {
+  console.log('-1 driver...');
+  this.drivers.splice(Math.floor(Math.random() * this.drivers.length), 1);
+  //TODO: Remove driver's associated Symbol layer from the map.
+}
+</code></pre>
+
+<pre><code>toggleEvent() {
+  // Is called by the click event handler in interface.js to flip the Trigger
+  // boolean attribute on the Trip object to determine whether events on a trip
+  // are visible.
+   console.log('toggling event');
+   map.trips.forEach(function(trip, idx) {
+     console.log('trip', trip);
+     trip.Trigger = !trip.Trigger;
+   });
+}
+</code></pre>
+
+<pre><code>addTrip() {
+  // Method to add a new trip every few seconds in the initialize method.
+  // While the number of trips on the map is fewer than the maximum number of
+  // trips to be displayed, initialize a new trip with a driver from the list
+  // of activeDrivers, and remove that driver from that list. We also need to
+  // be sure to set the Trigger attribute for each trip to match the boolean
+  // value of the eventDisplay boolean on the Map object. This ensures that
+  // newly initialized trips have a Trigger that reflects the event checkbox
+  // and not the default value of Trigger (false).
+  if (this.trips.length &lt; this.maxTrips) {
+    if (this.activeDrivers.length &gt;= 1) {
+      let newTrip = new Trip(this.activeDrivers[this.c]);
+      console.log(this.activeDrivers);
+      console.log(this.c);
+      this.activeDrivers[this.c].isHired = true;
+      this.activeDrivers.splice(this.c, 1);
+      // this.c++;
+      console.log(&quot;Got Driver in AddTrip&quot;);
+      newTrip.Map = this;
+      // The Trigger attribute is defaulted to false for a Trip, but we want to
+      // set it in response to whether the event checkbox is true or false.
+      newTrip.Trigger = this.eventDisplay;
+      newTrip.addRoute();
+      this.trips.push(newTrip);
+      newTrip.animateRoute();
+      //TEMP: This should not be here, once we have actual drivers implemented.
+      $('#driver-pop').text(map.trips.length);
+    } else {
+      console.log(&quot;NO AVAILABLE DRIVER&quot;);
+    }
+    // if(this.c &lt; (this.initialDrivers - 1)) {
+    //   this.c++;
+    // }else {
+    //   this.c = 0;
+    // };
+  }
+}
+</code></pre>
+
+<pre><code>routeCall() {
+  // http request for the route data from the sqlite3 database.
+  return $.ajax({
+    url: 'db/routes',
+    dataType: 'json',
+    type: 'GET'
+  });
+}
+</code></pre>
+
+<pre><code>setRoutes() {
+  // use AJAX route response to initialize as Route object and store in array
+  let thus = this;
+  this.routeCall().then(function(response) {
+    for (let i = 0; i &lt; response.length; i++) {
+      let newRoute = new Route(response[i][0], response[i][1], JSON.parse(response[i][2]), JSON.parse(response[i][3]), response[i][4], response[i][5], JSON.parse(response[i][6]));
+      thus.routes.push(newRoute);
+    };
+  });
+}
+</code></pre>
+
+<pre><code>async setRoutesHelper() {
+  // async helper
+  await this.setRoutes();
+}
+</code></pre>
+
+<pre><code>async setLocations() {   
+  // method for initializing locations as Points and storing them in Map object, currently not used
+  let result = await $.ajax({
+    url: 'db/read',
+    dataType: 'json'
+  });
+  for (let i = 0; i &lt; result.length; i++) {
+    let location = new Point(result[i][0], result[i][1], result[i][2]);
+    this.locations.push(location);
+  };
+}
+</code></pre>
               
             </div>
           </div>
@@ -114,10 +301,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../Trip/" class="btn btn-neutral float-right" title="js">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../Trip/" class="btn btn-neutral float-right" title="Trip">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href=".." class="btn btn-neutral" title="Index"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../strom_client/" class="btn btn-neutral" title="strom_client"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -143,7 +330,7 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../strom_client/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
         <span style="margin-left: 15px"><a href="../Trip/" style="color: #fcfcfc">Next &raquo;</a></span>

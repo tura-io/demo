@@ -9,5 +9,5 @@ pages:
   - strom_client: 'strom_client.md'
   - Map: 'Map.md'
   - Trip: 'Trip.md'
+  - Driver: 'Driver.md'
   - Route: 'Route.md'
-  - Point: 'Point.md'

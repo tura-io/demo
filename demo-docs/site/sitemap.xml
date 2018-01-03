@@ -12,6 +12,24 @@
     
         
     <url>
+     <loc>/script/</loc>
+     <lastmod>2018-01-02</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/interface/</loc>
+     <lastmod>2018-01-02</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/strom_client/</loc>
+     <lastmod>2018-01-02</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
      <loc>/Map/</loc>
      <lastmod>2018-01-02</lastmod>
      <changefreq>daily</changefreq>
@@ -19,6 +37,24 @@
         
     <url>
      <loc>/Trip/</loc>
+     <lastmod>2018-01-02</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/Driver/</loc>
+     <lastmod>2018-01-02</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/Route/</loc>
+     <lastmod>2018-01-02</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/Point/</loc>
      <lastmod>2018-01-02</lastmod>
      <changefreq>daily</changefreq>
     </url>
