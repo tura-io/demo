@@ -1,3 +1,5 @@
+// The Driver class inherits from the Person class and is initialized with a location and isHired attributes.
+
 class Driver extends Person {
 
   constructor(location, isHired = false) {

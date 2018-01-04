@@ -3,6 +3,8 @@ let id = 0 // global counter for trips
 // let locationStreamArr = []; //copied from temp storage once length hits 10k and streamed out
 let sensorFailureCount = 0; // total amount of sensor failures (data null)
 
+// The Trip class is initialized by a driver object from the activeDrivers list on the Map object, and contains 
+// all the functions for animating a trip from an origin to a destination.
 
 class Trip {
 

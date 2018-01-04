@@ -1,3 +1,6 @@
+// interface.js contains a single immediately invoked JavaScript function that wraps all the jQuery 
+// methods for interacting with the map.
+
 $(function () {
   //Initialize control value displays.
   $('#driver-pop').text(map.drivers.length);

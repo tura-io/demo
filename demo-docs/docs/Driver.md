@@ -3,18 +3,18 @@
 The Driver class inherits from the Person class and is initialized with a location and isHired attributes.
 
 The Driver class has the following properties:
-    -  location: set to the location argument
-    -  isHired: whether the driver is in the list activeDrivers; set to false
-    -  Client: an instance of the StromClient
-    -  turnCount: number of turns seen
-    -  turnCoords: coordinate location of a turn; initialized as `null`
-    -  flagTurn: function to increment the turn count and set the coordinates for
-       a turn location.
-         - Javascript sets the context of `this` for the flagTurn when the function is
-         called, not where it's defined. We explicitly bind the context of `this` to
-         the Driver object in the constructor below to prevent losing the context of the
-         Driver object (and the turnCount property on it).
-    -  speedModifier: number for adjusting the trip speed. Defaults to 0.
+  -  location: set to the location argument
+  -  isHired: whether the driver is in the list activeDrivers; set to false
+  -  Client: an instance of the StromClient
+  -  turnCount: number of turns seen
+  -  turnCoords: coordinate location of a turn; initialized as `null`
+  -  flagTurn: function to increment the turn count and set the coordinates for
+     a turn location.
+       - Javascript sets the context of `this` for the flagTurn when the function is
+       called, not where it's defined. We explicitly bind the context of `this` to
+       the Driver object in the constructor below to prevent losing the context of the
+       Driver object (and the turnCount property on it).
+  -  speedModifier: number for adjusting the trip speed. Defaults to 0.
 
 The Driver class has the folowing methods:
 

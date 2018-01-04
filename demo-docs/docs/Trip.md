@@ -3,18 +3,18 @@
 The Trip class is initialized by a driver object from the activeDrivers list on the Map object, and contains all the functions for animating a trip from an origin to a destination.
 
 The Trip class has the following properties:
-    - this.Id: a unique identifier
-    - this.Driver: its driver
-    - this.Route: its route data
-    - this.arrayLimiter: the size of packets sent to the server
-    - this.Speed:
-    - this.locationTempArr: an empty dummy array of location data prior to requesting the real location
-    data from the database.
-    - this.locationStreamArr: the array of trip coordinates from the database.
-    - this.Color: the color of the trip (no longer used)
-    - this.Trigger: a boolean value (defaulted to false) for controlling visibility of events
-    - this.SpeedVector:
-    - this.tripTurns:
+  - this.Id: a unique identifier
+  - this.Driver: its driver
+  - this.Route: its route data
+  - this.arrayLimiter: the size of packets sent to the server
+  - this.Speed:
+  - this.locationTempArr: an empty dummy array of location data prior to requesting the real location
+  data from the database.
+  - this.locationStreamArr: the array of trip coordinates from the database.
+  - this.Color: the color of the trip (no longer used)
+  - this.Trigger: a boolean value (defaulted to false) for controlling visibility of events
+  - this.SpeedVector:
+  - this.tripTurns:
 
 The Trip class has the following methods:
 

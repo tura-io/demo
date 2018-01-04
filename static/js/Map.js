@@ -1,3 +1,6 @@
+// The Map class is an instance of the Mapbox Map with several methods for controlling
+// the drivers and routes.
+
 class MapBox extends mapboxgl.Map {
 
   constructor(container, style, center, zoom) {

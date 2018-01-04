@@ -1,3 +1,7 @@
+// The `setRoutes` function on the Map object initializes new Route objects for each
+// route json in the response object from the database. The arguments for initializing
+// a Route all come from the json on the response object.
+
 class Route {
 
   constructor(origin, dest, oCoords, dCoords, duration, distance, routeVectors) {
