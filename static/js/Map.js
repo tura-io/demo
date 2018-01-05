@@ -45,7 +45,7 @@ class MapBox extends mapboxgl.Map {
 
   addDriver() {
     //NOTE: This is a dummy method designed to be called by the Driver Population controls
-    console.log('+1 driver...');
+    //console.log('+1 driver...');
     let newDriver = new Driver();
     newDriver.initClient();
     this.drivers.push(newDriver);
@@ -73,7 +73,7 @@ class MapBox extends mapboxgl.Map {
     // toggle eventDisplay true or false when its checkbox is clicked
      console.log('toggling event');
      map.trips.forEach(function(trip, idx) {
-       console.log('trip', trip);
+       //console.log('trip', trip);
        trip.Trigger = !trip.Trigger;
      });
   }
@@ -82,12 +82,12 @@ class MapBox extends mapboxgl.Map {
     if (this.trips.length < this.maxTrips) {
       if (this.activeDrivers.length >= 1) {
         let newTrip = new Trip(this.activeDrivers[this.c]);
-        console.log(this.activeDrivers);
-        console.log(this.c);
+        //console.log(this.activeDrivers);
+        //console.log(this.c);
         this.activeDrivers[this.c].isHired = true;
         this.activeDrivers.splice(this.c, 1);
         // this.c++;
-        console.log("Got Driver in AddTrip");
+        //console.log("Got Driver in AddTrip");
         newTrip.Map = this;
         // The Trigger attribute is defaulted to false for a Trip, but we want to
         // set it in response to whether the event checkbox is true or false.

@@ -72,12 +72,18 @@ function createDriverEvents(){
     }
 }
 
+
+#need to fix the event counter to accumulate over all trips
 function updateStatistics(){
+  var cleanNames = [];
+  var prevCnts = [];
+  for (var i = 0; i < map.drivers.length; i++) {
+    cleanNames.push(map.drivers[i].name.replace(/\s/g,""));
+  }
   setInterval(function() {
     $('#total-trips').text(id);
     for (var i = 0; i < map.drivers.length; i++) {
-        let cleanName = map.drivers[i].name.replace(/\s/g,"");
-        $(`#${cleanName}-events`).text(map.drivers[i].turnCount);
+        $(`#${cleanNames[i]}-events`).text(map.drivers[i].turnCount);
     }
   }, 3000);
 }
@@ -104,12 +110,10 @@ function createSpeedControlCard () {
 
       let cleanName = map.drivers[i].name.replace(/\s/g,"");
 
-      //report driver name
+      //Report driver name
       $('.card-content').append(
         `<br><span class="${cleanName}-list" id="${cleanName}-name">${cleanName}</span><br><br><br>`);
-//      $('.card-content').append(
-//        `<br><br><br>`);
-      //create nonUiSlider
+      //Create nonUiSlider
       $('.card-content').append(
         `<div class="${cleanName}-list" class="speed-slider" id="${cleanName}-slider">`);
 
@@ -150,5 +154,5 @@ function createSpeedControlCard () {
             sliderLoc.css("background-color","#2196f3");
       });
 
-  }//foreachdriver
+  }
 }
