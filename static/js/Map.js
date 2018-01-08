@@ -56,8 +56,6 @@ class MapBox extends mapboxgl.Map {
     for (var i=0; i < this.drivers.length; i++) {
         if (name == this.drivers[i].name){
             this.drivers[i].setModifier(modifier);
-            //console.log("DRIVER: "+this.drivers[i].name);
-            //console.log("modifier: "+modifier);
         }
     };
   }
@@ -73,7 +71,6 @@ class MapBox extends mapboxgl.Map {
     // toggle eventDisplay true or false when its checkbox is clicked
      console.log('toggling event');
      map.trips.forEach(function(trip, idx) {
-       //console.log('trip', trip);
        trip.Trigger = !trip.Trigger;
      });
   }
