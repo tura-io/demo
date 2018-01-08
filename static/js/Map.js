@@ -52,7 +52,13 @@ class MapBox extends mapboxgl.Map {
     //TODO: Add this Driver to the map as a Symbol layer
   }
 
-  modifyDriverSpeed(name,modifier){
+  modifyDriverSpeed(name, modifier) {
+    // Called by the createSpeedControlCard function in interface when a user adjusts the
+    // speed slider for a driver. This method calls the setModifier function for a specified
+    // driver to adjust the speed for that driver.
+
+    // param name: driver name
+    // param modifier: number (float)
     for (var i=0; i < this.drivers.length; i++) {
         if (name == this.drivers[i].name){
             this.drivers[i].setModifier(modifier);
@@ -67,7 +73,7 @@ class MapBox extends mapboxgl.Map {
   }
 
   toggleEvent() {
-    //Will be called by a click event handler in interface.js
+    // Will be called by a click event handler in interface.js
     // toggle eventDisplay true or false when its checkbox is clicked
      console.log('toggling event');
      map.trips.forEach(function(trip, idx) {

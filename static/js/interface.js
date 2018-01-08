@@ -56,8 +56,6 @@ $(function () {
 
   // Event Toggle Click Handlers
   $('#test-event').click(function() {
-    //map.eventDisplay = !map.eventDisplay
-    //map.toggleEvent(trip.Trigger);
     map.eventDisplay = !map.eventDisplay;
     map.toggleEvent();
   });
@@ -72,8 +70,7 @@ function createDriverEvents(){
     }
 }
 
-
-#need to fix the event counter to accumulate over all trips
+// need to fix the event counter to accumulate over all trips
 function updateStatistics(){
   var cleanNames = [];
   var prevCnts = [];
@@ -136,7 +133,7 @@ function createSpeedControlCard () {
       sliders[i].noUiSlider.on('end', function(values, handle){
         modifier = values[handle];
         map.modifyDriverSpeed(cleanName,modifier);
-        //console.log("Name "+cleanName+" modifier "+modifier);
+        // console.log("Name "+cleanName+" modifier "+modifier);
       });
 
       sliders[i].noUiSlider.on('slide', function(values, handle){

@@ -27,6 +27,8 @@ class Driver extends Person {
   }
 
   setModifier(modifier){
+    // Called by the modifyDriverSpeed function in Map to modify the speedModifier attribute
+    // for a specific driver.
     this.speedModifier = modifier;
   }
 

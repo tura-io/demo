@@ -124,11 +124,6 @@ class Trip {
     this.setupLocationArr(); //check if array is full every cycle | NOTE: this line (and the import of kafka.py) enables streaming
   }
 
-  // Callback function for dropping a marker where an event occurred on a trip.
-  // Expects an event object as the input (see event.py from strom).
-
-
-
   animateRoute() {
     // A path line from origin to destination.
     var route = {
@@ -273,7 +268,7 @@ class Trip {
     let myThis = this;
 
     function denoteTurn() {
-        console.log("denoting turn");
+      console.log("denoting turn");
       eventPoint.features[0].geometry.coordinates = myThis.Driver.turnCoords;
       if (eventPoint && myThis.Map.getSource(`event-point-${myThis.Id}`)) {
           myThis.Map.getSource(`event-point-${myThis.Id}`).setData(eventPoint);
@@ -342,9 +337,8 @@ class Trip {
         myThis.Map.getSource(`point-${myThis.Id}`).setData(point);
         //myThis.Map.getSource(`event-point-${myThis.Id}`).setData(point);
 
-
-        // Dummy event object for testing denoteEvent.
-
+        // set attribute for event visibility based on whether a user has the checkbox checked
+        // or unchecked
         myThis.Trigger = map.eventDisplay;
 
         turnCheck();
