@@ -59,6 +59,9 @@
   bottom: 0;
 }
 
+#stats-header {
+ text-align: center;
+
 .noUi-handle {
   border-radius: 20px;
 }

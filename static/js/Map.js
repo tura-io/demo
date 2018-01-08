@@ -45,19 +45,23 @@ class MapBox extends mapboxgl.Map {
 
   addDriver() {
     //NOTE: This is a dummy method designed to be called by the Driver Population controls
-    console.log('+1 driver...');
+    //console.log('+1 driver...');
     let newDriver = new Driver();
     newDriver.initClient();
     this.drivers.push(newDriver);
     //TODO: Add this Driver to the map as a Symbol layer
   }
 
-  modifyDriverSpeed(name,modifier){
+  modifyDriverSpeed(name, modifier) {
+    // Called by the createSpeedControlCard function in interface when a user adjusts the
+    // speed slider for a driver. This method calls the setModifier function for a specified
+    // driver to adjust the speed for that driver.
+
+    // param name: driver name
+    // param modifier: number (float)
     for (var i=0; i < this.drivers.length; i++) {
         if (name == this.drivers[i].name){
             this.drivers[i].setModifier(modifier);
-            //console.log("DRIVER: "+this.drivers[i].name);
-            //console.log("modifier: "+modifier);
         }
     };
   }
@@ -69,11 +73,10 @@ class MapBox extends mapboxgl.Map {
   }
 
   toggleEvent() {
-    //Will be called by a click event handler in interface.js
+    // Will be called by a click event handler in interface.js
     // toggle eventDisplay true or false when its checkbox is clicked
      console.log('toggling event');
      map.trips.forEach(function(trip, idx) {
-       console.log('trip', trip);
        trip.Trigger = !trip.Trigger;
      });
   }
@@ -82,12 +85,12 @@ class MapBox extends mapboxgl.Map {
     if (this.trips.length < this.maxTrips) {
       if (this.activeDrivers.length >= 1) {
         let newTrip = new Trip(this.activeDrivers[this.c]);
-        console.log(this.activeDrivers);
-        console.log(this.c);
+        //console.log(this.activeDrivers);
+        //console.log(this.c);
         this.activeDrivers[this.c].isHired = true;
         this.activeDrivers.splice(this.c, 1);
         // this.c++;
-        console.log("Got Driver in AddTrip");
+        //console.log("Got Driver in AddTrip");
         newTrip.Map = this;
         // The Trigger attribute is defaulted to false for a Trip, but we want to
         // set it in response to whether the event checkbox is true or false.
