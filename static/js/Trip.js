@@ -244,7 +244,7 @@ class Trip {
       'source': `dest-${this.Id}`,
       'type': 'symbol',
       'layout': {
-          'icon-image': 'alcohol-shop-15',
+          'icon-image': 'marker-15',
           'icon-offset': [0, 0],
           'text-offset': [0, 1],
           'text-field':  this.Driver.name
