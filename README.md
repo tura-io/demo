@@ -13,7 +13,7 @@ Data-generation app and demonstration of Strom event-detection capabilities.
   * *Mapping library*
 * Mapbox token files (see below)
 * *All can be installed with*:
-  * ``` pip install Requirements.txt ```
+  * ``` pip install -r Requirements.txt ```
 
 #### Download:
 * ``` git clone git@github.com:tura-io/demo.git ```
