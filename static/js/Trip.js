@@ -284,10 +284,10 @@ class Trip {
     function turnCheck() {
       if (myThis.Driver.turnCount > myThis.tripTurns) {
         myThis.tripTurns +=1;
-        console.log("turn check");
+        // console.log("turn check");
         console.log(myThis.tripTurns);
         if (myThis.Trigger) {
-          console.log("Trigger TRUE")
+          // console.log("Trigger TRUE")
           denoteTurn();
         }
       }
@@ -364,6 +364,7 @@ class Trip {
   complete() {
     this.Map.activeDrivers.push(this.Driver);
     this.Driver.turnCount = 0;
+    this.tripTurns = 0;
     // remove trip from those listed on the map
     this.Map.trips.splice(
     this.Map.trips.indexOf(e => e.Id === this.Id), 1);

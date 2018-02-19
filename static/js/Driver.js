@@ -18,7 +18,7 @@ class Driver extends Person {
     this.Client.registerDevice(this.name, this.template, this.name.replace(/\s/g, ""));
     // this.Client.registerEvent('turn_event_' + this.name, this.flagTurn, true);
     this.Client.registerEvent('turn_event', this.flagTurn, true);
-    this.Client.registerEvent('speed_change_' + this.name, this.alertEvent, true);
+    //this.Client.registerEvent('speed_change_' + this.name, this.alertEvent, true);
   }
 
   alertEvent(resp) {
@@ -36,9 +36,12 @@ class Driver extends Person {
   }
 
   flagTurn(resp) {
-    console.log(resp);
-    // this.turnCount +=1;
+    let dictResp = JSON.parse(resp);
+    let another = JSON.parse(dictResp);
+    // console.log(another.location);
+    this.turnCount +=1;
     // console.log(this.turnCount);
+    this.turnCoords = another.location;
     // this.turnCoords = JSON.parse(resp).event_context["location"];
     // console.log(this.turnCoords);
   }
