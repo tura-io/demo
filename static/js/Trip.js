@@ -244,7 +244,7 @@ class Trip {
       'source': `dest-${this.Id}`,
       'type': 'symbol',
       'layout': {
-          'icon-image': 'alcohol-shop-15',
+          'icon-image': 'marker-15',
           'icon-offset': [0, 0],
           'text-offset': [0, 1],
           'text-field':  this.Driver.name
@@ -268,7 +268,7 @@ class Trip {
     let myThis = this;
 
     function denoteTurn() {
-      console.log("denoting turn");
+      // console.log("denoting turn");
       eventPoint.features[0].geometry.coordinates = myThis.Driver.turnCoords;
       if (eventPoint && myThis.Map.getSource(`event-point-${myThis.Id}`)) {
           myThis.Map.getSource(`event-point-${myThis.Id}`).setData(eventPoint);
@@ -285,7 +285,7 @@ class Trip {
       if (myThis.Driver.turnCount > myThis.tripTurns) {
         myThis.tripTurns +=1;
         // console.log("turn check");
-        console.log(myThis.tripTurns);
+        // console.log(myThis.tripTurns);
         if (myThis.Trigger) {
           // console.log("Trigger TRUE")
           denoteTurn();
