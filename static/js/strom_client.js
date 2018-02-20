@@ -44,6 +44,7 @@ const StromClient = ({url='http://127.0.0.1:5000', socket=io(url), tokens={}} = 
     let json_data = data;;
     for (let i = 0; i < json_data.length; i++) {
       json_data[i]['stream_token'] = token;
+      json_data[i]['stream_name'] = name;
     }
     return JSON.stringify(json_data);
   },
