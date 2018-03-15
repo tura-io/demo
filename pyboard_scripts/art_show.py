@@ -15,7 +15,7 @@ class ArtShow(object):
     def __init__(self, pins="X"):
         self.lcd = lcd160cr.LCD160CR(pins)
         self.accel = pyb.Accel()
-        self.gps = GPS(datafile='/sd/gps.log')
+        self.gps = None
 
     def LED_on(self,num=1):
         pyb.LED(num).on()
@@ -214,13 +214,16 @@ class ArtShow(object):
                 else:
                     break
 
-    def print_gps(self, sensitivity=30):
-        fg = self.lcd.rgb(255, 255, 0)
-        while not self.shake_it_off(sensitivity):
+    def print_gps(self, debug=False):
+        if self.gps is None:
+            self.gps = GPS(datafile='/sd/gps.log', debug=debug)
+        while not self.lcd.is_touched():
             self.gps.update()
-            msg = "{}\r{}\r{}\r{}\r{}".format(self.gps.has_fix, self.gps.date_utc, self.gps.time_utc, self.gps.latitude, self.gps.longitude)
+            msg = "{}\n\r{}\n\r{}\n\r{}\n\r{}".format(self.gps.has_fix, self.gps.date_utc, self.gps.time_utc, self.gps.latitude, self.gps.longitude)
+            if debug:
+                print(msg)
             self.write(message=msg, clear=True)
-            pyb.delay(1000)
+            pyb.delay(925)
             self.blink_LED()
         self.clear()
         self.toggles_LEDS()

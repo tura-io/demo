@@ -92,6 +92,7 @@ class GPS:
         self.debug = debug
 
     def _init_gps(self):
+
         """
         Initialize Adafruit GPS chip.
          - Issue a full cold restart to reset the chip
@@ -108,11 +109,11 @@ class GPS:
         # print(line)
         # turn on only GPGGA and GPRMC output
         self.send_command('PMTK314,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0')
-        line = str(self._uart.readline(), 'utf-8').strip()
-        print(line)
-        self.send_command("PMTK220,%d" % 1000)
-        line = str(self._uart.readline(), 'utf-8').strip()
-        print(line)
+        # line = str(self._uart.readline(), 'utf-8').strip()
+        # print(line)
+        # self.send_command("PMTK220,%d" % 1000)
+        # line = str(self._uart.readline(), 'utf-8').strip()
+        # print(line)
         # for i in range(1, 20):
         #     line = str(self._uart.readline(), 'utf-8').strip()
         #     print(line)
