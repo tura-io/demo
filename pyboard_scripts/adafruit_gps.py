@@ -1,24 +1,3 @@
-# The MIT License (MIT)
-#
-# Copyright (c) 2017 Tony DiCola for Adafruit Industries
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-# THE SOFTWARE.
 """
 `adafruit_gps`
 ====================================================
@@ -26,7 +5,7 @@
 GPS parsing module.  Can parse simple NMEA data sentences from serial GPS
 modules to read latitude, longitude, and more.
 
-* Author(s): Tony DiCola
+* Author(s): Parham Parvizi
 
 Implementation Notes
 --------------------
@@ -34,22 +13,17 @@ Implementation Notes
 **Hardware:**
 
 * Adafruit `Ultimate GPS Breakout <https://www.adafruit.com/product/746>`_
-* Adafruit `Ultimate GPS FeatherWing <https://www.adafruit.com/product/3133>`_
-
-**Software and Dependencies:**
-
-* Adafruit CircuitPython firmware for the ESP8622 and M0-based boards:
-  https://github.com/adafruit/circuitpython/releases
-
+* MicroPython board `MicroPython <http://micropython.org/>`
 """
 from pyb import UART
 from pyb import delay
+from time import ticks_ms
 import io
 import sys
-from time import ticks_ms
+
 
 __version__ = "0.0.0-auto.0"
-__repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_GPS.git"
+
 
 # Internal helper parsing functions.
 # These handle input that might be none or null and return none instead of
@@ -143,7 +117,7 @@ class GPS:
         #     line = str(self._uart.readline(), 'utf-8').strip()
         #     print(line)
 
-    def deinit(self):
+    def close(self):
         self._uart.deinit()
         if self._file is not None:
             self._file.flush()
@@ -206,7 +180,7 @@ class GPS:
                 data_type = sentence[:delineator]
                 self._parse_sentence(data_type, sentence[delineator + 1:])
         except Exception as x:
-            if self.debug
+            if self.debug:
                 sys.print_exception(x)
         # print location
         if self.has_fix:
@@ -344,7 +318,7 @@ def main():
     for i in range(1, 16):
         gps.update()
         delay(1000)
-    gps.deinit()
+    gps.close()
 
 
 if __name__ == '__main__':
