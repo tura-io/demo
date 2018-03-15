@@ -1,7 +1,7 @@
 import lcd160cr
 import pyb
 from random import randint
-from .adafruit_gps import GPS
+from adafruit_gps import GPS
 
 
 pyb.LED(4).on()
