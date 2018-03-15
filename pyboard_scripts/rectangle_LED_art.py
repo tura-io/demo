@@ -1,6 +1,7 @@
 import lcd160cr
 import pyb
 from random import randint
+from .adafruit_gps import GPS
 
 
 pyb.LED(4).on()
@@ -14,7 +15,7 @@ class ArtShow(object):
     def __init__(self):
         self.lcd = lcd160cr.LCD160CR("X")
         self.accel = pyb.Accel()
-        self.gps = None
+        self.gps = GPS(datafile='/sd/gps.log')
 
     def LED_on(self,num=1):
         pyb.LED(num).on()
@@ -215,10 +216,9 @@ class ArtShow(object):
 
     def print_gps(self, sensitivity=30):
         fg = self.lcd.rgb(255, 255, 0)
-
         while not self.shake_it_off(sensitivity):
-            #gps update
-            self.write(message="GPS data Here", clear=True)
+            self.gps.update()
+            self.write(message=self.gps.position(), clear=True)
             pyb.delay(1000)
             self.blink_LED()
 
