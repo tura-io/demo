@@ -14,6 +14,16 @@ class ArtShow(object):
     def __init__(self):
         self.lcd = lcd160cr.LCD160CR("X")
         self.accel = pyb.Accel()
+        self.gps = None
+
+    def LED_on(self,num=1):
+        pyb.LED(num).on()
+
+    def LED_off(self, num=1):
+        pyb.LED(num).off()
+
+    def LED_toggle(self, num=1):
+        pyb.LED(num).toggle()
 
     def cycle_LED(self, speed=75):
         for i in range(1, 5):
@@ -118,43 +128,43 @@ class ArtShow(object):
         self.lcd.erase()
         self.blink_LED()
 
-    def touching_dislay(self):
+    def touching_dislay(self, sensitivity=30):
         fg = self.lcd.rgb(255, 255, 0)
         bg = self.lcd.rgb(0, 0, 0)
         self.lcd.set_text_color(fg, bg)
-        try:
-            while True:
-                if self.lcd.is_touched():
-                    self.lcd.set_pos(5, 5)
-                    pos = self.lcd.get_touch()
-                    self.lcd.write(str(pos))
-                    pyb.delay(15)
-                else:
-                    self.lcd.erase()
-        except:
-            self.lcd.erase()
-            fg = self.lcd.rgb(255, 0, 0)
-            bg = self.lcd.rgb(0, 0, 0)
 
-            self.lcd.set_text_color(fg, bg)
-            self.lcd.set_pos(5, 5)
-            self.lcd.set_font(1)
-            self.lcd.write("What a touching\n\r display")
-            pyb.delay(1000)
-            fg = self.lcd.rgb(0, 255, 0)
-            self.lcd.set_text_color(fg, bg)
-            self.lcd.set_pos(5, 5)
-            self.lcd.write("What a touching\n\r display")
-            pyb.delay(1000)
-            fg = self.lcd.rgb(0, 255, 255)
-            self.lcd.set_text_color(fg, bg)
-            self.lcd.set_pos(5, 5)
-            self.lcd.write("What a touching\n\r display")
-            pyb.delay(1000)
-            self.lcd.set_pen(bg, bg)
-            self.lcd.erase()
-            self.cycle_LED()
-            self.blink_LED()
+        while not self.shake_it_off(sensitivity):
+            if self.lcd.is_touched():
+                self.lcd.set_pos(5, 5)
+                self.lcd.set_font(1)
+                pos = self.lcd.get_touch()
+                self.lcd.write(str(pos))
+                pyb.delay(15)
+            else:
+                self.lcd.erase()
+        self.lcd.erase()
+        fg = self.lcd.rgb(255, 0, 0)
+        bg = self.lcd.rgb(0, 0, 0)
+
+        self.lcd.set_text_color(fg, bg)
+        self.lcd.set_pos(5, 5)
+        self.lcd.set_font(1)
+        self.lcd.write("What a touching\n\r display")
+        pyb.delay(1000)
+        fg = self.lcd.rgb(0, 255, 0)
+        self.lcd.set_text_color(fg, bg)
+        self.lcd.set_pos(5, 5)
+        self.lcd.write("What a touching\n\r display")
+        pyb.delay(1000)
+        fg = self.lcd.rgb(0, 255, 255)
+        self.lcd.set_text_color(fg, bg)
+        self.lcd.set_pos(5, 5)
+        self.lcd.write("What a touching\n\r display")
+        pyb.delay(1000)
+        self.lcd.set_pen(bg, bg)
+        self.lcd.erase()
+        self.cycle_LED()
+        self.blink_LED()
 
     def square_dance(self, sensitivity=30):
         pos = None
@@ -201,6 +211,12 @@ class ArtShow(object):
                 else:
                     break
 
+    def print_gps(self, sensitivity=30):
+        while not self.shake_it_off(sensitivity):
+            #gps update
+            #LCD clear and print coords
+            pyb.delay(1000)
+            self.blink_LED()
 
     def run_callback(self, callback_func, clear_screen=False, *args,**kwargs):
         self.clear()
