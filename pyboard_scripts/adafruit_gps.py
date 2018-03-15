@@ -100,12 +100,12 @@ class GPS:
         :return:
         """
         # # issue a full cold restart to reset the chip
-        self.send_command('PMTK104')
+        # self.send_command('PMTK104')
         # # reset the baudrate high
         # self.send_command('PMTK251,57600')
         # # self._uart = UART(1, 57600)
-        line = str(self._uart.readline(), 'utf-8').strip()
-        print(line)
+        # line = str(self._uart.readline(), 'utf-8').strip()
+        # print(line)
         # turn on only GPGGA and GPRMC output
         self.send_command('PMTK314,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0')
         line = str(self._uart.readline(), 'utf-8').strip()
