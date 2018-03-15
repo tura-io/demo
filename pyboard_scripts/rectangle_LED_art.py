@@ -82,7 +82,8 @@ class ArtShow(object):
         self.lcd.erase()
         self.cycle_LED()
 
-    def write(self, message=None):
+    def write(self, message=None, clear=False):
+
         if message is None:
             message = "Good news everyone!"
         fg = self.lcd.rgb(255, 255, 0)
@@ -90,6 +91,8 @@ class ArtShow(object):
         self.lcd.set_text_color(fg, bg)
         self.lcd.set_pos(5, 5)
         self.lcd.set_font(1)
+        if clear:
+            self.clear()
         self.lcd.write(message)
 
     def silly_write(self, message=None, speed=300):
@@ -126,7 +129,6 @@ class ArtShow(object):
     def clear(self):
         self.lcd.set_pen(self.lcd.rgb(0, 0, 0), self.lcd.rgb(0, 0, 0))
         self.lcd.erase()
-        self.blink_LED()
 
     def touching_dislay(self, sensitivity=30):
         fg = self.lcd.rgb(255, 255, 0)
@@ -212,9 +214,11 @@ class ArtShow(object):
                     break
 
     def print_gps(self, sensitivity=30):
+        fg = self.lcd.rgb(255, 255, 0)
+
         while not self.shake_it_off(sensitivity):
             #gps update
-            #LCD clear and print coords
+            self.write(message="GPS data Here", clear=True)
             pyb.delay(1000)
             self.blink_LED()
 
