@@ -221,6 +221,8 @@ class ArtShow(object):
             self.write(message=self.gps.position(), clear=True)
             pyb.delay(1000)
             self.blink_LED()
+        self.clear()
+        self.toggles_LEDS()
 
     def run_callback(self, callback_func, clear_screen=False, *args,**kwargs):
         self.clear()
