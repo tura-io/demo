@@ -219,7 +219,7 @@ class ArtShow(object):
         while not self.shake_it_off(sensitivity):
             self.gps.update()
             msg = "{}\r{}\r{}\r{}\r{}".format(self.gps.has_fix, self.gps.date_utc, self.gps.time_utc, self.gps.latitude, self.gps.longitude)
-            self.write(message=, clear=True)
+            self.write(message=msg, clear=True)
             pyb.delay(1000)
             self.blink_LED()
         self.clear()

@@ -86,7 +86,7 @@ class GPS:
         if uart is not None:
             self._uart = uart
         else:
-            self._uart = UART(1, 9600)
+            self._uart = UART(3, 9600)
         self._init_gps()
         # misc
         self.debug = debug
@@ -183,9 +183,9 @@ class GPS:
             if self.debug:
                 sys.print_exception(x)
         # print location
+        if self.debug:
+            print(self.position())
         if self.has_fix:
-            if self.debug:
-                print(self.position())
             self._save_gps()
 
     def _parse_sentence(self, data_type, sentence):
@@ -314,7 +314,7 @@ class GPS:
 
 
 def main():
-    gps = GPS(datafile='/sd/gps.log')
+    gps = GPS(datafile='/sd/gps.log', debug=True)
     for i in range(1, 16):
         gps.update()
         delay(1000)
