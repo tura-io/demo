@@ -26,14 +26,64 @@
             "title": "To Add a Page"
         },
         {
-            "location": "/overview/",
-            "text": "Demo Overview\n\n\nOverview on the demo project purpose and general architecture here.",
-            "title": "Demo Overview"
+            "location": "/user_guide/",
+            "text": "User Guide\n\n\nThe demo project is a visualization of drivers and trips within Portland using our platform to\nprocess data and detect events.\n\n\nGetting Started\n\n\nSee below for installing and starting the demo project (from the README):\n\n\nTura Strom Demo\n\n\nDescription:\n\n\nData-generation app and demonstration of Strom event-detection capabilities.\n\n\nPre-Requisites:\n\n\n\n\nPython 3.6\n\n\nFlask\n\n\nHTTP Server and templating micro-framework\n\n\nSqlite3\n\n\nLight-weight SQL Database engine\n\n\nMapbox\n\n\nMapping library\n\n\nMapbox token files (see below)\n\n\nAll can be installed with\n:\n\n\npip install Requirements.txt\n\n\n\n\nDownload:\n\n\n\n\ngit clone git@github.com:tura-io/demo.git\n\n\n\n\nMapbox Requirements:\n\n\nCreate token files(example uses linux commands, replace these with whichever is correct for your OS):\n  * \ncd demo/\n\n  * \ntouch mapbox_token.py\n\n    * mapbox_token.py should contain:\n      * \nMAPBOX_ACCESS_TOKEN = 'YOURKEYHERE'\n\n\n\n\ncd demo/static/js\n\n\ntouch mapbox_token.js\n\n\nmapbox_token.js should contain:\n\n\nlet accessToken = 'YOURKEYHERE';\n\n\n\n\n\n\n\n\nRun:\n\n\nMake sure that you have the strom project running and piping data first before starting the demo by\nrunning the strom start script.\n\n\nRun the demo project:\n\n\n\n\ncd demo/\n\n\npython demo.py\n\n\n\n\nImportant Notes:\n\n\n\n\nOn server restart, browser will require hard-refresh (CTRL-F5)\n\n\n\n\nDATABASE REBUILD INSTRUCTIONS\n\n\n(In Python interpreter):\n  * \n>>> from dbm import DBManager\n\n  * \n>>> DBM = DBManager('demo.db')\n\n  * \n>>> DBM.drop()\n ...will delete all tables in case of corruption\n\n\n\n\nCreate Location table w/ data:\n\n\n>>> DBM.create_loc_wdata()\n\n\n\n\n\n\n\n\nCreate Routes table:\n\n\n\n\n>>> DBM.create_routes()\n\n\n\n\n\n\n\n\nInsert data into Routes table:\n\n\n\n\n>>> import builder\n\n\n>>> builder.rebuild_from_file()\n\n\n\n\n\n\nIf routes.txt does not exist or is corrupted:\n\n\n>>> builder.rebuild_from_api()\n\n\nleave running until complete\n\n\n\n\n\n\n\n\nAdjusting Map Defaults\n\n\nBeyond the UI controls in the speed slider and the event display checkbox, you can adjust the\nmap default settings by changing the properties of the Map class object.\n\n\nChange the following to adjust the visualization accordingly:\n\n\n\n\nthis.maxTrips\n: dictates the number of trips displayed on the map\n\n\nthis.tripSpawnInterval\n: governs the wait time between when a trip is removed from the Map and a new one replaces it\n\n\nthis.initialDrivers\n: how many drivers first appear on the map\n\n\nthis.allNames\n: the names of all the potential drivers",
+            "title": "User Guide"
         },
         {
-            "location": "/overview/#demo-overview",
-            "text": "Overview on the demo project purpose and general architecture here.",
-            "title": "Demo Overview"
+            "location": "/user_guide/#user-guide",
+            "text": "The demo project is a visualization of drivers and trips within Portland using our platform to\nprocess data and detect events.",
+            "title": "User Guide"
+        },
+        {
+            "location": "/user_guide/#getting-started",
+            "text": "See below for installing and starting the demo project (from the README):",
+            "title": "Getting Started"
+        },
+        {
+            "location": "/user_guide/#tura-strom-demo",
+            "text": "",
+            "title": "Tura Strom Demo"
+        },
+        {
+            "location": "/user_guide/#description",
+            "text": "Data-generation app and demonstration of Strom event-detection capabilities.",
+            "title": "Description:"
+        },
+        {
+            "location": "/user_guide/#pre-requisites",
+            "text": "Python 3.6  Flask  HTTP Server and templating micro-framework  Sqlite3  Light-weight SQL Database engine  Mapbox  Mapping library  Mapbox token files (see below)  All can be installed with :  pip install Requirements.txt",
+            "title": "Pre-Requisites:"
+        },
+        {
+            "location": "/user_guide/#download",
+            "text": "git clone git@github.com:tura-io/demo.git",
+            "title": "Download:"
+        },
+        {
+            "location": "/user_guide/#mapbox-requirements",
+            "text": "Create token files(example uses linux commands, replace these with whichever is correct for your OS):\n  *  cd demo/ \n  *  touch mapbox_token.py \n    * mapbox_token.py should contain:\n      *  MAPBOX_ACCESS_TOKEN = 'YOURKEYHERE'   cd demo/static/js  touch mapbox_token.js  mapbox_token.js should contain:  let accessToken = 'YOURKEYHERE';",
+            "title": "Mapbox Requirements:"
+        },
+        {
+            "location": "/user_guide/#run",
+            "text": "Make sure that you have the strom project running and piping data first before starting the demo by\nrunning the strom start script.  Run the demo project:   cd demo/  python demo.py",
+            "title": "Run:"
+        },
+        {
+            "location": "/user_guide/#important-notes",
+            "text": "On server restart, browser will require hard-refresh (CTRL-F5)",
+            "title": "Important Notes:"
+        },
+        {
+            "location": "/user_guide/#database-rebuild-instructions",
+            "text": "(In Python interpreter):\n  *  >>> from dbm import DBManager \n  *  >>> DBM = DBManager('demo.db') \n  *  >>> DBM.drop()  ...will delete all tables in case of corruption   Create Location table w/ data:  >>> DBM.create_loc_wdata()     Create Routes table:   >>> DBM.create_routes()     Insert data into Routes table:   >>> import builder  >>> builder.rebuild_from_file()    If routes.txt does not exist or is corrupted:  >>> builder.rebuild_from_api()  leave running until complete",
+            "title": "DATABASE REBUILD INSTRUCTIONS"
+        },
+        {
+            "location": "/user_guide/#adjusting-map-defaults",
+            "text": "Beyond the UI controls in the speed slider and the event display checkbox, you can adjust the\nmap default settings by changing the properties of the Map class object.  Change the following to adjust the visualization accordingly:   this.maxTrips : dictates the number of trips displayed on the map  this.tripSpawnInterval : governs the wait time between when a trip is removed from the Map and a new one replaces it  this.initialDrivers : how many drivers first appear on the map  this.allNames : the names of all the potential drivers",
+            "title": "Adjusting Map Defaults"
         }
     ]
 }

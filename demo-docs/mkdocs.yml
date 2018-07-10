@@ -4,4 +4,4 @@ theme: readthedocs
 pages:
 - Index: 'index.md'
 - Project Components:
-    - Demo Overview: 'overview.md'
+    - User Guide: 'user_guide.md'
